@@ -34,9 +34,35 @@ body {
   font-family: 'Noto Sans KR', -apple-system, sans-serif;
   font-size: 13px;
   color: var(--text);
-  background: #F8FAFC;
+  background: #f7f8fa;
   line-height: 1.5;
 }
+
+/* ─── Top Nav ─── */
+.top-nav {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  height: 60px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e8eb;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+}
+.nav-left { display: flex; align-items: center; gap: 12px; }
+.nav-logo-icon {
+  width: 32px; height: 32px;
+  background: #FF6B2C;
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 16px; font-weight: 900; flex-shrink: 0;
+}
+.nav-brand { font-size: 16px; font-weight: 800; color: #1a1a1a; letter-spacing: 0.5px; }
+.nav-divider { width: 1px; height: 20px; background: #e5e8eb; }
+.nav-subtitle { font-size: 13px; color: #666; font-weight: 500; }
+.nav-right { font-size: 13px; color: #999; font-weight: 500; }
 
 /* ─── Layout ─── */
 .app { max-width: 1200px; margin: 0 auto; padding: 24px 16px 60px; }
@@ -332,6 +358,7 @@ select.score-input { cursor: pointer; }
 /* ─── Print ─── */
 @media print {
   body { background: white; font-size: 11px; }
+  .top-nav { display: none; }
   .app { padding: 0; max-width: 100%; }
   .tabs, .action-bar { display: none; }
   .tab-panel { display: block !important; }
@@ -343,6 +370,17 @@ select.score-input { cursor: pointer; }
 </style>
 </head>
 <body>
+
+<nav class="top-nav">
+  <div class="nav-left">
+    <div class="nav-logo-icon">⚡</div>
+    <span class="nav-brand">BUNJANG</span>
+    <div class="nav-divider"></div>
+    <span class="nav-subtitle">운영사 선정평가표</span>
+  </div>
+  <div class="nav-right">Sean Ko · Global Business</div>
+</nav>
+
 <div class="app">
 
 <!-- ░░ HEADER ░░ -->

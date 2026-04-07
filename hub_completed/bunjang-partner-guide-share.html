@@ -7,52 +7,74 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #f9f9f9;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', Roboto, sans-serif;
+      background: #f7f8fa;
       color: #1a1a1a;
       line-height: 1.6;
     }
-    header {
-      background: #FF6B2C;
-      color: white;
-      padding: 32px 48px 0 48px;
+
+    /* ── Sticky Nav ── */
+    .top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 60px;
+      background: #ffffff;
+      border-bottom: 1px solid #e5e8eb;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
     }
-    header h1 { font-size: 24px; font-weight: 700; }
-    header p { font-size: 13px; margin-top: 4px; opacity: 0.85; }
-    .header-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; padding-bottom: 20px; }
-    .lang-toggle { display: flex; gap: 8px; margin-top: 4px; }
+    .nav-left { display: flex; align-items: center; gap: 12px; }
+    .nav-logo-icon {
+      width: 32px; height: 32px;
+      background: #FF6B2C;
+      border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-size: 16px; font-weight: 900; flex-shrink: 0;
+    }
+    .nav-brand { font-size: 16px; font-weight: 800; color: #1a1a1a; letter-spacing: 0.5px; }
+    .nav-divider { width: 1px; height: 20px; background: #e5e8eb; }
+    .nav-subtitle { font-size: 13px; color: #666; font-weight: 500; }
+    .nav-right { display: flex; align-items: center; gap: 10px; }
+    .lang-toggle { display: flex; gap: 6px; }
     .lang-btn {
       padding: 5px 14px;
-      border: 2px solid white;
+      border: 1.5px solid #e5e8eb;
       border-radius: 20px;
-      background: transparent;
-      color: white;
+      background: white;
+      color: #555;
       font-size: 12px;
       cursor: pointer;
       font-weight: 600;
       transition: all 0.2s;
     }
-    .lang-btn.active, .lang-btn:hover { background: white; color: #FF6B2C; }
+    .lang-btn.active { background: #FF6B2C; color: white; border-color: #FF6B2C; }
+    .lang-btn:hover:not(.active) { border-color: #FF6B2C; color: #FF6B2C; }
 
-    /* Tabs */
+    /* ── Tab Bar ── */
     .tab-bar {
+      background: #ffffff;
+      border-bottom: 1px solid #e5e8eb;
       display: flex;
       gap: 0;
-      border-top: 1px solid rgba(255,255,255,0.3);
+      padding: 0 32px;
     }
     .tab-btn {
-      padding: 12px 28px;
+      padding: 14px 24px;
       background: transparent;
       border: none;
-      color: rgba(255,255,255,0.7);
+      color: #888;
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
       border-bottom: 3px solid transparent;
       transition: all 0.2s;
+      margin-bottom: -1px;
     }
-    .tab-btn.active { color: white; border-bottom: 3px solid white; }
-    .tab-btn:hover { color: white; }
+    .tab-btn.active { color: #FF6B2C; border-bottom: 3px solid #FF6B2C; }
+    .tab-btn:hover:not(.active) { color: #1a1a1a; }
 
     .tab-content { display: none; }
     .tab-content.active { display: block; }
@@ -62,7 +84,7 @@
     h2 {
       font-size: 19px;
       font-weight: 700;
-      color: #FF6B2C;
+      color: #1a1a1a;
       border-left: 4px solid #FF6B2C;
       padding-left: 12px;
       margin-bottom: 16px;
@@ -77,12 +99,12 @@
       background: white;
       border-radius: 8px;
       overflow: hidden;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      border: 1px solid #e5e8eb;
     }
-    thead tr { background: #FF6B2C; color: white; }
-    thead th { padding: 11px 14px; text-align: left; font-weight: 600; }
-    tbody tr:nth-child(even) { background: #fff7f4; }
-    tbody tr:hover { background: #ffe8dd; }
+    thead tr { background: #f7f8fa; }
+    thead th { padding: 11px 14px; text-align: left; font-weight: 600; color: #555; border-bottom: 1px solid #e5e8eb; }
+    tbody tr:nth-child(even) { background: #fafafa; }
+    tbody tr:hover { background: #f5f5f5; }
     td { padding: 10px 14px; vertical-align: top; border-bottom: 1px solid #f0f0f0; }
     td code, p code {
       background: #f4f4f4;
@@ -107,11 +129,11 @@
 
     .info-box {
       background: white;
+      border: 1px solid #e5e8eb;
       border-left: 4px solid #FF6B2C;
       padding: 16px 20px;
       border-radius: 6px;
       font-size: 14px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
       margin-bottom: 12px;
     }
     .info-box ul { margin-top: 8px; padding-left: 20px; }
@@ -136,11 +158,10 @@
     .refs { display: flex; gap: 16px; flex-wrap: wrap; }
     .ref-card {
       background: white;
-      border: 1px solid #eee;
+      border: 1px solid #e5e8eb;
       border-radius: 8px;
       padding: 16px 20px;
       font-size: 14px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
       min-width: 200px;
     }
     .ref-card strong { display: block; margin-bottom: 4px; color: #333; }
@@ -151,7 +172,7 @@
       background: white;
       border-radius: 8px;
       padding: 16px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      border: 1px solid #e5e8eb;
       text-align: center;
     }
     .img-wrap img { max-width: 100%; max-height: 340px; object-fit: contain; border-radius: 4px; }
@@ -176,7 +197,7 @@
       border-radius: 8px;
       padding: 16px 20px;
       margin-bottom: 12px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      border: 1px solid #e5e8eb;
       font-size: 14px;
     }
     .step-num {
@@ -198,8 +219,9 @@
       text-align: center;
       padding: 24px;
       font-size: 12px;
-      color: #aaa;
-      border-top: 1px solid #eee;
+      color: #999;
+      background: #ffffff;
+      border-top: 1px solid #e5e8eb;
       margin-top: 40px;
     }
 
@@ -209,32 +231,31 @@
 </head>
 <body class="lang-ko">
 
-<header>
-  <div class="header-top">
-    <div>
-      <h1>
-        <span class="ko">번개장터 파트너 가이드</span>
-        <span class="en">Bunjang Partner Guide</span>
-      </h1>
-      <p>
-        <span class="ko">Open API 기능 및 운영 가이드 — 파트너사 외부 공유용</span>
-        <span class="en">Open API Features & Operations Guide — For External Partners</span>
-      </p>
-    </div>
+<nav class="top-nav">
+  <div class="nav-left">
+    <div class="nav-logo-icon">⚡</div>
+    <span class="nav-brand">BUNJANG</span>
+    <div class="nav-divider"></div>
+    <span class="nav-subtitle">
+      <span class="ko">파트너 가이드</span>
+      <span class="en">Partner Guide</span>
+    </span>
+  </div>
+  <div class="nav-right">
     <div class="lang-toggle">
       <button class="lang-btn active" onclick="setLang('ko', event)">한국어</button>
       <button class="lang-btn" onclick="setLang('en', event)">English</button>
     </div>
   </div>
-  <div class="tab-bar">
-    <button class="tab-btn active" onclick="setTab('api')">
-      <span class="ko">API 가이드</span><span class="en">API Guide</span>
-    </button>
-    <button class="tab-btn" onclick="setTab('ops')">
-      <span class="ko">운영 가이드</span><span class="en">Operations Guide</span>
-    </button>
-  </div>
-</header>
+</nav>
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="setTab('api')">
+    <span class="ko">API 가이드</span><span class="en">API Guide</span>
+  </button>
+  <button class="tab-btn" onclick="setTab('ops')">
+    <span class="ko">운영 가이드</span><span class="en">Operations Guide</span>
+  </button>
+</div>
 
 <!-- ======================== TAB 1: API ======================== -->
 <div id="tab-api" class="tab-content active">
