@@ -1,0 +1,146 @@
+{
+  "api-10619068": {
+    "name": "Production (REST)",
+    "url": "https://api.bgzt.guide/api-10619068",
+    "raw_hash": "1ef25c233bfc6c898a7acfb3500f2628",
+    "path": "/catalog/full/{filename}",
+    "method": "GET",
+    "summary": "Full Catalog Download",
+    "params": []
+  },
+  "api-10619076": {
+    "name": "Segment Catalog Download",
+    "url": "https://api.bgzt.guide/api-10619076",
+    "raw_hash": "680ae5cb5e328baa271ea04e310b42a0",
+    "path": "/catalog/segment/{filename}",
+    "method": "GET",
+    "summary": "Segment Catalog Download",
+    "params": []
+  },
+  "api-10616447": {
+    "name": "List Categories",
+    "url": "https://api.bgzt.guide/api-10616447",
+    "raw_hash": "9e733123b21bb1f8b9b7ab2dd5b37cf2",
+    "path": "/api/v1/categories",
+    "method": "GET",
+    "summary": "List Categories",
+    "params": []
+  },
+  "api-10621607": {
+    "name": "List Brands",
+    "url": "https://api.bgzt.guide/api-10621607",
+    "raw_hash": "3fe539f0c76b245fd6d7eb0262b541fa",
+    "path": "/api/v1/brands",
+    "method": "GET",
+    "summary": "List Brands",
+    "params": []
+  },
+  "api-10622538": {
+    "name": "Get Product",
+    "url": "https://api.bgzt.guide/api-10622538",
+    "raw_hash": "09a3db454f15a99eb704904edaf8acac",
+    "path": "/api/v1/products/{pid}",
+    "method": "GET",
+    "summary": "Get Product",
+    "params": []
+  },
+  "api-10622550": {
+    "name": "Search Products",
+    "url": "https://api.bgzt.guide/api-10622550",
+    "raw_hash": "f1156b0c600b2d16a3a3425a05f47fc5",
+    "path": "/api/v1/products",
+    "method": "GET",
+    "summary": "Search Products",
+    "params": []
+  },
+  "api-18487132": {
+    "name": "Filter On-Sale Products",
+    "url": "https://api.bgzt.guide/api-18487132",
+    "raw_hash": "817721ed06475d2c7d6e9125342b87c3",
+    "path": "/api/v1/products/get-on-sale",
+    "method": "POST",
+    "summary": "Filter On-Sale Products",
+    "params": []
+  },
+  "api-14932314": {
+    "name": "Create Order (v2)",
+    "url": "https://api.bgzt.guide/api-14932314",
+    "raw_hash": "44c5d5a4a752bab1bc1524ed1e506652",
+    "path": "/api/v2/orders",
+    "method": "POST",
+    "summary": "Create Order",
+    "params": []
+  },
+  "api-10623118": {
+    "name": "Create Order (v1)",
+    "url": "https://api.bgzt.guide/api-10623118",
+    "raw_hash": "6ba446bb964dc7404addda6be86e3087",
+    "path": "/api/v1/orders",
+    "method": "POST",
+    "summary": "Create Order (Deprecated)",
+    "params": []
+  },
+  "api-13842708": {
+    "name": "Get Order",
+    "url": "https://api.bgzt.guide/api-13842708",
+    "raw_hash": "9cf145922e07921588a3e998b39ea58f",
+    "path": "/api/v1/orders/{orderId}",
+    "method": "GET",
+    "summary": "Get Order",
+    "params": []
+  },
+  "api-14021749": {
+    "name": "List Orders",
+    "url": "https://api.bgzt.guide/api-14021749",
+    "raw_hash": "19e2459411005b24cf12e9328eb2da4c",
+    "path": "/api/v1/orders",
+    "method": "GET",
+    "summary": "List Orders",
+    "params": []
+  },
+  "api-13699034": {
+    "name": "Confirm Order",
+    "url": "https://api.bgzt.guide/api-13699034",
+    "raw_hash": "cdc4198dda28a8caba35492ff8eb1528",
+    "path": "/api/v1/orders/{orderId}/confirm-purchase",
+    "method": "POST",
+    "summary": "Confirm Order",
+    "params": []
+  },
+  "api-9989579": {
+    "name": "Get Point Balance",
+    "url": "https://api.bgzt.guide/api-9989579",
+    "raw_hash": "08044e0ccfa6ca4dfeccaf52d5fab4f1",
+    "path": "/api/v1/points/balance",
+    "method": "GET",
+    "summary": "Get Point Balance",
+    "params": []
+  },
+  "api-25997141": {
+    "name": "Create Point Charge",
+    "url": "https://api.bgzt.guide/api-25997141",
+    "raw_hash": "e5ef34b06e3215212f83e4c53683e850",
+    "path": "/api/v1/points/issuance",
+    "method": "POST",
+    "summary": "Create Point Charge",
+    "params": []
+  },
+  "api-26038263": {
+    "name": "Get Point Charge",
+    "url": "https://api.bgzt.guide/api-26038263",
+    "raw_hash": "1c9be7ed5de6439def5cb93ffc1c8945",
+    "path": "/api/v1/points/issuance/{id}",
+    "method": "GET",
+    "summary": "Get Point Charge",
+    "params": []
+  },
+  "api-26038352": {
+    "name": "Cancel Point Charge",
+    "url": "https://api.bgzt.guide/api-26038352",
+    "raw_hash": "04e6be3dd4114c1081bdd87cfe43ac08",
+    "path": "/api/v1/points/issuance/{id}/cancel",
+    "method": "POST",
+    "summary": "Cancel Point Charge",
+    "params": []
+  }
+}

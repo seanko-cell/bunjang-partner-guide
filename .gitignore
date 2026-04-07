@@ -13,3 +13,12 @@
 !hub_completed/
 hub_completed/*
 !hub_completed/*.html
+!check_api.py
+!check_api.bat
+!setup_scheduler.bat
+!setup_scheduler.ps1
+!api_snapshot.json
+!.github/
+!.github/workflows/
+!.github/workflows/check_api.yml
+api_config.json

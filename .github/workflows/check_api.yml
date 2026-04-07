@@ -1,0 +1,44 @@
+name: Bunjang API Weekly Check
+
+on:
+  schedule:
+    - cron: '0 2 * * 1'   # 매주 월요일 02:00 UTC = 11:00 KST
+  workflow_dispatch:        # 웹에서 수동 실행 가능
+
+permissions:
+  contents: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests pyyaml pillow
+
+      - name: Run API check
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_USER_ID: U077ZBMGPS4
+        run: python check_api.py
+
+      - name: Build
+        run: python build.py
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add bunjang-partner-guide.html api_snapshot.json \
+                  hub_completed/ index.html bunjang-partner-guide-share.html
+          git diff --staged --quiet && echo "No changes to commit" || \
+          git commit -m "auto: API spec update $(date +'%Y-%m-%d')"
+          git push
