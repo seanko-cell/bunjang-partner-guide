@@ -5,7 +5,7 @@
 실행: python build.py
 """
 
-import os, base64, re, mimetypes, shutil
+import os, base64, re, mimetypes, shutil, datetime
 from PIL import Image, ImageFilter
 import io
 
@@ -134,11 +134,16 @@ else:
         <a class="btn-open" href="hub_completed/{f}" target="_blank">열기</a>
       </div>"""
 
+build_time = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+
 index_html = f"""<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+  <meta http-equiv="Pragma" content="no-cache"/>
+  <meta http-equiv="Expires" content="0"/>
   <title>Global BD Hub</title>
   <style>
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}

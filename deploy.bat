@@ -32,9 +32,9 @@ echo ================================
 echo [3/3] Deploy complete!
 echo.
 echo Hub URL:
-echo   https://seanko-cell.github.io/bunjang-partner-guide/
+echo   https://seanko-cell.github.io/bunjang-partner-guide/?v=%date:~0,4%%date:~5,2%%date:~8,2%
 echo.
 echo Partner share URL:
-echo   https://seanko-cell.github.io/bunjang-partner-guide/bunjang-partner-guide-share.html
+echo   https://seanko-cell.github.io/bunjang-partner-guide/hub_completed/bunjang-partner-guide-share.html?v=%date:~0,4%%date:~5,2%%date:~8,2%
 echo ================================
 pause
