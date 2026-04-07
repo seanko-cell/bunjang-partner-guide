@@ -5,7 +5,7 @@
 실행: python build.py
 """
 
-import os, base64, re, mimetypes
+import os, base64, re, mimetypes, shutil
 from PIL import Image, ImageFilter
 import io
 
@@ -49,6 +49,12 @@ if os.path.exists(SOURCE_HTML):
     with open(OUTPUT_HTML, "w", encoding="utf-8") as f:
         f.write(html)
     print(f"\n  ✅ bunjang-partner-guide-share.html 생성 완료")
+
+    # hub_completed에 자동 복사
+    os.makedirs(HUB_DIR, exist_ok=True)
+    hub_copy = os.path.join(HUB_DIR, "bunjang-partner-guide-share.html")
+    shutil.copy2(OUTPUT_HTML, hub_copy)
+    print(f"  ✅ hub_completed에 자동 복사 완료")
 else:
     print("  [SKIP] bunjang-partner-guide.html 없음")
 
