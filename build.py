@@ -15,9 +15,9 @@ HUB_DIR = os.path.join(DIR, "hub_completed")
 # ─── 1. 파트너 가이드 빌드 ───────────────────────────────────────
 
 IMAGES = {
-    "order-status-flow.png":     1,
-    "multi-product-listing.png": 6,
-    "multi-product-cs.png":      6,
+    "order-status-flow.png":     0,
+    "multi-product-listing.png": 0,
+    "multi-product-cs.png":      0,
 }
 
 SOURCE_HTML = os.path.join(DIR, "bunjang-partner-guide.html")
