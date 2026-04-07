@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>번장글로벌 운영사 선정 평가표</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:   #1C3557;
+  --teal:   #1D6F8C;
+  --blue:   #2563A8;
+  --ltblue: #DBEAFE;
+  --input:  #FEFCE8;
+  --gray:   #F1F5F9;
+  --border: #CBD5E1;
+  --text:   #1E293B;
+  --muted:  #64748B;
+  --green:  #DCFCE7;
+  --green2: #15803D;
+  --yellow: #FEF9C3;
+  --yellow2:#854D0E;
+  --red:    #FEE2E2;
+  --red2:   #B91C1C;
+  --orange: #FFF3E0;
+  --white:  #FFFFFF;
+  --radius: 8px;
+  --shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
+}
+
+body {
+  font-family: 'Noto Sans KR', -apple-system, sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  background: #F8FAFC;
+  line-height: 1.5;
+}
+
+/* ─── Layout ─── */
+.app { max-width: 1200px; margin: 0 auto; padding: 24px 16px 60px; }
+
+/* ─── Header ─── */
+.header {
+  background: linear-gradient(135deg, var(--navy) 0%, #2B5080 100%);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  color: white;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 16px rgba(28,53,87,.25);
+}
+.header h1 { font-size: 22px; font-weight: 700; margin-bottom: 6px; letter-spacing: -0.3px; }
+.header .sub { font-size: 13px; color: #93C5FD; margin-bottom: 16px; }
+.header-meta { display: flex; gap: 12px; flex-wrap: wrap; }
+.meta-field { display: flex; align-items: center; gap: 8px; }
+.meta-field label { font-size: 12px; color: #93C5FD; white-space: nowrap; }
+.meta-field input {
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: 6px;
+  color: white;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-family: inherit;
+  width: 160px;
+}
+.meta-field input::placeholder { color: rgba(255,255,255,.4); }
+
+/* ─── Tabs ─── */
+.tabs { display: flex; gap: 4px; margin-bottom: 20px; }
+.tab-btn {
+  padding: 9px 20px;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  background: var(--white);
+  color: var(--muted);
+  border: 1px solid var(--border);
+  transition: all .15s;
+}
+.tab-btn.active {
+  background: var(--navy);
+  color: white;
+  border-color: var(--navy);
+}
+.tab-btn:hover:not(.active) { background: var(--gray); color: var(--text); }
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ─── Card ─── */
+.card {
+  background: white;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  margin-bottom: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.card-header {
+  background: var(--teal);
+  color: white;
+  padding: 12px 20px;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card-header .badge {
+  background: rgba(255,255,255,.2);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 500;
+}
+.card-body { padding: 0; }
+
+/* ─── Section title ─── */
+.section-note {
+  background: #F0F9FF;
+  border-left: 3px solid var(--teal);
+  padding: 8px 14px;
+  font-size: 12px;
+  color: var(--muted);
+  font-style: italic;
+  margin: 0;
+}
+
+/* ─── Tables ─── */
+.eval-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+.eval-table th {
+  background: var(--navy);
+  color: white;
+  padding: 9px 12px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 12px;
+  border: 1px solid rgba(255,255,255,.1);
+  white-space: nowrap;
+}
+.eval-table th.teal { background: var(--teal); }
+.eval-table td {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  vertical-align: middle;
+}
+.eval-table tr:nth-child(even) td { background: #FAFBFC; }
+.eval-table tr:hover td { background: #F0F9FF; }
+
+.eval-table td.label { font-weight: 600; color: var(--text); background: var(--gray) !important; }
+.eval-table td.criteria { color: var(--muted); font-size: 12px; }
+.eval-table td.score-cell {
+  text-align: center;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--navy);
+  background: var(--ltblue) !important;
+}
+.eval-table td.total-cell {
+  text-align: center;
+  font-weight: 900;
+  font-size: 20px;
+  color: var(--navy);
+  background: #EFF6FF !important;
+}
+.eval-table td.maxpt {
+  text-align: center;
+  font-weight: 600;
+  background: var(--gray) !important;
+  color: var(--muted);
+}
+.eval-table td.num { text-align: center; font-weight: 700; background: var(--gray) !important; }
+
+/* ─── Input cells ─── */
+.score-input {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  background: var(--input);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
+  color: var(--text);
+  transition: border-color .15s, box-shadow .15s;
+}
+.score-input:focus {
+  outline: none;
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(29,111,140,.12);
+}
+select.score-input { cursor: pointer; }
+
+/* ─── Verdict badge ─── */
+.verdict {
+  display: inline-block;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.verdict.pass { background: var(--green); color: var(--green2); }
+.verdict.cond { background: var(--yellow); color: var(--yellow2); }
+.verdict.fail { background: var(--red); color: var(--red2); }
+.verdict.pending { background: var(--gray); color: var(--muted); }
+
+/* ─── PF badge ─── */
+.pf-o { color: var(--green2); font-weight: 700; font-size: 16px; }
+.pf-x { color: var(--red2); font-weight: 700; font-size: 16px; }
+
+/* ─── Shipping sub-table ─── */
+.ship-company { background: var(--navy); color: white; text-align: center; font-weight: 700; font-size: 12px; padding: 7px; }
+.ship-region { background: var(--ltblue); color: var(--teal); text-align: center; font-weight: 600; font-size: 11px; padding: 6px; border: 1px solid var(--border); }
+.ship-basket { background: #E0F2FE; font-weight: 700; text-align: right; color: var(--navy); font-size: 13px; }
+.ship-score { background: var(--ltblue); font-weight: 900; text-align: center; color: var(--navy); font-size: 16px; }
+
+/* ─── Summary / Total row ─── */
+.total-row td { background: var(--navy) !important; color: #FCD34D; font-weight: 900; }
+.total-row td.label { background: var(--navy) !important; color: white; }
+
+/* ─── Guide box ─── */
+.guide {
+  background: #FFFBEB;
+  border: 1px solid #FCD34D;
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  margin-bottom: 16px;
+}
+.guide h4 { color: var(--teal); font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+.guide ol { padding-left: 18px; }
+.guide li { font-size: 12.5px; color: #374151; margin-bottom: 4px; line-height: 1.6; }
+
+/* ─── Tier hint ─── */
+.tier-row td {
+  background: #FAFAFA !important;
+  font-size: 11.5px;
+  color: var(--muted);
+  font-style: italic;
+  padding: 5px 12px;
+  border-top: none !important;
+}
+
+/* ─── KPI cards ─── */
+.kpi-company-header {
+  background: linear-gradient(90deg, var(--navy), var(--teal));
+  color: white;
+  padding: 10px 20px;
+  font-weight: 700;
+  font-size: 14px;
+  margin: 0;
+}
+.kpi-score-summary {
+  display: flex;
+  gap: 12px;
+  padding: 12px 20px;
+  background: #F0F9FF;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+  align-items: center;
+}
+.kpi-metric {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 16px;
+  min-width: 100px;
+}
+.kpi-metric .kpi-val { font-size: 20px; font-weight: 900; color: var(--navy); }
+.kpi-metric .kpi-lbl { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+/* ─── Ranking table ─── */
+.rank-badge {
+  display: inline-flex;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 13px;
+}
+.rank-1 { background: #FEF3C7; color: #92400E; }
+.rank-2 { background: #F1F5F9; color: #334155; }
+.rank-3 { background: #FEF2F2; color: #9F1239; }
+
+/* ─── Penalty table ─── */
+.penalty-warn { background: #FFF3E0 !important; }
+.penalty-down { background: #FEF9C3 !important; }
+.penalty-exit { background: #FEE2E2 !important; }
+
+/* ─── Print button ─── */
+.action-bar { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+.btn {
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all .15s;
+}
+.btn-primary { background: var(--navy); color: white; }
+.btn-primary:hover { background: #2B5080; }
+.btn-outline { background: white; color: var(--navy); border: 1.5px solid var(--navy); }
+.btn-outline:hover { background: var(--gray); }
+.btn-teal { background: var(--teal); color: white; }
+.btn-teal:hover { background: #155e75; }
+
+/* ─── Utility ─── */
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.fw600 { font-weight: 600; }
+.fw700 { font-weight: 700; }
+.text-muted { color: var(--muted); font-size: 12px; }
+.mt8 { margin-top: 8px; }
+
+/* ─── Print ─── */
+@media print {
+  body { background: white; font-size: 11px; }
+  .app { padding: 0; max-width: 100%; }
+  .tabs, .action-bar { display: none; }
+  .tab-panel { display: block !important; }
+  .card { box-shadow: none; page-break-inside: avoid; margin-bottom: 12px; }
+  .header { background: var(--navy) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .score-input { border: 1px solid #ccc; background: #FEFCE8; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ░░ HEADER ░░ -->
+<div class="header">
+  <h1>번장글로벌(해구대) 운영사 선정 평가표</h1>
+  <div class="sub">번장글로벌 복수 운영사 전환 프로젝트</div>
+  <div class="header-meta">
+    <div class="meta-field"><label>작성일</label><input type="date" id="meta-date"></div>
+    <div class="meta-field"><label>평가자</label><input type="text" id="meta-eval" placeholder="이름 입력"></div>
+    <div class="meta-field"><label>버전</label><input type="text" id="meta-ver" placeholder="v1.0" style="width:80px"></div>
+  </div>
+</div>
+
+<!-- ░░ TABS ░░ -->
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('selection')">① 운영사 선정 평가</button>
+  <button class="tab-btn" onclick="switchTab('kpi')">② KPI 모니터링 (온보딩 후)</button>
+</div>
+
+<!-- Google Sheets 연동 설정 바 -->
+<div id="gs-bar" style="background:white;border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;margin-bottom:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;box-shadow:var(--shadow)">
+  <span style="font-size:12px;font-weight:700;color:var(--navy);white-space:nowrap">🔗 Google Sheets</span>
+  <input id="gs-url" type="text" placeholder="Apps Script 배포 URL 붙여넣기 (설정 방법은 하단 안내 참고)"
+    style="flex:1;min-width:260px;padding:6px 10px;border:1.5px solid var(--border);border-radius:6px;font-size:12px;font-family:inherit;background:var(--input)"
+    oninput="saveGsUrl(this.value)">
+  <button class="btn" style="background:#0F9D58;color:white;font-size:12px" onclick="testConnection()">연결 테스트</button>
+  <span id="gs-status" style="font-size:12px;color:var(--muted)">─</span>
+  <a id="gs-open-btn" href="#" target="_blank"
+    style="display:none;background:#1a73e8;color:white;padding:6px 14px;border-radius:6px;font-size:12px;font-weight:700;text-decoration:none;white-space:nowrap">
+    📊 구글시트 바로 가기
+  </a>
+</div>
+
+<div class="action-bar">
+  <button class="btn btn-primary" onclick="window.print()">🖨 인쇄 / PDF</button>
+  <button class="btn" style="background:#7C3AED;color:white" onclick="fillRandom()">🎲 랜덤 테스트값 입력</button>
+  <button class="btn" style="background:#0F9D58;color:white" onclick="saveToSheets('selection')">📊 선정평가 저장</button>
+  <button class="btn" style="background:#1D6F8C;color:white" onclick="saveToSheets('kpi')">📊 KPI 저장</button>
+  <button class="btn btn-outline" onclick="resetAll()">↺ 초기화</button>
+</div>
+
+<!-- Toast 알림 -->
+<div id="toast" style="position:fixed;bottom:24px;right:24px;background:var(--navy);color:white;padding:12px 20px;border-radius:8px;font-size:13px;font-weight:600;display:none;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,.2);transition:opacity .3s"></div>
+
+<!-- 저장 완료 배너 -->
+<div id="save-banner" style="background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:var(--radius);padding:12px 18px;margin-bottom:12px;display:none;align-items:center;gap:12px;flex-wrap:wrap">
+  <span style="font-size:13px;font-weight:700;color:#15803D">✅ 저장 완료</span>
+  <span id="save-banner-msg" style="font-size:12.5px;color:#166534"></span>
+  <a id="save-banner-link" href="#" target="_blank"
+    style="margin-left:auto;background:#0F9D58;color:white;padding:7px 16px;border-radius:6px;font-size:12.5px;font-weight:700;text-decoration:none;white-space:nowrap">
+    📊 구글시트에서 결과 보기 →
+  </a>
+</div>
+
+<!-- ════════════════════════════════════════
+     TAB 1 — 선정 평가표
+════════════════════════════════════════ -->
+<div id="tab-selection" class="tab-panel active">
+
+  <!-- Guide -->
+  <div class="guide">
+    <h4>📋 활용 안내</h4>
+    <ol>
+      <li>섹션 1에서 각 항목 <strong>Pass(O) / Fail(X)</strong>를 선택하세요. 하나라도 X 시 해당 운영사는 평가 제외됩니다.</li>
+      <li>섹션 2 노란색 셀에 지역별·품목별 <strong>배송 운임(원)</strong>을 입력하면 가상 바구니 점수가 자동 산출됩니다.</li>
+      <li>섹션 3 노란색 셀에 값을 입력하면 <strong>점수가 자동 계산</strong>됩니다. ⑤는 S / A / B로 입력.</li>
+      <li>섹션 4에서 종합 점수와 판정 결과를 확인하세요. <strong>70점↑ 선정 검토 / 60점 미만 탈락</strong></li>
+      <li>동점 시 배송 요율(①) 점수가 높은 업체를 우선합니다.</li>
+    </ol>
+  </div>
+
+  <!-- ── Section 1: Pass/Fail ── -->
+  <div class="card">
+    <div class="card-header">
+      ▶ 섹션 1 &nbsp;│&nbsp; 필수 요건 (Pass / Fail)
+      <span class="badge">하나라도 X → 평가 제외</span>
+    </div>
+    <div class="card-body">
+      <table class="eval-table" style="table-layout:fixed">
+        <colgroup>
+          <col style="width:40px">
+          <col style="width:160px">
+          <col>
+          <col style="width:120px">
+          <col style="width:120px">
+          <col style="width:120px">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>#</th><th>항목</th><th>기준</th>
+            <th>KFriday</th><th>Paysable</th><th>Sazo</th>
+          </tr>
+        </thead>
+        <tbody id="pf-body">
+          <!-- filled by JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── Section 2: Shipping Rate ── -->
+  <div class="card">
+    <div class="card-header">
+      ▶ 섹션 2 &nbsp;│&nbsp; 정량 평가 ① &nbsp; 배송 요율
+      <span class="badge">30점</span>
+    </div>
+    <div class="section-note">
+      ※ 산식 : (후보사 중 최저 바구니 합계 ÷ 해당 업체 합계) × 30 &nbsp;│&nbsp;
+      바구니 : 포토카드 0.5kg (50%) + 응원봉 1.5kg (30%) + 의류 3.0kg (20%) &nbsp;│&nbsp;
+      미국 (LA) · 독일 (FRA) · 일본 (TYO) 3개 지역 합산
+    </div>
+    <div class="card-body" style="overflow-x:auto">
+      <table class="eval-table" id="ship-table" style="min-width:800px">
+        <thead>
+          <tr>
+            <th rowspan="2" style="width:90px">품목</th>
+            <th rowspan="2" style="width:70px">중량</th>
+            <th rowspan="2" style="width:55px">비중</th>
+            <th colspan="3" class="teal">KFriday</th>
+            <th colspan="3" class="teal">Paysable</th>
+            <th colspan="3" class="teal">Sazo</th>
+          </tr>
+          <tr>
+            <th class="teal" style="font-weight:500;font-size:11px">미국(LA)</th>
+            <th class="teal" style="font-weight:500;font-size:11px">독일(FRA)</th>
+            <th class="teal" style="font-weight:500;font-size:11px">일본(TYO)</th>
+            <th class="teal" style="font-weight:500;font-size:11px">미국(LA)</th>
+            <th class="teal" style="font-weight:500;font-size:11px">독일(FRA)</th>
+            <th class="teal" style="font-weight:500;font-size:11px">일본(TYO)</th>
+            <th class="teal" style="font-weight:500;font-size:11px">미국(LA)</th>
+            <th class="teal" style="font-weight:500;font-size:11px">독일(FRA)</th>
+            <th class="teal" style="font-weight:500;font-size:11px">일본(TYO)</th>
+          </tr>
+        </thead>
+        <tbody id="ship-body"></tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3" class="label text-center" style="font-size:12px">가상 바구니 합계 (3개 지역)</td>
+            <td colspan="3" class="ship-basket text-center" id="basket-kf">─</td>
+            <td colspan="3" class="ship-basket text-center" id="basket-pa">─</td>
+            <td colspan="3" class="ship-basket text-center" id="basket-sz">─</td>
+          </tr>
+          <tr>
+            <td colspan="3" class="label text-center fw700" style="background:var(--teal)!important;color:white">① 배송 요율 점수 (30점)</td>
+            <td colspan="3" class="ship-score" id="score-ship-kf">─</td>
+            <td colspan="3" class="ship-score" id="score-ship-pa">─</td>
+            <td colspan="3" class="ship-score" id="score-ship-sz">─</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── Section 3: Scoring ②~⑤ ── -->
+  <div class="card">
+    <div class="card-header">
+      ▶ 섹션 3 &nbsp;│&nbsp; 정량 평가 ②~⑤
+      <span class="badge">노란색 셀에 직접 입력</span>
+    </div>
+    <div class="card-body" style="overflow-x:auto">
+      <table class="eval-table" id="scoring-table" style="min-width:700px;table-layout:fixed">
+        <colgroup>
+          <col style="width:40px">
+          <col style="width:180px">
+          <col>
+          <col style="width:55px">
+          <col style="width:110px"><col style="width:80px">
+          <col style="width:110px"><col style="width:80px">
+          <col style="width:110px"><col style="width:80px">
+        </colgroup>
+        <thead>
+          <tr>
+            <th rowspan="2">#</th>
+            <th rowspan="2">평가 항목</th>
+            <th rowspan="2">평가 기준</th>
+            <th rowspan="2">만점</th>
+            <th colspan="2">KFriday</th>
+            <th colspan="2">Paysable</th>
+            <th colspan="2">Sazo</th>
+          </tr>
+          <tr>
+            <th class="teal" style="font-weight:500;font-size:11px">입력값</th>
+            <th class="teal" style="font-weight:500;font-size:11px">점수</th>
+            <th class="teal" style="font-weight:500;font-size:11px">입력값</th>
+            <th class="teal" style="font-weight:500;font-size:11px">점수</th>
+            <th class="teal" style="font-weight:500;font-size:11px">입력값</th>
+            <th class="teal" style="font-weight:500;font-size:11px">점수</th>
+          </tr>
+        </thead>
+        <tbody id="scoring-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── Section 4: Summary ── -->
+  <div class="card">
+    <div class="card-header" style="background:var(--navy)">
+      ▶ 섹션 4 &nbsp;│&nbsp; 종합 점수 요약
+      <span class="badge" style="background:rgba(255,255,255,.15)">70점↑ 선정 검토 &nbsp;/&nbsp; 60점 미만 탈락</span>
+    </div>
+    <div class="card-body" style="overflow-x:auto">
+      <table class="eval-table" id="summary-table" style="min-width:600px;table-layout:fixed">
+        <colgroup>
+          <col style="width:40px">
+          <col>
+          <col style="width:55px">
+          <col style="width:130px">
+          <col style="width:130px">
+          <col style="width:130px">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>#</th><th>평가 항목</th><th>만점</th>
+            <th>KFriday</th><th>Paysable</th><th>Sazo</th>
+          </tr>
+        </thead>
+        <tbody id="summary-body"></tbody>
+        <tfoot id="summary-foot"></tfoot>
+      </table>
+    </div>
+  </div>
+
+</div><!-- /tab-selection -->
+
+
+<!-- ════════════════════════════════════════
+     TAB 2 — KPI 모니터링
+════════════════════════════════════════ -->
+<div id="tab-kpi" class="tab-panel">
+
+  <div class="guide">
+    <h4>📋 활용 안내</h4>
+    <ol>
+      <li>각 운영사별로 월간 KPI 실측값을 입력하면 점수가 자동 계산됩니다.</li>
+      <li>소비자 불만 건수는 건수 그대로 입력하면 KPI 점수에서 자동 차감됩니다 (건당 -1점).</li>
+      <li>노출 순위 산정 섹션에서 수수료·배송·KPI 점수를 입력하면 가중 합산 순위가 산출됩니다.</li>
+      <li>노출 순위 가중치: <strong>KPI 40% + 수수료율 30% + 배송 요율 30%</strong></li>
+    </ol>
+  </div>
+
+  <!-- KPI Scoring Detail -->
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-header" style="background:var(--navy)">KPI 항목별 배점 기준 (총 100점)</div>
+    <div class="card-body" style="overflow-x:auto">
+      <table class="eval-table" style="min-width:700px">
+        <thead>
+          <tr><th>항목</th><th>만점</th><th>측정 기준</th><th>목표</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="fw600">① CS 응답 시간</td><td class="text-center">25점</td><td>24시간 이내 응답 완료 비중 (%)</td><td class="text-center">100%</td></tr>
+          <tr><td class="fw600">② 구매확정 처리 속도</td><td class="text-center">25점</td><td>현지 배송 완료 후 구매확정까지 평균 영업일</td><td class="text-center">영업일 2일 이내</td></tr>
+          <tr><td class="fw600">③ 취소·오배송 발생률</td><td class="text-center">30점</td><td>월간 전체 주문 대비 취소/오배송 비중 (%)</td><td class="text-center">2.0% 이하</td></tr>
+          <tr><td class="fw600">④ 수수료 납부 기한 준수</td><td class="text-center">20점</td><td>익월 말일까지 정산 수수료 입금 완료 여부</td><td class="text-center">기한 내 완납</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Per-company KPI -->
+  <div id="kpi-companies"></div>
+
+  <!-- Ranking -->
+  <div class="card">
+    <div class="card-header" style="background:var(--navy)">
+      ▶ 운영사 노출 순위 산정
+      <span class="badge" style="background:rgba(255,255,255,.15)">KPI 40% + 수수료율 30% + 배송 요율 30%</span>
+    </div>
+    <div class="card-body" style="overflow-x:auto">
+      <table class="eval-table" id="ranking-table" style="min-width:700px">
+        <thead>
+          <tr>
+            <th>운영사</th>
+            <th>KPI 점수 <span style="font-weight:400;font-size:11px">(가중 40%)</span></th>
+            <th>수수료 점수 <span style="font-weight:400;font-size:11px">(가중 30%)</span></th>
+            <th>배송 점수 <span style="font-weight:400;font-size:11px">(가중 30%)</span></th>
+            <th>가중 합산</th>
+            <th>순위</th>
+          </tr>
+        </thead>
+        <tbody id="ranking-body"></tbody>
+      </table>
+      <p class="text-muted" style="padding:10px 14px">※ KPI 점수는 당월 각 운영사 KPI 최근 월 점수를 자동 반영합니다. 수수료 점수·배송 점수는 선정 평가표 섹션 4의 점수를 참조합니다.</p>
+    </div>
+  </div>
+
+  <!-- Penalty -->
+  <div class="card">
+    <div class="card-header" style="background:var(--teal)">▶ 패널티 및 퇴출 기준</div>
+    <div class="card-body">
+      <table class="eval-table">
+        <thead><tr><th style="width:120px">단계</th><th>조건</th><th>조치</th></tr></thead>
+        <tbody>
+          <tr class="penalty-warn">
+            <td class="fw700">⚠️ 경고</td>
+            <td>KPI 2개 항목 연속 2개월 미달</td>
+            <td>서면 경고 발송 + 30일 이내 개선 계획 제출 요구</td>
+          </tr>
+          <tr class="penalty-down">
+            <td class="fw700">📉 순위 하락</td>
+            <td>경고 후 1개월 내 미개선</td>
+            <td>노출 순위 강제 하향 조정</td>
+          </tr>
+          <tr class="penalty-exit">
+            <td class="fw700">🚫 계약 해지</td>
+            <td>중대 운영 사고 또는 3개월 연속 KPI 미달</td>
+            <td>계약 조기 해지 (서면 통보 후 30일)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div><!-- /tab-kpi -->
+
+</div><!-- /app -->
+
+<script>
+'use strict';
+
+// ═══════════════════════════════════════
+// DATA CONFIG
+// ═══════════════════════════════════════
+const COMPANIES = ['KFriday','Paysable','Sazo'];
+const MONTHS    = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+
+const PF_ITEMS = [
+  {id:'pf1', label:'CS 언어 지원',          criteria:'영어 필수, 추가 언어 우대'},
+  {id:'pf2', label:'창고·물류 인프라',        criteria:'국내 수령 가능 거점 보유'},
+  {id:'pf3', label:'해외 배송 처리 능력',     criteria:'미국·EU·일본 배송 가능'},
+  {id:'pf4', label:'사업자 등록 및 법적 요건',criteria:'구매대행업 운영 가능한 법인'},
+  {id:'pf5', label:'기술 역량',              criteria:'전담 개발자 2인 이상 + API 연동 가능'},
+];
+
+const SHIP_ITEMS = [
+  {label:'포토카드', weight:'0.5 kg', ratio:0.5},
+  {label:'응원봉',   weight:'1.5 kg', ratio:0.3},
+  {label:'의류',     weight:'3.0 kg', ratio:0.2},
+];
+const REGIONS = ['미국(LA)','독일(FRA)','일본(TYO)'];
+
+const SCORING_ITEMS = [
+  {
+    id:'comm', num:'②', label:'제시 수수료율', criteria:'건당 수수료(원) 제안', maxpt:30,
+    tiers:'1,000원↑: 30점 │ 800~999원: 20점 │ 600~799원: 10점 │ 400~599원: 5점 │ 400원 미만: 3점',
+    type:'number', placeholder:'예: 1200',
+    calc: v => v>=1000?30: v>=800?20: v>=600?10: v>=400?5: 3
+  },
+  {
+    id:'vol',  num:'③', label:'월 처리 가능 물량', criteria:'월 최대 처리 건수', maxpt:20,
+    tiers:'1만건↑: 20점 │ 7,000~9,999건: 15점 │ 5,000~6,999건: 10점 │ 5,000건 미만: 5점',
+    type:'number', placeholder:'예: 12000',
+    calc: v => v>=10000?20: v>=7000?15: v>=5000?10: 5
+  },
+  {
+    id:'cs',   num:'④', label:'CS 담당 인력수', criteria:'CS 전담 인원 수 (명)', maxpt:10,
+    tiers:'5인↑: 10점 │ 3~4인: 7점 │ 2인: 4점 │ 1인: 2점',
+    type:'number', placeholder:'예: 4',
+    calc: v => v>=5?10: v>=3?7: v>=2?4: 2
+  },
+  {
+    id:'sys',  num:'⑤', label:'시스템 고도화 및 운영 역량', criteria:'S / A / B 등급 선택', maxpt:10,
+    tiers:'S (자체WMS+실시간API+자동트래킹): 10점 │ A (외부WMS+API연동 일부수동): 6점 │ B (엑셀 수동관리): 2점',
+    type:'select', options:[['','선택'],['S','S — 우수 (10점)'],['A','A — 보통 (6점)'],['B','B — 미흡 (2점)']],
+    calc: v => v==='S'?10: v==='A'?6: v==='B'?2: null
+  },
+];
+
+const KPI_ITEMS = [
+  {
+    id:'kpi_cs', label:'① CS 응답 시간', unit:'%', placeholder:'예: 98.5',
+    hint:'24시간 이내 응답 완료 비중 입력', maxpt:25,
+    calc: v => v>=100?25: v>=95?20: v>=90?15: 5
+  },
+  {
+    id:'kpi_spd', label:'② 구매확정 처리 속도', unit:'영업일', placeholder:'예: 1.5',
+    hint:'평균 처리 영업일수 입력 (숫자)', maxpt:25,
+    calc: v => v<=2?25: v<=3?15: v<=4?10: 0
+  },
+  {
+    id:'kpi_cancel', label:'③ 취소·오배송 발생률', unit:'%', placeholder:'예: 1.2',
+    hint:'전체 주문 대비 취소/오배송 비중 입력', maxpt:30,
+    calc: v => v<1?30: v<=2?20: v<=4?10: 0
+  },
+  {
+    id:'kpi_pay', label:'④ 수수료 납부 기한 준수', unit:'선택', placeholder:'',
+    hint:'', maxpt:20, type:'select',
+    options:[['','선택'],['100','기한 내 완납 (20점)'],['5','기한 경과 7일 이내 (5점)'],['0','기한 경과 7일 초과 (0점)']],
+    calc: v => parseFloat(v) || 0
+  },
+  {
+    id:'kpi_cmp', label:'⑤ 소비자 불만 건수', unit:'건', placeholder:'예: 2',
+    hint:'건당 -1점 차감', maxpt:0,
+    calc: v => 0  // handled separately as deduction
+  },
+];
+
+// ═══════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════
+const state = {
+  pf:   {},  // pf1_KFriday: 'O'
+  ship: {},  // ship_0_KFriday_0: '12000' (item, comp, region)
+  score:{},  // comm_KFriday: '1200'
+  kpi:  {},  // kpi_cs_KFriday_0: '98.5' (item, comp, month)
+};
+
+// ═══════════════════════════════════════
+// RENDER — Pass/Fail
+// ═══════════════════════════════════════
+function renderPF() {
+  const tbody = document.getElementById('pf-body');
+  tbody.innerHTML = PF_ITEMS.map((item,i) => {
+    const cells = COMPANIES.map(c => {
+      const key = `${item.id}_${c}`;
+      const val = state.pf[key] || 'O';
+      return `<td class="text-center">
+        <select class="score-input" onchange="onPFChange('${key}',this.value)" style="width:80px;background:var(--input)">
+          <option value="O" ${val==='O'?'selected':''}>✅ Pass</option>
+          <option value="X" ${val==='X'?'selected':''}>❌ Fail</option>
+        </select>
+      </td>`;
+    }).join('');
+    return `<tr>
+      <td class="num">${'①②③④⑤'[i]}</td>
+      <td class="label">${item.label}</td>
+      <td class="criteria">${item.criteria}</td>
+      ${cells}
+    </tr>`;
+  }).join('');
+}
+
+function onPFChange(key, val) {
+  state.pf[key] = val;
+}
+
+// ═══════════════════════════════════════
+// RENDER — Shipping
+// ═══════════════════════════════════════
+function renderShipping() {
+  const tbody = document.getElementById('ship-body');
+  tbody.innerHTML = SHIP_ITEMS.map((item,i) => {
+    const cells = COMPANIES.flatMap(c =>
+      [0,1,2].map(r => {
+        const key = `ship_${i}_${c}_${r}`;
+        const val = state.ship[key] || '';
+        return `<td><input type="number" class="score-input" value="${val}"
+          placeholder="0" min="0"
+          oninput="this.value=clampPos(this.value);onShipChange('${key}',this.value)" style="width:100%"></td>`;
+      })
+    ).join('');
+    return `<tr>
+      <td class="label text-center">${item.label}</td>
+      <td class="text-center" style="background:var(--gray)">${item.weight}</td>
+      <td class="text-center" style="background:var(--gray)">${Math.round(item.ratio*100)}%</td>
+      ${cells}
+    </tr>`;
+  }).join('');
+}
+
+function onShipChange(key, val) {
+  state.ship[key] = val;
+  calcShipping();
+  updateSummary();
+}
+
+function getBasket(comp) {
+  return SHIP_ITEMS.reduce((total, item, i) =>
+    total + [0,1,2].reduce((rTotal, r) => {
+      const val = parseFloat(state.ship[`ship_${i}_${comp}_${r}`]) || 0;
+      return rTotal + val * item.ratio;
+    }, 0)
+  , 0);
+}
+
+function calcShipping() {
+  const baskets = COMPANIES.map(c => getBasket(c));
+  const min = Math.min(...baskets.filter(b => b > 0));
+  const ids = ['kf','pa','sz'];
+
+  COMPANIES.forEach((c, i) => {
+    const b = baskets[i];
+    const bEl = document.getElementById(`basket-${ids[i]}`);
+    const sEl = document.getElementById(`score-ship-${ids[i]}`);
+    if (b > 0) {
+      bEl.textContent = b.toLocaleString('ko-KR') + '원';
+      const score = min > 0 ? Math.round((min/b)*30*10)/10 : 0;
+      sEl.textContent = score;
+      state[`_ship_score_${c}`] = score;
+    } else {
+      bEl.textContent = '─';
+      sEl.textContent = '─';
+      state[`_ship_score_${c}`] = null;
+    }
+  });
+}
+
+// ═══════════════════════════════════════
+// RENDER — Scoring ②~⑤
+// ═══════════════════════════════════════
+function renderScoring() {
+  const tbody = document.getElementById('scoring-body');
+  tbody.innerHTML = SCORING_ITEMS.flatMap(item => {
+    const cells = COMPANIES.flatMap(c => {
+      const key = `${item.id}_${c}`;
+      const val = state.score[key] || '';
+      let input;
+      if (item.type === 'select') {
+        const opts = item.options.map(([v,l]) =>
+          `<option value="${v}" ${val===v?'selected':''}>${l}</option>`).join('');
+        input = `<select class="score-input" onchange="onScoreChange('${item.id}','${c}',this.value)" style="width:100%;font-size:11.5px">${opts}</select>`;
+      } else {
+        input = `<input type="number" class="score-input" value="${val}" placeholder="${item.placeholder}" min="0"
+          oninput="this.value=clampPos(this.value);onScoreChange('${item.id}','${c}',this.value)">`;
+      }
+      const score = calcItemScore(item, val);
+      const scoreStr = score !== null ? score : '─';
+      return [`<td>${input}</td>`, `<td class="score-cell">${scoreStr}</td>`];
+    });
+    const mainRow = `<tr>
+      <td class="num">${item.num}</td>
+      <td class="label">${item.label}</td>
+      <td class="criteria" style="font-size:12px">${item.criteria}</td>
+      <td class="maxpt">${item.maxpt}</td>
+      ${cells.join('')}
+    </tr>`;
+    const tierRow = `<tr class="tier-row">
+      <td></td><td colspan="3">&nbsp;&nbsp;▸&nbsp; ${item.tiers}</td>
+      <td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>`;
+    return [mainRow, tierRow];
+  }).join('');
+}
+
+function calcItemScore(item, val) {
+  if (val === '' || val === null || val === undefined) return null;
+  const num = item.type === 'select' ? val : parseFloat(val);
+  if (item.type !== 'select' && isNaN(num)) return null;
+  return item.calc(num);
+}
+
+function onScoreChange(id, comp, val) {
+  state.score[`${id}_${comp}`] = val;
+  refreshScoring();
+  updateSummary();
+}
+
+function refreshScoring() {
+  const tbody = document.getElementById('scoring-body');
+  const rows = tbody.querySelectorAll('tr:not(.tier-row)');
+  SCORING_ITEMS.forEach((item, i) => {
+    const row = rows[i];
+    if (!row) return;
+    const scoreCells = row.querySelectorAll('.score-cell');
+    COMPANIES.forEach((c, ci) => {
+      const val = state.score[`${item.id}_${c}`] || '';
+      const score = calcItemScore(item, val);
+      scoreCells[ci].textContent = score !== null ? score : '─';
+    });
+  });
+}
+
+// ═══════════════════════════════════════
+// SUMMARY
+// ═══════════════════════════════════════
+const SUMMARY_DEFS = [
+  {num:'①', label:'배송 요율', maxpt:30, getScore: c => state[`_ship_score_${c}`]},
+  ...SCORING_ITEMS.map(item => ({
+    num:item.num, label:item.label, maxpt:item.maxpt,
+    getScore: c => calcItemScore(item, state.score[`${item.id}_${c}`] || '')
+  }))
+];
+
+function getTotal(comp) {
+  return SUMMARY_DEFS.reduce((s, def) => {
+    const sc = def.getScore(comp);
+    return s + (sc !== null && sc !== undefined ? sc : 0);
+  }, 0);
+}
+
+function getVerdict(total) {
+  if (total >= 70) return {cls:'pass', text:'✅ 선정 검토'};
+  if (total >= 60) return {cls:'cond', text:'⚠️ 조건부 검토'};
+  return {cls:'fail', text:'❌ 탈락'};
+}
+
+function updateSummary() {
+  const tbody = document.getElementById('summary-body');
+  const tfoot = document.getElementById('summary-foot');
+
+  tbody.innerHTML = SUMMARY_DEFS.map(def => {
+    const cells = COMPANIES.map(c => {
+      const sc = def.getScore(c);
+      return `<td class="score-cell" style="font-size:14px">${sc !== null && sc !== undefined ? sc : '─'}</td>`;
+    }).join('');
+    return `<tr>
+      <td class="num">${def.num}</td>
+      <td class="label">${def.label}</td>
+      <td class="maxpt">${def.maxpt}</td>
+      ${cells}
+    </tr>`;
+  }).join('');
+
+  const totals = COMPANIES.map(c => getTotal(c));
+  const totalCells = COMPANIES.map((c, i) =>
+    `<td class="total-cell">${totals[i]}</td>`).join('');
+
+  const verdictCells = COMPANIES.map((c, i) => {
+    const v = getVerdict(totals[i]);
+    return `<td style="background:var(--navy)!important;text-align:center">
+      <span class="verdict ${v.cls}">${v.text}</span>
+    </td>`;
+  }).join('');
+
+  tfoot.innerHTML = `
+    <tr class="total-row">
+      <td class="label" style="background:var(--navy)!important;color:white">합계</td>
+      <td class="label" style="background:var(--navy)!important;color:white">종합 점수 (100점 만점)</td>
+      <td class="label" style="background:var(--navy)!important;color:white;text-align:center">100</td>
+      ${totalCells}
+    </tr>
+    <tr>
+      <td style="background:var(--teal)!important;color:white;font-weight:700;text-align:center">판정</td>
+      <td style="background:#F0F9FF;font-size:11.5px;color:var(--muted);font-style:italic" colspan="2">
+        70점↑ 선정 검토 &nbsp;│&nbsp; 60~69점 조건부 검토 &nbsp;│&nbsp; 60점 미만 탈락
+      </td>
+      ${verdictCells}
+    </tr>`;
+
+  updateRanking(totals);
+}
+
+// ═══════════════════════════════════════
+// KPI
+// ═══════════════════════════════════════
+function renderKPI() {
+  const container = document.getElementById('kpi-companies');
+
+  container.innerHTML = COMPANIES.map(comp => {
+    const monthCols = MONTHS.map(m =>
+      `<th style="min-width:70px;font-size:11px">${m}</th>`).join('');
+
+    const dataRows = KPI_ITEMS.map(item => {
+      const cells = MONTHS.map((m, mi) => {
+        const key = `${item.id}_${comp}_${mi}`;
+        const val = state.kpi[key] || '';
+        if (item.type === 'select') {
+          const opts = item.options.map(([v,l]) =>
+            `<option value="${v}" ${val===v?'selected':''}>${l}</option>`).join('');
+          return `<td><select class="score-input" style="width:100%;font-size:11px;padding:4px"
+            onchange="onKPIChange('${key}','${comp}',this.value)">${opts}</select></td>`;
+        }
+        return `<td><input type="number" class="score-input" value="${val}"
+          placeholder="─" min="0"
+          oninput="this.value=clampPos(this.value);onKPIChange('${key}','${comp}',this.value)"
+          style="width:100%;padding:4px 6px;font-size:11px"></td>`;
+      }).join('');
+
+      const avgVal = calcKPIMonthAvg(item, comp);
+      return `<tr>
+        <td class="fw600" style="white-space:nowrap;padding:7px 12px">${item.label}</td>
+        <td class="text-center" style="background:var(--gray);padding:7px">${item.unit}</td>
+        <td style="background:#F0F9FF;font-size:11px;color:var(--teal);padding:7px">${item.hint||'─'}</td>
+        ${cells}
+        <td class="score-cell" style="font-size:13px">${avgVal}</td>
+      </tr>`;
+    }).join('');
+
+    const scoreRow = MONTHS.map((m, mi) => {
+      const s = calcKPIMonthScore(comp, mi);
+      return `<td class="text-center" style="font-weight:700;font-size:12px;color:var(--navy);background:#EFF6FF">
+        ${s !== null ? s : '─'}</td>`;
+    }).join('');
+    const totalAvg = calcKPITotalAvg(comp);
+
+    return `<div class="card" style="margin-bottom:20px">
+      <div class="kpi-company-header">▶ ${comp}</div>
+      <div class="kpi-score-summary" id="kpi-summary-${comp}">
+        ${renderKPISummaryMetrics(comp)}
+      </div>
+      <div style="overflow-x:auto">
+        <table class="eval-table" style="min-width:900px">
+          <thead>
+            <tr>
+              <th style="width:160px">KPI 항목</th>
+              <th style="width:55px">단위</th>
+              <th style="width:160px">기준</th>
+              ${monthCols}
+              <th style="width:70px">평균 점수</th>
+            </tr>
+          </thead>
+          <tbody>${dataRows}</tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3" class="label text-center fw700" style="background:var(--teal)!important;color:white">
+                월별 KPI 점수 (소비자 불만 차감 후)
+              </td>
+              ${scoreRow}
+              <td class="score-cell fw700" style="font-size:14px">${totalAvg}</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderKPISummaryMetrics(comp) {
+  const latestScore = calcKPILatestScore(comp);
+  const complaints = MONTHS.reduce((s, _, mi) => {
+    const v = parseFloat(state.kpi[`kpi_cmp_${comp}_${mi}`]) || 0;
+    return s + v;
+  }, 0);
+  return `
+    <div class="kpi-metric">
+      <div class="kpi-val" style="color:${latestScore>=80?'var(--green2)':latestScore>=60?'#854D0E':'var(--red2)'}">${latestScore ?? '─'}</div>
+      <div class="kpi-lbl">최근 월 KPI 점수</div>
+    </div>
+    <div class="kpi-metric">
+      <div class="kpi-val">${calcKPITotalAvg(comp) ?? '─'}</div>
+      <div class="kpi-lbl">연평균 KPI 점수</div>
+    </div>
+    <div class="kpi-metric">
+      <div class="kpi-val" style="color:${complaints>0?'var(--red2)':'var(--green2)'}">${complaints}</div>
+      <div class="kpi-lbl">누적 불만 건수</div>
+    </div>`;
+}
+
+function calcKPIMonthScore(comp, mi) {
+  const scores = KPI_ITEMS.filter(item => item.id !== 'kpi_cmp').map(item => {
+    const key = `${item.id}_${comp}_${mi}`;
+    const val = state.kpi[key];
+    if (!val && val !== '0') return null;
+    const num = item.type === 'select' ? parseFloat(val) : parseFloat(val);
+    if (isNaN(num)) return null;
+    return item.calc(num);
+  });
+  if (scores.every(s => s === null)) return null;
+  const base = scores.reduce((s, v) => s + (v || 0), 0);
+  const complaints = parseFloat(state.kpi[`kpi_cmp_${comp}_${mi}`]) || 0;
+  return Math.max(0, base - complaints);
+}
+
+function calcKPIMonthAvg(item, comp) {
+  const vals = MONTHS.map((_, mi) => {
+    const key = `${item.id}_${comp}_${mi}`;
+    const val = state.kpi[key];
+    if (!val) return null;
+    const num = parseFloat(val);
+    if (isNaN(num)) return null;
+    return item.calc ? item.calc(num) : num;
+  }).filter(v => v !== null);
+  if (!vals.length) return '─';
+  return Math.round((vals.reduce((s,v)=>s+v,0)/vals.length)*10)/10;
+}
+
+function calcKPITotalAvg(comp) {
+  const scores = MONTHS.map((_,mi) => calcKPIMonthScore(comp,mi)).filter(s=>s!==null);
+  if (!scores.length) return null;
+  return Math.round((scores.reduce((s,v)=>s+v,0)/scores.length)*10)/10;
+}
+
+function calcKPILatestScore(comp) {
+  for (let mi = MONTHS.length-1; mi >= 0; mi--) {
+    const s = calcKPIMonthScore(comp, mi);
+    if (s !== null) return s;
+  }
+  return null;
+}
+
+function onKPIChange(key, comp, val) {
+  state.kpi[key] = val;
+  const summary = document.getElementById(`kpi-summary-${comp}`);
+  if (summary) summary.innerHTML = renderKPISummaryMetrics(comp);
+  // refresh score row
+  renderKPI();
+  updateRanking(COMPANIES.map(c => getTotal(c)));
+}
+
+// ═══════════════════════════════════════
+// RANKING
+// ═══════════════════════════════════════
+function updateRanking(selectionTotals) {
+  const tbody = document.getElementById('ranking-body');
+
+  const data = COMPANIES.map((c, i) => {
+    const kpiScore  = calcKPILatestScore(c) ?? 0;
+    const commScore = calcItemScore(SCORING_ITEMS[0], state.score[`comm_${c}`] || '') ?? 0;
+    const shipScore = state[`_ship_score_${c}`] ?? 0;
+    const weighted  = kpiScore*0.4 + commScore*0.3 + shipScore*0.3;
+    return {comp:c, kpiScore, commScore, shipScore, weighted};
+  });
+
+  const sorted = [...data].sort((a,b) => b.weighted - a.weighted);
+
+  tbody.innerHTML = data.map(d => {
+    const rank = sorted.findIndex(s => s.comp === d.comp) + 1;
+    const badgeCls = rank===1?'rank-1':rank===2?'rank-2':'rank-3';
+    return `<tr>
+      <td class="fw600">${d.comp}</td>
+      <td class="text-center">${d.kpiScore ? d.kpiScore+'점' : '─'}</td>
+      <td class="text-center">${d.commScore ? d.commScore+'점' : '─'}</td>
+      <td class="text-center">${d.shipScore ? d.shipScore+'점' : '─'}</td>
+      <td class="score-cell" style="font-size:15px">${d.weighted ? Math.round(d.weighted*10)/10 : '─'}</td>
+      <td class="text-center"><span class="rank-badge ${badgeCls}">${d.weighted ? rank : '─'}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════
+// TAB
+// ═══════════════════════════════════════
+function switchTab(name) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(`tab-${name}`).classList.add('active');
+  event.target.classList.add('active');
+  if (name === 'kpi') renderKPI();
+}
+
+// ═══════════════════════════════════════
+// RESET
+// ═══════════════════════════════════════
+function resetAll() {
+  if (!confirm('모든 입력값을 초기화하시겠습니까?')) return;
+  Object.keys(state).forEach(k => { if (typeof state[k] === 'object') Object.keys(state[k]).forEach(sk => delete state[k][sk]); });
+  Object.keys(state).filter(k => k.startsWith('_')).forEach(k => delete state[k]);
+  init();
+}
+
+// ═══════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════
+function rnd(min, max, decimals = 0) {
+  const v = Math.random() * (max - min) + min;
+  return decimals ? Math.round(v * 10**decimals) / 10**decimals : Math.round(v);
+}
+function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+function clampPos(v) { const n = parseFloat(v); return (isNaN(n) || n < 0) ? 0 : v; }
+
+// ═══════════════════════════════════════
+// RANDOM TEST DATA
+// ═══════════════════════════════════════
+/*
+  점수 구간별 랜덤 범위 (최댓값 = 최고 점수 구간 상한):
+  ① 배송 운임 : 5,000 ~ 25,000원 (지역·품목별 차등)
+  ② 수수료율  : 300 ~ 1,000원   (최고 점수 1,000원 상한)
+  ③ 월 물량   : 3,000 ~ 10,000건 (최고 점수 10,000건 상한)
+  ④ CS 인력   : 1 ~ 5명          (최고 점수 5인 상한)
+  ⑤ 시스템    : S / A / B
+  KPI CS응답률     : 85 ~ 100 %
+  KPI 처리속도     : 1.0 ~ 5.0 영업일
+  KPI 취소오배송률 : 0.3 ~ 5.5 %
+  KPI 불만건수     : 0 ~ 4 건
+*/
+
+// 배송 운임 범위: [품목idx][지역idx] = [min, max]
+// 품목: 0=포토카드(0.5kg)  1=응원봉(1.5kg)  2=의류(3.0kg)
+// 지역: 0=미국(LA)  1=독일(FRA)  2=일본(TYO)
+// 규칙: 무거울수록 비쌈 / 독일 > 미국 > 일본
+const SHIP_RANGES = [
+  [[13000,22000],[17000,28000],[10000,18000]], // 포토카드
+  [[22000,40000],[30000,52000],[17000,30000]], // 응원봉
+  [[38000,65000],[50000,90000],[28000,52000]], // 의류
+];
+
+function fillRandom() {
+  // ── Pass/Fail (전부 Pass로 세팅) ──
+  PF_ITEMS.forEach(item => {
+    COMPANIES.forEach(c => { state.pf[`${item.id}_${c}`] = 'O'; });
+  });
+
+  // ── 배송 요율 ──
+  COMPANIES.forEach(c => {
+    SHIP_ITEMS.forEach((_, i) => {
+      [0,1,2].forEach(r => {
+        const [lo, hi] = SHIP_RANGES[i][r];
+        // 업체별 소폭 편차 ±5% (경쟁사 간 차이 반영)
+        const jitter = 0.95 + Math.random() * 0.10;
+        state.ship[`ship_${i}_${c}_${r}`] = String(Math.round(rnd(lo, hi) * jitter / 100) * 100);
+      });
+    });
+  });
+
+  // ── 수수료율: 300 ~ 1,000 원 ──
+  COMPANIES.forEach(c => {
+    state.score[`comm_${c}`] = String(rnd(300, 1000));
+  });
+
+  // ── 월 물량: 3,000 ~ 10,000 건 ──
+  COMPANIES.forEach(c => {
+    state.score[`vol_${c}`] = String(rnd(3000, 10000));
+  });
+
+  // ── CS 인력: 1 ~ 5 명 ──
+  COMPANIES.forEach(c => {
+    state.score[`cs_${c}`] = String(rnd(1, 5));
+  });
+
+  // ── 시스템 등급 ──
+  COMPANIES.forEach(c => {
+    state.score[`sys_${c}`] = pick(['S','A','B']);
+  });
+
+  // ── KPI (전체 월) ──
+  COMPANIES.forEach(c => {
+    MONTHS.forEach((_, mi) => {
+      state.kpi[`kpi_cs_${c}_${mi}`]     = String(rnd(85, 100, 1));
+      state.kpi[`kpi_spd_${c}_${mi}`]    = String(rnd(10, 50, 1) / 10);   // 1.0~5.0일
+      state.kpi[`kpi_cancel_${c}_${mi}`] = String(rnd(3, 55, 1) / 10);    // 0.3~5.5%
+      state.kpi[`kpi_pay_${c}_${mi}`]    = pick(['100','5','0']);
+      state.kpi[`kpi_cmp_${c}_${mi}`]    = String(rnd(0, 4));
+    });
+  });
+
+  // ── DOM 재렌더 ──
+  renderPF();
+  renderShipping();
+  calcShipping();
+  renderScoring();
+  refreshScoring();
+  updateSummary();
+  if (document.getElementById('tab-kpi').classList.contains('active')) renderKPI();
+
+  showToast('🎲 랜덤 테스트값 입력 완료!');
+}
+
+// ═══════════════════════════════════════
+// GOOGLE SHEETS INTEGRATION
+// ═══════════════════════════════════════
+function getGsUrl()      { return localStorage.getItem('gs_url')   || ''; }
+function saveGsUrl(url)  { localStorage.setItem('gs_url', url.trim()); }
+function getSheetUrl()   { return localStorage.getItem('sheet_url') || ''; }
+function saveSheetUrl(u) {
+  localStorage.setItem('sheet_url', u);
+  const btn = document.getElementById('gs-open-btn');
+  if (btn && u) { btn.href = u; btn.style.display = 'inline-block'; }
+}
+
+function showToast(msg, type = 'success') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.style.background = type === 'error' ? '#B91C1C' : type === 'warn' ? '#92400E' : '#15803D';
+  el.style.display = 'block';
+  el.style.opacity = '1';
+  setTimeout(() => {
+    el.style.opacity = '0';
+    setTimeout(() => el.style.display = 'none', 300);
+  }, 3500);
+}
+
+function setStatus(msg, color = 'var(--muted)') {
+  const el = document.getElementById('gs-status');
+  el.textContent = msg;
+  el.style.color = color;
+}
+
+async function testConnection() {
+  const url = getGsUrl();
+  if (!url) { showToast('Apps Script URL을 먼저 입력해 주세요.', 'warn'); return; }
+  setStatus('연결 중…', '#854D0E');
+  try {
+    const r = await fetch(url);
+    const j = await r.json();
+    if (j.status === 'ok') {
+      setStatus('✅ 연결됨', '#15803D');
+      showToast('Google Sheets 연결 성공!');
+    } else {
+      setStatus('❌ 응답 오류', '#B91C1C');
+      showToast('응답 오류: ' + JSON.stringify(j), 'error');
+    }
+  } catch (e) {
+    setStatus('❌ 연결 실패', '#B91C1C');
+    showToast('연결 실패: ' + e.message, 'error');
+  }
+}
+
+async function saveToSheets(type) {
+  const url = getGsUrl();
+  if (!url) { showToast('Apps Script URL을 먼저 입력해 주세요.', 'warn'); return; }
+
+  const evaluator = document.getElementById('meta-eval')?.value || '';
+  const version   = document.getElementById('meta-ver')?.value  || '';
+
+  let payload;
+
+  if (type === 'selection') {
+    payload = {
+      type: 'selection',
+      evaluator, version,
+      companies: COMPANIES.map(comp => ({
+        name: comp,
+        pf: {
+          pf1: state.pf[`pf1_${comp}`] || 'O',
+          pf2: state.pf[`pf2_${comp}`] || 'O',
+          pf3: state.pf[`pf3_${comp}`] || 'O',
+          pf4: state.pf[`pf4_${comp}`] || 'O',
+          pf5: state.pf[`pf5_${comp}`] || 'O',
+        },
+        ship: SHIP_ITEMS.map((_, i) =>
+          [0,1,2].map(r => parseFloat(state.ship[`ship_${i}_${comp}_${r}`]) || 0)
+        ),
+        basketTotal: getBasket(comp),
+        shipScore:   state[`_ship_score_${comp}`] ?? '',
+        commInput:   state.score[`comm_${comp}`] || '',
+        commScore:   calcItemScore(SCORING_ITEMS[0], state.score[`comm_${comp}`] || ''),
+        volInput:    state.score[`vol_${comp}`]  || '',
+        volScore:    calcItemScore(SCORING_ITEMS[1], state.score[`vol_${comp}`]  || ''),
+        csInput:     state.score[`cs_${comp}`]   || '',
+        csScore:     calcItemScore(SCORING_ITEMS[2], state.score[`cs_${comp}`]   || ''),
+        sysInput:    state.score[`sys_${comp}`]  || '',
+        sysScore:    calcItemScore(SCORING_ITEMS[3], state.score[`sys_${comp}`]  || ''),
+        total:       getTotal(comp),
+        verdict:     getVerdict(getTotal(comp)).text,
+      }))
+    };
+  } else {
+    // KPI: 값이 있는 월만 저장
+    const rows = [];
+    COMPANIES.forEach(comp => {
+      MONTHS.forEach((m, mi) => {
+        const score = calcKPIMonthScore(comp, mi);
+        if (score === null) return;
+        const get = id => state.kpi[`${id}_${comp}_${mi}`] || '';
+        rows.push({
+          company:     comp,
+          month:       m,
+          csRate:      get('kpi_cs'),
+          csScore:     calcKPIItemScore(KPI_ITEMS[0], get('kpi_cs')),
+          spdDays:     get('kpi_spd'),
+          spdScore:    calcKPIItemScore(KPI_ITEMS[1], get('kpi_spd')),
+          cancelRate:  get('kpi_cancel'),
+          cancelScore: calcKPIItemScore(KPI_ITEMS[2], get('kpi_cancel')),
+          payStatus:   get('kpi_pay'),
+          payScore:    calcKPIItemScore(KPI_ITEMS[3], get('kpi_pay')),
+          complaints:  get('kpi_cmp'),
+          total:       score,
+        });
+      });
+    });
+    if (!rows.length) { showToast('저장할 KPI 데이터가 없습니다.', 'warn'); return; }
+    payload = { type: 'kpi', evaluator, rows };
+  }
+
+  showToast('저장 중…', 'warn');
+  try {
+    const r = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(payload),
+    });
+    const j = await r.json();
+    if (j.success) {
+      showToast(`✅ ${type === 'selection' ? '선정평가' : 'KPI'} 저장 완료!`);
+      if (j.sheetUrl) saveSheetUrl(j.sheetUrl);
+      showSaveBanner(type, j.sheetUrl || getSheetUrl());
+    } else {
+      showToast('저장 오류: ' + j.error, 'error');
+    }
+  } catch (e) {
+    showToast('저장 실패: ' + e.message, 'error');
+  }
+}
+
+function showSaveBanner(type, sheetUrl) {
+  const banner  = document.getElementById('save-banner');
+  const msg     = document.getElementById('save-banner-msg');
+  const link    = document.getElementById('save-banner-link');
+  const label   = type === 'selection' ? '선정평가' : 'KPI모니터링';
+  msg.textContent = `[${label}] 시트에 데이터가 저장되었습니다.`;
+  link.href = sheetUrl || '#';
+  link.textContent = `📊 ${label} 시트에서 결과 보기 →`;
+  banner.style.display = 'flex';
+  // 배너 위치를 저장 버튼 아래로 스크롤
+  banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function calcKPIItemScore(item, val) {
+  if (!val && val !== '0') return null;
+  const num = parseFloat(val);
+  if (isNaN(num)) return null;
+  return item.calc(num);
+}
+
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+function init() {
+  // Set today's date
+  const today = new Date().toISOString().split('T')[0];
+  const dateEl = document.getElementById('meta-date');
+  if (dateEl && !dateEl.value) dateEl.value = today;
+
+  // Restore saved GS URL
+  const saved = getGsUrl();
+  const urlEl = document.getElementById('gs-url');
+  if (urlEl && saved) { urlEl.value = saved; setStatus('URL 저장됨', '#15803D'); }
+  // Restore sheet direct link
+  const sheetUrl = getSheetUrl();
+  if (sheetUrl) saveSheetUrl(sheetUrl);
+
+  renderPF();
+  renderShipping();
+  renderScoring();
+  updateSummary();
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

@@ -10,3 +10,6 @@
 !deploy.bat
 !blur_images.py
 !*.png
+!hub_completed/
+hub_completed/*
+!hub_completed/*.html
