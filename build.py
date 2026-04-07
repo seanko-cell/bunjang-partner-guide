@@ -112,22 +112,20 @@ def make_label(filename):
 
 cards_html = ""
 if not files:
-    cards_html = '<p class="empty">hub_completed 폴더에 HTML 파일을 넣어주세요</p>'
+    cards_html = '<div class="empty">hub_completed 폴더에 HTML 파일을 넣어주세요</div>'
 else:
     for f in files:
         label = make_label(f)
         cards_html += f"""
-      <div class="file-card">
-        <div class="file-left">
-          <div class="file-icon">📄</div>
-          <div class="file-info">
+      <div class="file-row">
+        <div class="file-row-left">
+          <div class="file-dot"></div>
+          <div>
             <div class="file-name">{label}</div>
-            <div class="file-meta">hub_completed/{f}</div>
+            <div class="file-path">hub_completed/{f}</div>
           </div>
         </div>
-        <div class="file-actions">
-          <a class="btn-open" href="hub_completed/{f}" target="_blank">열기</a>
-        </div>
+        <a class="btn-open" href="hub_completed/{f}" target="_blank">열기</a>
       </div>"""
 
 index_html = f"""<!DOCTYPE html>
@@ -135,66 +133,105 @@ index_html = f"""<!DOCTYPE html>
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sean's HTML Hub</title>
+  <title>Global BD Hub</title>
   <style>
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
     body {{
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #f4f4f4;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', Roboto, sans-serif;
+      background: #f7f8fa;
       min-height: 100vh;
+      color: #1a1a1a;
     }}
-    header {{
-      background: #FF6B2C;
-      color: white;
-      padding: 28px 40px;
+    nav {{
+      background: #fff;
+      border-bottom: 1px solid #e5e8eb;
+      padding: 0 40px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }}
-    header h1 {{ font-size: 22px; font-weight: 700; }}
-    header p {{ font-size: 13px; margin-top: 4px; opacity: 0.85; }}
-    .container {{ max-width: 860px; margin: 0 auto; padding: 32px 24px; }}
-    .section-title {{
-      font-size: 13px; font-weight: 600; color: #aaa;
-      text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px;
+    .nav-left {{ display: flex; align-items: center; gap: 10px; }}
+    .nav-logo-icon {{
+      width: 28px; height: 28px; background: #FF6B2C; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-weight: 800; font-size: 13px; flex-shrink: 0;
     }}
-    .file-list {{ display: flex; flex-direction: column; gap: 12px; }}
-    .file-card {{
-      background: white; border-radius: 10px; padding: 16px 20px;
-      display: flex; align-items: center; justify-content: space-between;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.07); transition: box-shadow 0.2s;
+    .nav-title {{ font-size: 15px; font-weight: 700; color: #1a1a1a; }}
+    .nav-badge {{
+      font-size: 11px; color: #888; background: #f0f0f0;
+      padding: 2px 8px; border-radius: 20px;
     }}
-    .file-card:hover {{ box-shadow: 0 3px 10px rgba(0,0,0,0.12); }}
-    .file-left {{ display: flex; align-items: center; gap: 14px; flex: 1; min-width: 0; }}
-    .file-icon {{
-      width: 40px; height: 40px; background: #fff2ec; border-radius: 8px;
-      display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;
+    .nav-user {{ font-size: 12px; color: #aaa; }}
+    .container {{ max-width: 900px; margin: 0 auto; padding: 40px 24px; }}
+    .page-title {{ font-size: 20px; font-weight: 700; color: #1a1a1a; margin-bottom: 20px; }}
+    .file-list-card {{
+      background: #fff;
+      border: 1px solid #e5e8eb;
+      border-radius: 12px;
+      overflow: hidden;
     }}
-    .file-name {{ font-weight: 600; font-size: 15px; color: #1a1a1a; }}
-    .file-meta {{ font-size: 12px; color: #aaa; margin-top: 2px; }}
-    .file-actions {{ display: flex; gap: 8px; flex-shrink: 0; margin-left: 16px; }}
+    .list-header {{
+      padding: 14px 24px;
+      border-bottom: 1px solid #e5e8eb;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }}
+    .list-header-title {{ font-size: 13px; font-weight: 600; color: #555; }}
+    .list-count {{ font-size: 12px; color: #aaa; }}
+    .file-row {{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 24px;
+      border-bottom: 1px solid #f2f2f2;
+      transition: background 0.15s;
+    }}
+    .file-row:last-child {{ border-bottom: none; }}
+    .file-row:hover {{ background: #fafafa; }}
+    .file-row-left {{ display: flex; align-items: center; gap: 14px; }}
+    .file-dot {{
+      width: 7px; height: 7px; background: #FF6B2C;
+      border-radius: 50%; flex-shrink: 0;
+    }}
+    .file-name {{ font-size: 14px; font-weight: 600; color: #1a1a1a; }}
+    .file-path {{ font-size: 12px; color: #aaa; margin-top: 3px; }}
     .btn-open {{
-      padding: 7px 18px; background: #FF6B2C; color: white; border: none;
-      border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer;
-      text-decoration: none; transition: background 0.2s;
+      padding: 6px 16px; background: #FF6B2C; color: white;
+      border-radius: 6px; font-size: 13px; font-weight: 600;
+      text-decoration: none; transition: background 0.15s; white-space: nowrap;
     }}
     .btn-open:hover {{ background: #e85a1a; }}
-    .empty {{ text-align: center; color: #ccc; font-size: 14px; padding: 20px 0; }}
+    .empty {{ text-align: center; color: #ccc; font-size: 14px; padding: 48px 0; }}
     footer {{
-      text-align: center; padding: 24px; font-size: 12px; color: #aaa;
-      border-top: 1px solid #eee; margin-top: 40px;
+      text-align: center; padding: 32px; font-size: 12px; color: #bbb; margin-top: 16px;
     }}
   </style>
 </head>
 <body>
-<header>
-  <h1>📁 Sean's HTML Hub</h1>
-  <p>hub_completed 폴더의 파일 목록 · deploy.bat 실행 시 자동 업데이트</p>
-</header>
+<nav>
+  <div class="nav-left">
+    <div class="nav-logo-icon">B</div>
+    <span class="nav-title">Global BD Hub</span>
+    <span class="nav-badge">Internal</span>
+  </div>
+  <span class="nav-user">Sean Ko · Bunjang Global</span>
+</nav>
 <div class="container">
-  <div class="section-title">파일 목록 ({len(files)}개)</div>
-  <div class="file-list">
+  <div class="page-title">파일 목록</div>
+  <div class="file-list-card">
+    <div class="list-header">
+      <span class="list-header-title">hub_completed</span>
+      <span class="list-count">{len(files)}개 파일</span>
+    </div>
     {cards_html}
   </div>
 </div>
-<footer>© Bunjang Co., Ltd.</footer>
+<footer>© Bunjang Co., Ltd. · Global Business Development</footer>
 </body>
 </html>"""
 
