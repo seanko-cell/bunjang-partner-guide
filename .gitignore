@@ -1,0 +1,12 @@
+# 모든 파일 무시
+*
+
+# 아래 파일만 허용
+!.gitignore
+!index.html
+!bunjang-partner-guide.html
+!bunjang-partner-guide-share.html
+!build.py
+!deploy.bat
+!blur_images.py
+!*.png
