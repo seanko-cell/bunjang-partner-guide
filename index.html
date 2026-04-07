@@ -16,7 +16,7 @@
       background: #fff;
       border-bottom: 1px solid #e5e8eb;
       padding: 0 40px;
-      height: 56px;
+      height: 60px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -24,20 +24,23 @@
       top: 0;
       z-index: 100;
     }
-    .nav-left { display: flex; align-items: center; gap: 10px; }
-    .nav-logo-icon {
-      width: 28px; height: 28px; background: #FF6B2C; border-radius: 6px;
-      display: flex; align-items: center; justify-content: center;
-      color: white; font-weight: 800; font-size: 13px; flex-shrink: 0;
+    .nav-left { display: flex; align-items: center; gap: 12px; }
+    .nav-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .nav-logo-bolt {
+      width: 32px; height: 32px; background: #FF6B2C; border-radius: 7px;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
-    .nav-title { font-size: 15px; font-weight: 700; color: #1a1a1a; }
+    .nav-brand { font-size: 16px; font-weight: 800; color: #1a1a1a; letter-spacing: -0.3px; }
+    .nav-divider { width: 1px; height: 18px; background: #e0e0e0; margin: 0 4px; }
+    .nav-sub { font-size: 13px; font-weight: 600; color: #555; }
     .nav-badge {
-      font-size: 11px; color: #888; background: #f0f0f0;
-      padding: 2px 8px; border-radius: 20px;
+      font-size: 11px; color: #FF6B2C; background: #fff2ec;
+      padding: 2px 8px; border-radius: 20px; font-weight: 600;
     }
     .nav-user { font-size: 12px; color: #aaa; }
-    .container { max-width: 900px; margin: 0 auto; padding: 40px 24px; }
-    .page-title { font-size: 20px; font-weight: 700; color: #1a1a1a; margin-bottom: 20px; }
+    .container { max-width: 900px; margin: 0 auto; padding: 44px 24px; }
+    .page-title { font-size: 22px; font-weight: 700; color: #1a1a1a; margin-bottom: 6px; }
+    .page-desc { font-size: 13px; color: #aaa; margin-bottom: 24px; }
     .file-list-card {
       background: #fff;
       border: 1px solid #e5e8eb;
@@ -50,58 +53,75 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      background: #fafafa;
     }
-    .list-header-title { font-size: 13px; font-weight: 600; color: #555; }
-    .list-count { font-size: 12px; color: #aaa; }
+    .list-header-title { font-size: 12px; font-weight: 600; color: #888; letter-spacing: 0.3px; text-transform: uppercase; }
+    .list-count {
+      font-size: 12px; color: #fff; background: #FF6B2C;
+      padding: 1px 9px; border-radius: 20px; font-weight: 600;
+    }
     .file-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 18px 24px;
       border-bottom: 1px solid #f2f2f2;
-      transition: background 0.15s;
+      transition: background 0.12s;
     }
     .file-row:last-child { border-bottom: none; }
-    .file-row:hover { background: #fafafa; }
-    .file-row-left { display: flex; align-items: center; gap: 14px; }
-    .file-dot {
-      width: 7px; height: 7px; background: #FF6B2C;
-      border-radius: 50%; flex-shrink: 0;
+    .file-row:hover { background: #fffaf8; }
+    .file-row-left { display: flex; align-items: center; gap: 16px; }
+    .file-icon-wrap {
+      width: 36px; height: 36px; background: #fff2ec; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
     .file-name { font-size: 14px; font-weight: 600; color: #1a1a1a; }
-    .file-path { font-size: 12px; color: #aaa; margin-top: 3px; }
+    .file-path { font-size: 12px; color: #bbb; margin-top: 3px; }
     .btn-open {
-      padding: 6px 16px; background: #FF6B2C; color: white;
-      border-radius: 6px; font-size: 13px; font-weight: 600;
-      text-decoration: none; transition: background 0.15s; white-space: nowrap;
+      padding: 7px 18px; background: #FF6B2C; color: white;
+      border-radius: 7px; font-size: 13px; font-weight: 600;
+      text-decoration: none; transition: background 0.12s; white-space: nowrap;
     }
     .btn-open:hover { background: #e85a1a; }
-    .empty { text-align: center; color: #ccc; font-size: 14px; padding: 48px 0; }
+    .empty { text-align: center; color: #ccc; font-size: 14px; padding: 56px 0; }
     footer {
-      text-align: center; padding: 32px; font-size: 12px; color: #bbb; margin-top: 16px;
+      text-align: center; padding: 36px; font-size: 12px; color: #ccc; margin-top: 12px;
     }
   </style>
 </head>
 <body>
 <nav>
   <div class="nav-left">
-    <div class="nav-logo-icon">B</div>
-    <span class="nav-title">Global BD Hub</span>
+    <div class="nav-logo">
+      <div class="nav-logo-bolt">
+        <svg width="16" height="20" viewBox="0 0 16 20" fill="none">
+          <path d="M9.5 0.5L1 11.5H7.5L5.5 19.5L15 8.5H8.5L9.5 0.5Z" fill="white"/>
+        </svg>
+      </div>
+      <span class="nav-brand">BUNJANG</span>
+    </div>
+    <div class="nav-divider"></div>
+    <span class="nav-sub">Global BD Hub</span>
     <span class="nav-badge">Internal</span>
   </div>
-  <span class="nav-user">Sean Ko · Bunjang Global</span>
+  <span class="nav-user">Sean Ko · Global Business</span>
 </nav>
 <div class="container">
   <div class="page-title">파일 목록</div>
+  <div class="page-desc">hub_completed 폴더의 파일 · deploy.bat 실행 시 자동 업데이트</div>
   <div class="file-list-card">
     <div class="list-header">
-      <span class="list-header-title">hub_completed</span>
-      <span class="list-count">2개 파일</span>
+      <span class="list-header-title">Documents</span>
+      <span class="list-count">2</span>
     </div>
     
       <div class="file-row">
         <div class="file-row-left">
-          <div class="file-dot"></div>
+          <div class="file-icon-wrap"><svg width="16" height="18" viewBox="0 0 16 18" fill="none">
+              <path d="M2 1h8l4 4v12H2V1z" stroke="#FF6B2C" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+              <path d="M10 1v4h4" stroke="#FF6B2C" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+              <path d="M5 9h6M5 12h4" stroke="#FF6B2C" stroke-width="1.5" stroke-linecap="round"/>
+            </svg></div>
           <div>
             <div class="file-name">bunjang partner guide share</div>
             <div class="file-path">hub_completed/bunjang-partner-guide-share.html</div>
@@ -111,7 +131,11 @@
       </div>
       <div class="file-row">
         <div class="file-row-left">
-          <div class="file-dot"></div>
+          <div class="file-icon-wrap"><svg width="16" height="18" viewBox="0 0 16 18" fill="none">
+              <path d="M2 1h8l4 4v12H2V1z" stroke="#FF6B2C" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+              <path d="M10 1v4h4" stroke="#FF6B2C" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+              <path d="M5 9h6M5 12h4" stroke="#FF6B2C" stroke-width="1.5" stroke-linecap="round"/>
+            </svg></div>
           <div>
             <div class="file-name">운영사 선정평가표</div>
             <div class="file-path">hub_completed/운영사_선정평가표.html</div>
