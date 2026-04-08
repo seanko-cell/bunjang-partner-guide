@@ -49,16 +49,7 @@ if os.path.exists(SOURCE_HTML):
     with open(OUTPUT_HTML, "w", encoding="utf-8") as f:
         f.write(html)
     print(f"\n  ✅ bunjang-partner-guide-share.html 생성 완료")
-
-    # hub_completed에 자동 복사 (표시용 파일명으로 저장)
-    os.makedirs(HUB_DIR, exist_ok=True)
-    hub_copy = os.path.join(HUB_DIR, "글로벌_파트너_가이드.html")
-    # 구 파일명 정리
-    old_copy = os.path.join(HUB_DIR, "bunjang-partner-guide-share.html")
-    if os.path.exists(old_copy):
-        os.remove(old_copy)
-    shutil.copy2(OUTPUT_HTML, hub_copy)
-    print(f"  ✅ hub_completed에 자동 복사 완료 (글로벌_파트너_가이드.html)")
+    print(f"  ℹ️  hub_completed 반영: 루트의 bunjang-partner-guide-share.html을 원하는 이름으로 hub_completed에 직접 복사하세요")
 else:
     print("  [SKIP] bunjang-partner-guide.html 없음")
 
