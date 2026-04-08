@@ -491,6 +491,9 @@ select.score-input { cursor: pointer; }
       ※ 산식 : (후보사 중 최저 바구니 합계 ÷ 해당 업체 합계) × 30 &nbsp;│&nbsp;
       바구니 : 포토카드 0.5kg (50%) + 응원봉 1.5kg (30%) + 의류 3.0kg (20%) &nbsp;│&nbsp;
       미국 (LA) · 독일 (FRA) · 일본 (TYO) 3개 지역 합산
+      <br>※ 평가 주소 : 미국 200 N Spring St, Los Angeles, CA 90012 &nbsp;│&nbsp;
+      독일 Römerberg 23, Frankfurt am Main 60311 &nbsp;│&nbsp;
+      일본 2-8-1 Nishi-Shinjuku, Shinjuku-ku, Tokyo 163-8001
     </div>
     <div class="card-body" style="overflow-x:auto">
       <table class="eval-table" id="ship-table" style="min-width:800px">
@@ -707,11 +710,10 @@ const COMPANIES = ['KFriday','Paysable','Sazo'];
 const MONTHS    = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
 
 const PF_ITEMS = [
-  {id:'pf1', label:'CS 언어 지원',          criteria:'영어 필수, 추가 언어 우대'},
-  {id:'pf2', label:'창고·물류 인프라',        criteria:'국내 수령 가능 거점 보유'},
-  {id:'pf3', label:'해외 배송 처리 능력',     criteria:'미국·EU·일본 배송 가능'},
-  {id:'pf4', label:'사업자 등록 및 법적 요건',criteria:'구매대행업 운영 가능한 법인'},
-  {id:'pf5', label:'기술 역량',              criteria:'전담 개발자 2인 이상 + API 연동 가능'},
+  {id:'pf1', label:'창고·물류 인프라',        criteria:'국내 수령 가능 거점 보유'},
+  {id:'pf2', label:'해외 배송 처리 능력',     criteria:'미국·EU·일본 배송 가능 여부'},
+  {id:'pf3', label:'사업자 등록 및 법적 요건',criteria:'구매대행업 운영 가능한 법인'},
+  {id:'pf4', label:'기술 역량',              criteria:'번개장터 전담 개발자 2인 이상 보유 및 API 연동 가능 여부'},
 ];
 
 const SHIP_ITEMS = [
