@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bunjang — Global Partnership Proposal</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+:root {
+  --orange: #FF5500;
+  --black: #000;
+  --white: #fff;
+  --gray-50: #f8f8f8;
+  --gray-100: #f0f0f0;
+  --gray-500: #888;
+  --gray-700: #444;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  color: var(--black);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* NAV */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 64px;
+  background: rgba(0,0,0,0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 1000;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.nav-brand { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+.nav-brand-icon { color: var(--orange); font-size: 22px; }
+.nav-brand-text { color: white; font-size: 18px; font-weight: 800; letter-spacing: -0.5px; }
+.nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+.nav-links a { color: rgba(255,255,255,0.55); text-decoration: none; font-size: 13px; font-weight: 500; transition: color 0.2s; }
+.nav-links a:hover { color: white; }
+.nav-cta { background: var(--orange) !important; color: white !important; padding: 7px 18px; border-radius: 6px; font-weight: 700 !important; }
+
+/* COVER */
+#cover {
+  background: var(--black);
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 80px 88px 100px;
+  position: relative; overflow: hidden;
+  scroll-margin-top: 0;
+}
+.cover-bg { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 280px; font-weight: 900; color: rgba(255,255,255,0.025); white-space: nowrap; user-select: none; pointer-events: none; letter-spacing: -8px; }
+.cover-tag { color: var(--orange); font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 24px; }
+.cover-title { color: white; font-size: clamp(52px, 7.5vw, 112px); font-weight: 800; line-height: 1.0; letter-spacing: -3px; margin-bottom: 36px; max-width: 900px; }
+.cover-title em { color: var(--orange); font-style: normal; }
+.cover-bar { width: 56px; height: 3px; background: var(--orange); margin-bottom: 28px; }
+.cover-sub { color: rgba(255,255,255,0.45); font-size: 17px; max-width: 520px; line-height: 1.7; margin-bottom: 72px; }
+.cover-bottom { display: flex; align-items: flex-end; justify-content: space-between; }
+.cover-logo { display: flex; align-items: center; gap: 10px; }
+.cover-logo-icon { color: var(--orange); font-size: 34px; }
+.cover-logo-text { color: white; font-size: 30px; font-weight: 800; letter-spacing: -1px; }
+.cover-hint { color: rgba(255,255,255,0.25); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; }
+
+/* SECTION BASE */
+.section { scroll-margin-top: 64px; }
+.si { padding: 100px 88px; }
+.slabel { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--orange); margin-bottom: 16px; }
+.sh { font-size: clamp(28px, 3.5vw, 52px); font-weight: 800; line-height: 1.15; letter-spacing: -1.5px; margin-bottom: 20px; }
+.sh.white { color: white; }
+.ssub { font-size: 16px; color: var(--gray-700); line-height: 1.75; max-width: 620px; }
+.ssub.white { color: rgba(255,255,255,0.5); }
+
+/* ABOUT */
+#about { background: white; }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; padding: 100px 88px; }
+.about-items { display: flex; flex-direction: column; gap: 14px; margin-top: 36px; }
+.about-item { display: flex; align-items: flex-start; gap: 18px; padding: 22px; background: var(--gray-50); border-radius: 14px; border: 1px solid var(--gray-100); transition: border-color 0.2s; }
+.about-item:hover { border-color: var(--orange); }
+.about-item-icon { width: 42px; height: 42px; background: var(--black); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.about-item h4 { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
+.about-item p { font-size: 13px; color: var(--gray-500); line-height: 1.5; }
+
+/* STATS */
+#stats { background: var(--black); }
+.stats-header { margin-bottom: 56px; }
+.stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: #1a1a1a; border-radius: 18px; overflow: hidden; margin-bottom: 20px; }
+.stat-cell { background: #0a0a0a; padding: 48px 40px; transition: background 0.2s; }
+.stat-cell:hover { background: #0f0f0f; }
+.stat-num { font-size: clamp(40px, 5vw, 64px); font-weight: 900; color: white; line-height: 1; letter-spacing: -2px; margin-bottom: 4px; }
+.stat-num .u { color: var(--orange); font-size: 0.5em; vertical-align: super; }
+.stat-d { font-size: 13px; color: rgba(255,255,255,0.4); line-height: 1.5; margin-top: 8px; }
+.stat-n { font-size: 11px; color: rgba(255,255,255,0.2); margin-top: 5px; }
+.stats-rank { display: flex; align-items: center; gap: 18px; background: #0a0a0a; border-radius: 12px; padding: 24px 32px; flex-wrap: wrap; border: 1px solid #1a1a1a; }
+.rank-label { color: rgba(255,255,255,0.35); font-size: 12px; white-space: nowrap; }
+.rank-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.chip { padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+.chip.self { background: var(--orange); color: white; }
+.chip.other { background: #1a1a1a; color: rgba(255,255,255,0.45); border: 1px solid #2a2a2a; }
+
+/* SERVICES */
+#services { background: white; }
+.svc-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 56px; }
+.svc-card { background: var(--gray-50); border-radius: 16px; padding: 40px; border: 1px solid var(--gray-100); transition: all 0.2s; }
+.svc-card:hover { background: white; box-shadow: 0 8px 40px rgba(0,0,0,0.08); transform: translateY(-2px); }
+.svc-icon { width: 50px; height: 50px; border-radius: 13px; background: var(--black); display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 20px; }
+.svc-badge { display: inline-block; background: var(--orange); color: white; font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 3px 9px; border-radius: 4px; margin-bottom: 12px; }
+.svc-card h3 { font-size: 19px; font-weight: 700; margin-bottom: 10px; }
+.svc-card p { font-size: 14px; color: var(--gray-500); line-height: 1.75; }
+
+/* K-POP */
+#kpop { background: var(--black); }
+.kpop-inner { padding: 100px 88px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.kpop-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,85,0,0.1); border: 1px solid rgba(255,85,0,0.25); color: var(--orange); font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 6px 14px; border-radius: 20px; margin-bottom: 24px; }
+.kpop-items { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 36px; }
+.kpop-item { background: #0f0f0f; border: 1px solid #1e1e1e; border-radius: 12px; padding: 18px; transition: border-color 0.2s; }
+.kpop-item:hover { border-color: var(--orange); }
+.kpop-item h4 { color: white; font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+.kpop-item p { color: rgba(255,255,255,0.3); font-size: 12px; }
+.kpop-card { background: #0f0f0f; border-radius: 20px; border: 1px solid #1a1a1a; padding: 40px; }
+.kpop-card h3 { color: white; font-size: 17px; font-weight: 700; margin-bottom: 28px; }
+.demand-item { margin-bottom: 18px; }
+.demand-row { display: flex; justify-content: space-between; margin-bottom: 7px; }
+.demand-row span:first-child { color: rgba(255,255,255,0.55); font-size: 13px; }
+.demand-row span:last-child { color: var(--orange); font-size: 13px; font-weight: 700; }
+.bar-track { background: #1a1a1a; border-radius: 4px; height: 6px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 4px; background: var(--orange); }
+.kpop-note { margin-top: 28px; padding: 18px; background: rgba(255,85,0,0.08); border-radius: 10px; border: 1px solid rgba(255,85,0,0.18); font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+.kpop-note strong { color: white; }
+
+/* GLOBAL 3 PILLARS */
+#global { background: var(--gray-50); }
+.pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 56px; }
+.pillar { background: white; border-radius: 16px; padding: 40px 32px; border: 1px solid var(--gray-100); box-shadow: 0 2px 16px rgba(0,0,0,0.04); transition: all 0.2s; }
+.pillar:hover { box-shadow: 0 8px 40px rgba(0,0,0,0.1); transform: translateY(-4px); }
+.pillar-n { font-size: 11px; font-weight: 800; letter-spacing: 3px; color: var(--orange); text-transform: uppercase; margin-bottom: 18px; }
+.pillar h3 { font-size: 21px; font-weight: 800; margin-bottom: 6px; letter-spacing: -0.5px; }
+.pillar .sub { font-size: 13px; color: var(--gray-500); margin-bottom: 22px; }
+.pillar-pts { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.pillar-pts li { display: flex; gap: 10px; font-size: 14px; color: var(--gray-700); line-height: 1.5; }
+.pillar-pts li::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--orange); margin-top: 9px; flex-shrink: 0; }
+
+/* MERCARI DETAIL */
+#mercari { background: white; }
+.mercari-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; margin-top: 56px; }
+.chart-box { background: var(--gray-50); border-radius: 14px; padding: 32px; border: 1px solid var(--gray-100); }
+.chart-title { font-size: 15px; font-weight: 700; margin-bottom: 22px; }
+.bars { display: flex; align-items: flex-end; gap: 5px; height: 140px; margin-bottom: 10px; }
+.b { flex: 1; border-radius: 3px 3px 0 0; background: var(--black); transition: background 0.15s; cursor: default; }
+.b:hover { background: var(--orange); }
+.bars-legend { display: flex; justify-content: space-between; font-size: 10px; color: var(--gray-500); }
+.chart-insight { margin-top: 18px; padding: 14px 18px; background: var(--black); border-radius: 10px; color: rgba(255,255,255,0.55); font-size: 13px; line-height: 1.6; }
+.chart-insight strong { color: var(--orange); }
+.donut-box { background: var(--gray-50); border-radius: 14px; padding: 32px; border: 1px solid var(--gray-100); }
+.donut-wrap { display: flex; align-items: center; gap: 28px; }
+.donut-ring {
+  width: 140px; height: 140px; border-radius: 50%;
+  background: conic-gradient(#000 0deg 270deg, var(--orange) 270deg 326.5deg, #22c55e 326.5deg 349.9deg, #3b82f6 349.9deg 360deg);
+  position: relative; flex-shrink: 0;
+}
+.donut-ring::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 72px; height: 72px; background: var(--gray-50); border-radius: 50%; }
+.donut-inner { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 1; text-align: center; line-height: 1.2; }
+.donut-inner span { font-size: 18px; font-weight: 900; }
+.donut-inner small { font-size: 10px; color: var(--gray-500); display: block; }
+.legend-list { display: flex; flex-direction: column; gap: 10px; }
+.legend-row { display: flex; align-items: center; gap: 9px; font-size: 12px; color: var(--gray-700); }
+.ldot { width: 11px; height: 11px; border-radius: 3px; flex-shrink: 0; }
+.lpct { font-weight: 700; color: var(--black); }
+
+/* BUNJANG GLOBAL */
+#bg-section { background: var(--gray-50); }
+.bg-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 48px; }
+.bg-stat { background: var(--black); border-radius: 16px; padding: 40px; }
+.bg-num { font-size: 56px; font-weight: 900; color: white; line-height: 1; letter-spacing: -2px; margin-bottom: 6px; }
+.bg-num em { color: var(--orange); font-size: 0.5em; vertical-align: super; font-style: normal; }
+.bg-label { color: rgba(255,255,255,0.4); font-size: 14px; line-height: 1.5; }
+.bg-features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 18px; }
+.bg-feat { background: white; border-radius: 14px; padding: 28px; border: 1px solid var(--gray-100); }
+.bg-feat h4 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+.bg-feat p { font-size: 13px; color: var(--gray-500); line-height: 1.6; }
+
+/* OUTBOUND */
+#outbound { background: var(--black); }
+.outbound-inner { padding: 100px 88px; }
+.doorzo-box { background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 20px; padding: 48px; margin-top: 56px; }
+.doorzo-box h3 { color: white; font-size: 22px; font-weight: 800; margin-bottom: 18px; }
+.doorzo-box > p { color: rgba(255,255,255,0.45); font-size: 15px; line-height: 1.8; margin-bottom: 32px; }
+.doorzo-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.dm { background: #111; border-radius: 12px; padding: 28px; text-align: center; border: 1px solid #1e1e1e; }
+.dm-num { font-size: 40px; font-weight: 900; color: white; line-height: 1; margin-bottom: 6px; }
+.dm-num em { color: var(--orange); font-style: normal; }
+.dm-label { font-size: 12px; color: rgba(255,255,255,0.3); line-height: 1.5; }
+.cat-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+.cat-tag { padding: 7px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+.cat-tag.p { background: var(--orange); color: white; }
+.cat-tag.s { background: #1a1a1a; color: rgba(255,255,255,0.45); border: 1px solid #2a2a2a; }
+.fourteen-x { margin-top: 22px; background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 14px; padding: 24px 32px; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.fx-num { font-size: 36px; font-weight: 900; color: var(--orange); line-height: 1; }
+.fx-text { font-size: 15px; color: rgba(255,255,255,0.6); font-weight: 600; }
+.fx-sub { font-size: 13px; color: rgba(255,255,255,0.3); flex: 1; }
+
+/* API */
+#api { background: var(--gray-50); }
+.api-wrap { margin-top: 44px; border-radius: 14px; overflow: hidden; border: 1px solid var(--gray-100); box-shadow: 0 2px 16px rgba(0,0,0,0.04); }
+.api-t { width: 100%; border-collapse: collapse; background: white; }
+.api-t th { background: var(--black); color: white; padding: 15px 24px; text-align: left; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; }
+.api-t td { padding: 15px 24px; font-size: 14px; border-bottom: 1px solid var(--gray-100); vertical-align: top; }
+.api-t tr:last-child td { border-bottom: none; }
+.api-t tr:hover td { background: var(--gray-50); }
+.api-cat { font-weight: 700; color: var(--orange); }
+.api-sub { font-weight: 600; }
+.api-det { color: var(--gray-500); }
+
+/* BENEFITS */
+#benefits { background: white; }
+.ben-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 56px; }
+.ben-card { background: var(--black); border-radius: 16px; padding: 40px 34px; }
+.ben-icon { font-size: 30px; margin-bottom: 22px; }
+.ben-card h3 { color: white; font-size: 19px; font-weight: 700; margin-bottom: 4px; line-height: 1.3; }
+.ben-card h3 em { color: var(--orange); font-style: normal; }
+.ben-bar { width: 30px; height: 2px; background: var(--orange); margin: 14px 0; }
+.ben-pts { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+.ben-pts li { display: flex; gap: 9px; font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+.ben-pts li::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: var(--orange); margin-top: 9px; flex-shrink: 0; }
+
+/* TESTIMONIALS */
+#testimonials { background: var(--gray-50); }
+.testi-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 56px; }
+.testi-card { background: white; border-radius: 16px; padding: 40px; border: 1px solid var(--gray-100); box-shadow: 0 2px 12px rgba(0,0,0,0.04); position: relative; }
+.testi-card::before { content: '"'; position: absolute; top: 20px; right: 28px; font-size: 80px; color: var(--gray-100); line-height: 1; font-family: Georgia, serif; }
+.testi-avatar { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800; color: white; margin-bottom: 18px; }
+.testi-body { font-size: 14px; color: var(--gray-700); line-height: 1.8; margin-bottom: 20px; position: relative; z-index: 1; }
+.testi-body strong { color: var(--black); }
+.testi-footer { display: flex; align-items: center; gap: 10px; padding-top: 18px; border-top: 1px solid var(--gray-100); }
+.testi-name { font-size: 13px; font-weight: 700; }
+.testi-type { font-size: 12px; color: var(--gray-500); }
+.testi-tag { margin-left: auto; background: var(--orange); color: white; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 4px; }
+
+/* PARTNERS */
+#partners { background: white; }
+.partner-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 56px; }
+.pchip { background: var(--gray-50); border: 1px solid var(--gray-100); border-radius: 10px; padding: 16px 10px; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 12px; font-weight: 700; color: var(--gray-700); min-height: 62px; transition: all 0.15s; }
+.pchip:hover { background: var(--black); color: white; border-color: var(--black); transform: scale(1.02); }
+.pchip.f { background: var(--black); color: white; border-color: var(--black); }
+
+/* CONTACT */
+#contact { background: var(--black); }
+.contact-inner { padding: 120px 88px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.contact-inner h2 { color: white; font-size: clamp(36px, 5.5vw, 72px); font-weight: 800; line-height: 1.1; letter-spacing: -2px; margin-bottom: 18px; max-width: 680px; }
+.contact-inner h2 em { color: var(--orange); font-style: normal; }
+.contact-inner > p { color: rgba(255,255,255,0.4); font-size: 16px; margin-bottom: 56px; }
+.contact-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px 80px; margin-bottom: 56px; text-align: left; }
+.c-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.22); margin-bottom: 7px; }
+.c-val { color: white; font-size: 15px; font-weight: 500; }
+.cta-btn { display: inline-block; background: var(--orange); color: white; text-decoration: none; padding: 17px 48px; border-radius: 8px; font-size: 16px; font-weight: 700; transition: opacity 0.2s; }
+.cta-btn:hover { opacity: 0.85; }
+.footer { margin-top: 72px; padding-top: 28px; border-top: 1px solid #1a1a1a; color: rgba(255,255,255,0.18); font-size: 12px; text-align: center; line-height: 1.8; }
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .about-grid, .kpop-inner, .mercari-cols { grid-template-columns: 1fr; gap: 40px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .pillars, .ben-grid, .bg-features { grid-template-columns: 1fr; }
+  .testi-grid, .bg-stats { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  #cover, .si, .kpop-inner, .about-grid, .outbound-inner, .contact-inner { padding: 60px 24px; }
+  .cover-title { font-size: 40px; letter-spacing: -1px; }
+  .stats-grid { grid-template-columns: 1fr; }
+  .partner-grid { grid-template-columns: repeat(3, 1fr); }
+  .doorzo-metrics { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="#cover" class="nav-brand">
+    <span class="nav-brand-icon">⚡</span>
+    <span class="nav-brand-text">BUNJANG</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#stats">Platform</a></li>
+    <li><a href="#global">Global</a></li>
+    <li><a href="#outbound">Partners</a></li>
+    <li><a href="#benefits">Benefits</a></li>
+    <li><a href="#contact" class="nav-cta">Contact Us</a></li>
+  </ul>
+</nav>
+
+<!-- COVER -->
+<section id="cover" class="section">
+  <div class="cover-bg">BUNJANG</div>
+  <div class="cover-tag">Global Partnership Proposal</div>
+  <h1 class="cover-title">Korea's #1<br><em>C2C Platform</em></h1>
+  <div class="cover-bar"></div>
+  <p class="cover-sub">Connecting the world with 18 million Korean listings — K-pop, collectibles, fashion, and rare finds that buyers can't find anywhere else.</p>
+  <div class="cover-bottom">
+    <div class="cover-logo">
+      <span class="cover-logo-icon">⚡</span>
+      <span class="cover-logo-text">BUNJANG</span>
+    </div>
+    <div class="cover-hint">↓ Scroll to explore</div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section">
+  <div class="about-grid">
+    <div>
+      <div class="slabel">About Bunjang</div>
+      <h2 class="sh">Transforming the Paradigm of Secondhand Transactions</h2>
+      <p class="ssub">Bunjang makes buying and selling secondhand simple. We use technology to create a safe, stress-free experience — find what you're looking for, or sell what you don't need.</p>
+      <p class="ssub" style="margin-top: 14px; color: #888;">Used by 1 out of 2 people in Korea. Now going global.</p>
+    </div>
+    <div class="about-items">
+      <div class="about-item">
+        <div class="about-item-icon">⚡</div>
+        <div>
+          <h4>Fast & Easy</h4>
+          <p>AI-powered listing creates product titles, categories, and descriptions in seconds</p>
+        </div>
+      </div>
+      <div class="about-item">
+        <div class="about-item-icon">🔒</div>
+        <div>
+          <h4>100% Escrow Protection</h4>
+          <p>Payment held securely until purchase is confirmed — zero risk for buyers</p>
+        </div>
+      </div>
+      <div class="about-item">
+        <div class="about-item-icon">✓</div>
+        <div>
+          <h4>Authenticity Guaranteed</h4>
+          <p>Professional inspection centers in Seoul for luxury and branded goods</p>
+        </div>
+      </div>
+      <div class="about-item">
+        <div class="about-item-icon">🌍</div>
+        <div>
+          <h4>Global Top 5</h4>
+          <p>Transaction-based C2C platform alongside eBay, Vinted, Mercari, and Poshmark</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section id="stats" class="section">
+  <div class="si">
+    <div class="stats-header">
+      <div class="slabel">Platform Scale</div>
+      <h2 class="sh white">The numbers behind<br>the platform</h2>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-cell">
+        <div class="stat-num">22<span class="u">M</span></div>
+        <div class="stat-d">Registered Users</div>
+        <div class="stat-n">1 out of 2 people in Korea</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">7.2<span class="u">M</span></div>
+        <div class="stat-d">Monthly Active Users</div>
+        <div class="stat-n">App + Web combined</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">1<span class="u">M</span></div>
+        <div class="stat-d">Daily Active Users</div>
+        <div class="stat-n">Browsing & transacting every day</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">$2<span class="u">B</span></div>
+        <div class="stat-d">Annual GMV</div>
+        <div class="stat-n">Real transaction volume</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">20<span class="u">M</span></div>
+        <div class="stat-d">Annual Transactions</div>
+        <div class="stat-n">Confirmed purchases per year</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">40<span class="u">M</span></div>
+        <div class="stat-d">New Listings / Year</div>
+        <div class="stat-n">3.2M+ new items every month</div>
+      </div>
+    </div>
+    <div class="stats-rank">
+      <span class="rank-label">Global Top 5 — Transaction-Based C2C Platforms</span>
+      <div class="rank-chips">
+        <span class="chip self">⚡ Bunjang</span>
+        <span class="chip other">eBay</span>
+        <span class="chip other">Vinted</span>
+        <span class="chip other">Mercari</span>
+        <span class="chip other">Poshmark</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="section">
+  <div class="si">
+    <div class="slabel">Service Highlights</div>
+    <h2 class="sh">Built for safe,<br>seamless transactions</h2>
+    <div class="svc-grid">
+      <div class="svc-card">
+        <div class="svc-icon">🔐</div>
+        <span class="svc-badge">Trust & Safety</span>
+        <h3>100% Escrow Pay + Bungae Talk</h3>
+        <p>Buyer's payment is held securely until purchase is confirmed, then immediately released to the seller. Private messaging protects personal info — no bank account or phone number exposure.</p>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon">🎤</div>
+        <span class="svc-badge">Exclusive</span>
+        <h3>World's Largest K-pop Merch Selection</h3>
+        <p>Official goods from leading agencies, rare fan-made items, signed albums, and one-of-a-kind collectibles virtually impossible to find anywhere else. The definitive destination for global K-fans.</p>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon">✅</div>
+        <span class="svc-badge">Authentication</span>
+        <h3>Bunjang Care & Inspection Center</h3>
+        <p>Professional authenticity verification and premium cleaning. Two dedicated inspection centers in Seongsu-dong, Seoul. Covers Rolex, Hermès, Chanel, and more. Featured on Netflix's 'The Glory'.</p>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon">🌟</div>
+        <span class="svc-badge">Community</span>
+        <h3>Celebrity Flea Markets</h3>
+        <p>Strong relationships with Korea's top celebrities — Choi Sooyoung (Girls' Generation), Irene, and more. First company approved to host a flea market at the Korea Opera House. Massive fan engagement events.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- K-POP -->
+<section id="kpop" class="section">
+  <div class="kpop-inner">
+    <div>
+      <div class="kpop-badge">K-Culture Exclusive</div>
+      <h2 class="sh white">The world's #1 source for Korean collectibles</h2>
+      <p class="ssub white">From official K-pop agency goods to rare fan-made items — your buyers are already looking for this. We have it.</p>
+      <div class="kpop-items">
+        <div class="kpop-item"><h4>K-pop Photocards</h4><p>Official & fan-made, all groups</p></div>
+        <div class="kpop-item"><h4>Limited Editions</h4><p>Signed albums, anniversary goods</p></div>
+        <div class="kpop-item"><h4>Figures & Toys</h4><p>Nendoroid, Figma, Gundam, LEGO</p></div>
+        <div class="kpop-item"><h4>Webtoon & Anime</h4><p>Korean-exclusive collectibles</p></div>
+        <div class="kpop-item"><h4>Celebrity Items</h4><p>Direct from idol flea markets</p></div>
+        <div class="kpop-item"><h4>Vintage & Retro</h4><p>Game cartridges, retro electronics</p></div>
+      </div>
+    </div>
+    <div class="kpop-card">
+      <h3>K-Culture Drives Global Demand</h3>
+      <div class="demand-item">
+        <div class="demand-row"><span>K-pop Merch & Fashion</span><span>75%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:75%"></div></div>
+      </div>
+      <div class="demand-item">
+        <div class="demand-row"><span>Games, Toys & Figures</span><span>15.7%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:15.7%; opacity:.7"></div></div>
+      </div>
+      <div class="demand-item">
+        <div class="demand-row"><span>Sports & Outdoor</span><span>6.5%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:6.5%; opacity:.5"></div></div>
+      </div>
+      <div class="demand-item">
+        <div class="demand-row"><span>Others</span><span>2.8%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:2.8%; opacity:.3"></div></div>
+      </div>
+      <div class="kpop-note">Based on Mercari Japan GMV — <strong>90%+ of revenue is K-culture driven</strong>, demonstrating strong, consistent global demand.</div>
+    </div>
+  </div>
+</section>
+
+<!-- GLOBAL 3 PILLARS -->
+<section id="global" class="section">
+  <div class="si">
+    <div class="slabel">Global Business</div>
+    <h2 class="sh">3 Pillars of<br>Bunjang's Global Reach</h2>
+    <p class="ssub">A multi-channel international strategy covering platform partnerships, direct global platform, and API-based outbound sales.</p>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pillar-n">#1 Pillar</div>
+        <h3>Mercari Partnership</h3>
+        <div class="sub">Japan — First platform-level integration</div>
+        <ul class="pillar-pts">
+          <li>First-ever platform-level integration between Korea and Japan's leading C2C platforms</li>
+          <li>40,000+ Bunjang shop followers on Mercari — largest follower base</li>
+          <li>Fashion & K-culture = 90%+ of revenue</li>
+          <li>Stable GMV growth driven by high repurchase rate</li>
+        </ul>
+      </div>
+      <div class="pillar">
+        <div class="pillar-n">#2 Pillar</div>
+        <h3>Bunjang Global</h3>
+        <div class="sub">Direct platform — 200+ countries</div>
+        <ul class="pillar-pts">
+          <li>Our own international platform for global buyers</li>
+          <li>Full range of Bunjang products to 200+ countries</li>
+          <li>3 million MAU achieved within just one year of launch</li>
+          <li>K-WIKI and Photo Card Template features for K-fans</li>
+        </ul>
+      </div>
+      <div class="pillar">
+        <div class="pillar-n">#3 Pillar</div>
+        <h3>Outbound Integration</h3>
+        <div class="sub">30+ global partner channels</div>
+        <ul class="pillar-pts">
+          <li>API-based product integration for global sales channels</li>
+          <li>30+ active partnerships since October 2024</li>
+          <li>3.2 million+ new items on partner channels monthly</li>
+          <li>Contracted with Taiwan's and China's largest platforms</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MERCARI DETAIL -->
+<section id="mercari" class="section">
+  <div class="si">
+    <div class="slabel">Partner Deep Dive</div>
+    <h2 class="sh">#1 Mercari Partnership <span style="color:var(--orange); font-size:0.65em;">(Japan)</span></h2>
+    <p class="ssub">The first platform-level integration between Korea and Japan's leading C2C marketplaces — growing fast and steady.</p>
+    <div class="mercari-cols">
+      <div>
+        <div class="chart-box">
+          <div class="chart-title">Bunjang Shop Followers on Mercari</div>
+          <div class="bars">
+            <div class="b" style="height:1%"></div>
+            <div class="b" style="height:2%"></div>
+            <div class="b" style="height:4%"></div>
+            <div class="b" style="height:5%"></div>
+            <div class="b" style="height:7%"></div>
+            <div class="b" style="height:8%"></div>
+            <div class="b" style="height:10%"></div>
+            <div class="b" style="height:13%"></div>
+            <div class="b" style="height:16%"></div>
+            <div class="b" style="height:19%"></div>
+            <div class="b" style="height:23%"></div>
+            <div class="b" style="height:27%"></div>
+            <div class="b" style="height:32%"></div>
+            <div class="b" style="height:40%"></div>
+            <div class="b" style="height:52%"></div>
+            <div class="b" style="height:65%"></div>
+            <div class="b" style="height:77%"></div>
+            <div class="b" style="height:88%"></div>
+            <div class="b" style="height:95%"></div>
+            <div class="b" style="height:100%; background:var(--orange)"></div>
+          </div>
+          <div class="bars-legend"><span>Nov '23</span><span>Jun '25 — 40,000+</span></div>
+          <div class="chart-insight"><strong>Largest follower base</strong> among all Mercari shop integrations. Consistent upward growth driven by K-culture demand.</div>
+        </div>
+      </div>
+      <div>
+        <div class="donut-box">
+          <div class="chart-title">GMV Proportion by Category</div>
+          <div class="donut-wrap">
+            <div style="position:relative; flex-shrink:0;">
+              <div class="donut-ring"></div>
+              <div class="donut-inner"><span>75%</span><small>Fashion</small></div>
+            </div>
+            <div class="legend-list">
+              <div class="legend-row"><div class="ldot" style="background:#000"></div>Fashion <span class="lpct" style="margin-left:6px">75%</span></div>
+              <div class="legend-row"><div class="ldot" style="background:var(--orange)"></div>Games &amp; Toys <span class="lpct" style="margin-left:6px">15.7%</span></div>
+              <div class="legend-row"><div class="ldot" style="background:#22c55e"></div>Sports <span class="lpct" style="margin-left:6px">6.5%</span></div>
+              <div class="legend-row"><div class="ldot" style="background:#3b82f6"></div>Others <span class="lpct" style="margin-left:6px">2.8%</span></div>
+            </div>
+          </div>
+          <div class="chart-insight" style="margin-top:20px">K-culture (Fashion + Games/Toys) = <strong>90%+ of total revenue</strong> — validating global demand for Korean-origin secondhand goods.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUNJANG GLOBAL -->
+<section id="bg-section" class="section">
+  <div class="si">
+    <div class="slabel">Direct Global Platform</div>
+    <h2 class="sh">#2 Bunjang Global</h2>
+    <p class="ssub">Our own direct platform, designed to help international users discover and buy Korean secondhand goods more easily.</p>
+    <div class="bg-stats">
+      <div class="bg-stat">
+        <div class="bg-num">3<em>M</em></div>
+        <div class="bg-label">MAU achieved within just one year of launch</div>
+      </div>
+      <div class="bg-stat">
+        <div class="bg-num">200<em>+</em></div>
+        <div class="bg-label">Countries receiving Bunjang products</div>
+      </div>
+    </div>
+    <div class="bg-features">
+      <div class="bg-feat">
+        <h4>Full Inventory Access</h4>
+        <p>Sells the complete range of Bunjang products globally — same inventory as domestic Korean buyers.</p>
+      </div>
+      <div class="bg-feat">
+        <h4>K-WIKI</h4>
+        <p>Helps global fans understand Korean slang and culture — lowering the barrier to buy K-products confidently.</p>
+      </div>
+      <div class="bg-feat">
+        <h4>Photo Card Template</h4>
+        <p>Unique feature for K-pop collectors to organize and display photocards — drives community and retention.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OUTBOUND -->
+<section id="outbound" class="section">
+  <div class="outbound-inner">
+    <div class="slabel" style="color:var(--orange)">Outbound Channel Integration</div>
+    <h2 class="sh white">#3 30+ Global Partners<br>— and growing</h2>
+    <p class="ssub white">Open API-based integration: your platform lists Bunjang's live inventory in real time. No sourcing, no warehousing required.</p>
+    <div class="doorzo-box">
+      <h3>Doorzo — Partnership Success Story</h3>
+      <p>After integrating Bunjang's Open API, Doorzo experienced such rapid sales growth that they dedicated one of the main app tabs exclusively to Bunjang products — driven entirely by buyer demand. Over 70% of their Bunjang sales are in K-culture categories, including celebrity merchandise and kidult items like webtoon-related goods.</p>
+      <div class="doorzo-metrics">
+        <div class="dm">
+          <div class="dm-num"><em>70</em>%+</div>
+          <div class="dm-label">Sales from K-culture categories</div>
+        </div>
+        <div class="dm">
+          <div class="dm-num"><em>6</em>mo</div>
+          <div class="dm-label">To reach thousands of monthly transactions</div>
+        </div>
+        <div class="dm">
+          <div class="dm-num"><em>#1</em></div>
+          <div class="dm-label">Tab placement on the Doorzo app</div>
+        </div>
+      </div>
+      <div style="margin-top:24px">
+        <div style="color:rgba(255,255,255,0.3); font-size:11px; text-transform:uppercase; letter-spacing:2px; margin-bottom:12px">Top Selling Categories</div>
+        <div class="cat-tags">
+          <span class="cat-tag p">K-pop Merchandise</span>
+          <span class="cat-tag p">Celebrity Goods</span>
+          <span class="cat-tag p">Kidult / Figures</span>
+          <span class="cat-tag s">Fashion</span>
+          <span class="cat-tag s">Accessories</span>
+          <span class="cat-tag s">Digital Products</span>
+        </div>
+      </div>
+    </div>
+    <div class="fourteen-x">
+      <div style="color:rgba(255,255,255,0.3); font-size:13px">Another partner (K**) reported a</div>
+      <div class="fx-num">14×</div>
+      <div class="fx-text">increase in transactions</div>
+      <div class="fx-sub">after enabling real-time product display and direct checkout via Bunjang Open API.</div>
+    </div>
+  </div>
+</section>
+
+<!-- API -->
+<section id="api" class="section">
+  <div class="si">
+    <div class="slabel">Integration</div>
+    <h2 class="sh">Open API —<br>Fast, Easy Integration</h2>
+    <p class="ssub">Enables quick product integration and automated order processing, supported by a dedicated Bunjang engineering team.</p>
+    <div class="api-wrap">
+      <table class="api-t">
+        <thead>
+          <tr>
+            <th style="width:20%">Category</th>
+            <th style="width:27%">Feature</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="api-cat" rowspan="3">Product Integration</td>
+            <td class="api-sub">Full Catalog Download</td>
+            <td class="api-det">Access the entire product catalog as of the current day — CSV + gzip, generated daily at 03:30</td>
+          </tr>
+          <tr>
+            <td class="api-sub">Segmented Catalog Download</td>
+            <td class="api-det">Retrieve only newly updated product data, refreshed every hour</td>
+          </tr>
+          <tr>
+            <td class="api-sub">Search & Retrieve</td>
+            <td class="api-det">Retrieve products via keyword, brand, category, or individual product ID</td>
+          </tr>
+          <tr>
+            <td class="api-cat" rowspan="2">Order Management</td>
+            <td class="api-sub">Order Creation</td>
+            <td class="api-det">Automatically place orders based on pre-charged point balance</td>
+          </tr>
+          <tr>
+            <td class="api-sub">Order Lookup</td>
+            <td class="api-det">Retrieve and track updated order details in real time</td>
+          </tr>
+          <tr>
+            <td class="api-cat">Environments</td>
+            <td class="api-sub">Production + Staging</td>
+            <td class="api-det">Separate staging environment for testing. Dedicated engineering support throughout the integration process.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section id="benefits" class="section">
+  <div class="si">
+    <div class="slabel">Why Partner With Us</div>
+    <h2 class="sh">Three reasons to<br>integrate Bunjang</h2>
+    <div class="ben-grid">
+      <div class="ben-card">
+        <div class="ben-icon">📦</div>
+        <h3>Exclusive & Diverse<br><em>Product Selection</em></h3>
+        <div class="ben-bar"></div>
+        <ul class="ben-pts">
+          <li>24M+ items listed for sale every month</li>
+          <li>3.2M+ new items registered monthly</li>
+          <li>Rare K-fashion and K-pop items found only on Bunjang</li>
+          <li>Constantly refreshing inventory — always something new for buyers</li>
+        </ul>
+      </div>
+      <div class="ben-card">
+        <div class="ben-icon">⚡</div>
+        <h3>Open API<br><em>Integration Support</em></h3>
+        <div class="ben-bar"></div>
+        <ul class="ben-pts">
+          <li>Fast, straightforward integration process</li>
+          <li>Real-time catalog sync and order automation</li>
+          <li>Dedicated Bunjang engineering team support</li>
+          <li>Continuous API feature development for partners</li>
+        </ul>
+      </div>
+      <div class="ben-card">
+        <div class="ben-icon">💰</div>
+        <h3>Commission<br><em>Benefits</em></h3>
+        <div class="ben-bar"></div>
+        <ul class="ben-pts">
+          <li>Special commission discounts during onboarding period</li>
+          <li>Most competitive rates for new partners</li>
+          <li>Volume-based tier system — lower rates as you grow</li>
+          <li>Win-win structure aligned with your success</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials" class="section">
+  <div class="si">
+    <div class="slabel">Partner Voices</div>
+    <h2 class="sh">What our global<br>partners say</h2>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-avatar" style="background:var(--orange)">B</div>
+        <div class="testi-body">"We're seeing strong customer response thanks to real-time access to <strong>trendy Korean products</strong>. From rare K-pop merchandise to the latest fashion items, the wide variety drives high satisfaction. Bunjang's <strong>quick support and flexible communication</strong> make it easy to launch new initiatives."</div>
+        <div class="testi-footer">
+          <div><div class="testi-name">B**</div><div class="testi-type">Global Partner</div></div>
+          <div class="testi-tag">K-pop & Fashion</div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-avatar" style="background:#1a1a1a">M</div>
+        <div class="testi-body">"<strong>Wide range of products from fashion to rare K-pop items</strong>, well-suited to Japanese user preferences. Bunjang's swift and strategic decisions accelerated market entry and success. <strong>High brand recognition in Korea</strong> supports smooth and effective business growth."</div>
+        <div class="testi-footer">
+          <div><div class="testi-name">M** (Mercari)</div><div class="testi-type">Japan Partner</div></div>
+          <div class="testi-tag">Japan Market</div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-avatar" style="background:#3a3a3a">D</div>
+        <div class="testi-body">"Since integrating with Bunjang, we have seen <strong>strong sales growth in niche categories</strong> and increased engagement from MZ users. The platform boosted our global exposure and online performance — <strong>we're very satisfied as a partner</strong>."</div>
+        <div class="testi-footer">
+          <div><div class="testi-name">D** (Doorzo)</div><div class="testi-type">Global Partner</div></div>
+          <div class="testi-tag">Niche / Kidult</div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-avatar" style="background:#222">K</div>
+        <div class="testi-body">"We became the first to integrate Bunjang's Open API, enabling real-time product display and direct checkout. This improved the experience for global users and led to a <strong>14× increase in transactions</strong>. Continued API updates have also boosted operational efficiency."</div>
+        <div class="testi-footer">
+          <div><div class="testi-name">K**</div><div class="testi-type">First API Partner</div></div>
+          <div class="testi-tag">14× Growth</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNERS -->
+<section id="partners" class="section">
+  <div class="si">
+    <div class="slabel">Official Partners</div>
+    <h2 class="sh">Growing together with<br>30+ trusted partners</h2>
+    <div class="partner-grid">
+      <div class="pchip f">Mercari</div>
+      <div class="pchip f">Buyee</div>
+      <div class="pchip f">eBay</div>
+      <div class="pchip f">Doorzo</div>
+      <div class="pchip f">Joom</div>
+      <div class="pchip">Rakufun</div>
+      <div class="pchip">任意门</div>
+      <div class="pchip">闲鱼</div>
+      <div class="pchip">Delivered Korea</div>
+      <div class="pchip">Paysable</div>
+      <div class="pchip">Kfriday</div>
+      <div class="pchip">Hallyu Superstore</div>
+      <div class="pchip">Makestar</div>
+      <div class="pchip">Veasly</div>
+      <div class="pchip">Harumio</div>
+      <div class="pchip">Sazo</div>
+      <div class="pchip">Malltail</div>
+      <div class="pchip">Area02</div>
+      <div class="pchip">PopinBorder</div>
+      <div class="pchip">Kpop Mart</div>
+      <div class="pchip">Shop With Unnie</div>
+      <div class="pchip">Funiki</div>
+      <div class="pchip">Ontact Korea</div>
+      <div class="pchip">Gomdrop</div>
+      <div class="pchip">Krazzy</div>
+      <div class="pchip">PurchaseKorea</div>
+      <div class="pchip" style="color:var(--orange); background:rgba(255,85,0,0.05); border-color:rgba(255,85,0,0.2); font-style:italic">+ more</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section">
+  <div class="contact-inner">
+    <div class="slabel" style="color:var(--orange)">Let's Talk</div>
+    <h2>Ready to bring<br>Korea to your <em>platform?</em></h2>
+    <p>We'd love to walk you through the integration model and explore what it could look like for your channel.</p>
+    <div class="contact-grid">
+      <div>
+        <div class="c-label">Email</div>
+        <div class="c-val">partner_global@bunjang.co.kr</div>
+      </div>
+      <div>
+        <div class="c-label">Contact</div>
+        <div class="c-val">Sean Ko — Global Business Manager</div>
+      </div>
+      <div>
+        <div class="c-label">Headquarters</div>
+        <div class="c-val">Majestar City Tower 2, Seocho-gu, Seoul</div>
+      </div>
+      <div>
+        <div class="c-label">Requirement</div>
+        <div class="c-val">Established presence in Korea required</div>
+      </div>
+    </div>
+    <a href="mailto:partner_global@bunjang.co.kr" class="cta-btn">Get in Touch →</a>
+    <div class="footer">
+      <div style="margin-bottom:6px">⚡ BUNJANG</div>
+      <div>© 2025 Bunjang Co., Ltd. All rights reserved. · Korea's #1 C2C Resale Platform</div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
