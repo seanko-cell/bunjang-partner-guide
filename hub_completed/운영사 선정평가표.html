@@ -703,10 +703,10 @@ const SCORING_ITEMS = [
     calc: v => v>=5?10: v>=3?7: v>=2?4: 2
   },
   {
-    id:'sys',  num:'⑤', label:'시스템 고도화 및 운영 역량', criteria:'S / A / B 등급 선택', maxpt:10,
-    tiers:'S (자체WMS+실시간API+자동트래킹): 10점 │ A (외부WMS+API연동 일부수동): 6점 │ B (엑셀 수동관리): 2점',
-    type:'select', options:[['','선택'],['S','S — 우수 (10점)'],['A','A — 보통 (6점)'],['B','B — 미흡 (2점)']],
-    calc: v => v==='S'?10: v==='A'?6: v==='B'?2: null
+    id:'sys',  num:'⑤', label:'사업 확장 기여도 (Strategic Fit)', criteria:'A / B / C 등급 (심사관 판단)', maxpt:10,
+    tiers:'A — 전략 파트너: 신규 채널·시장 개척 역량 + 수익 모델 제안 + 적극적 내부 투자 의지 (10점) │ B — 협력 파트너: 일부 확장 기여 가능, 주도적 제안 미흡 (6점) │ C — 단순 벤더: 운영 수행 중심, 전략적 기여 미흡 (2점)',
+    type:'select', options:[['','선택'],['A','A — 전략 파트너 (10점)'],['B','B — 협력 파트너 (6점)'],['C','C — 단순 벤더 (2점)']],
+    calc: v => v==='A'?10: v==='B'?6: v==='C'?2: null
   },
 ];
 
@@ -1255,14 +1255,16 @@ function fillRandom() {
     });
   });
 
-  // ── 수수료율: 300 ~ 1,000 원 ──
+  // ── 수수료율: 400 ~ 1,200 원 (100단위) ──
+  const COMM_STEPS = [400, 500, 600, 700, 800, 900, 1000, 1100, 1200];
   COMPANIES.forEach(c => {
-    state.score[`comm_${c}`] = String(rnd(300, 1000));
+    state.score[`comm_${c}`] = String(pick(COMM_STEPS));
   });
 
-  // ── 월 물량: 3,000 ~ 10,000 건 ──
+  // ── 월 물량: 4,000 ~ 12,000 건 (1,000단위) ──
+  const VOL_STEPS = [4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000, 12000];
   COMPANIES.forEach(c => {
-    state.score[`vol_${c}`] = String(rnd(3000, 10000));
+    state.score[`vol_${c}`] = String(pick(VOL_STEPS));
   });
 
   // ── CS 인력: 1 ~ 5 명 ──
@@ -1270,9 +1272,9 @@ function fillRandom() {
     state.score[`cs_${c}`] = String(rnd(1, 5));
   });
 
-  // ── 시스템 등급 ──
+  // ── 사업 확장 기여도 (Strategic Fit) 등급 ──
   COMPANIES.forEach(c => {
-    state.score[`sys_${c}`] = pick(['S','A','B']);
+    state.score[`sys_${c}`] = pick(['A','B','C']);
   });
 
   // ── KPI (전체 월) ──
