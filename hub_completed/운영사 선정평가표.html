@@ -457,51 +457,8 @@ select.score-input { cursor: pointer; }
       <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 오세아니아 483 George St, Sydney NSW 2000, Australia &nbsp;│&nbsp; 일본 2-8-1 Nishi-Shinjuku, Shinjuku-ku, Tokyo 163-8001
       <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 중국 200 Renmin Dadao, Huangpu District, Shanghai 200003
     </div>
-    <div class="card-body" style="overflow-x:auto">
-      <table class="eval-table" id="ship-table" style="min-width:1200px">
-        <thead>
-          <tr>
-            <th rowspan="2" style="width:80px">품목</th>
-            <th rowspan="2" style="width:60px">중량</th>
-            <th rowspan="2" style="width:50px">비중</th>
-            <th colspan="5" class="teal">KFriday</th>
-            <th colspan="5" class="teal">Paysable</th>
-            <th colspan="5" class="teal">Sazo</th>
-          </tr>
-          <tr>
-            <th class="teal" style="font-weight:500;font-size:10px">미국<br><span style="opacity:.7">40%</span></th>
-            <th class="teal" style="font-weight:500;font-size:10px">유럽<br><span style="opacity:.7">30%</span></th>
-            <th class="teal" style="font-weight:500;font-size:10px">오세아니아<br><span style="opacity:.7">10%</span></th>
-            <th class="teal" style="font-weight:500;font-size:10px">일본<br><span style="opacity:.7">10%</span></th>
-            <th class="teal" style="font-weight:500;font-size:10px">중국<br><span style="opacity:.7">10%</span></th>
-            <th class="teal" style="font-weight:500;font-size:10px">미국<br><span style="opacity:.7">40%</span></th>
-            <th class="teal" style="font-weight:500;font-size:10px">유럽<br><span style="opacity:.7">30%</span></th>
-            <th class="teal" style="font-weight:500;font-size:10px">오세아니아<br><span style="opacity:.7">10%</span></th>
-            <th class="teal" style="font-weight:500;font-size:10px">일본<br><span style="opacity:.7">10%</span></th>
-            <th class="teal" style="font-weight:500;font-size:10px">중국<br><span style="opacity:.7">10%</span></th>
-            <th class="teal" style="font-weight:500;font-size:10px">미국<br><span style="opacity:.7">40%</span></th>
-            <th class="teal" style="font-weight:500;font-size:10px">유럽<br><span style="opacity:.7">30%</span></th>
-            <th class="teal" style="font-weight:500;font-size:10px">오세아니아<br><span style="opacity:.7">10%</span></th>
-            <th class="teal" style="font-weight:500;font-size:10px">일본<br><span style="opacity:.7">10%</span></th>
-            <th class="teal" style="font-weight:500;font-size:10px">중국<br><span style="opacity:.7">10%</span></th>
-          </tr>
-        </thead>
-        <tbody id="ship-body"></tbody>
-        <tfoot>
-          <tr>
-            <td colspan="3" class="label text-center" style="font-size:12px">정규화 점수 (5개 지역 가중합)</td>
-            <td colspan="5" class="ship-basket text-center" id="basket-kf">─</td>
-            <td colspan="5" class="ship-basket text-center" id="basket-pa">─</td>
-            <td colspan="5" class="ship-basket text-center" id="basket-sz">─</td>
-          </tr>
-          <tr>
-            <td colspan="3" class="label text-center fw700" style="background:var(--teal)!important;color:white">① 배송 요율 점수 (30점)</td>
-            <td colspan="5" class="ship-score" id="score-ship-kf">─</td>
-            <td colspan="5" class="ship-score" id="score-ship-pa">─</td>
-            <td colspan="5" class="ship-score" id="score-ship-sz">─</td>
-          </tr>
-        </tfoot>
-      </table>
+    <div class="card-body">
+      <div id="ship-container"></div>
     </div>
   </div>
 
@@ -791,45 +748,86 @@ function onPFChange(key, val) {
 // RENDER — Shipping
 // ═══════════════════════════════════════
 function renderShipping() {
-  const tbody = document.getElementById('ship-body');
+  const container = document.getElementById('ship-container');
+  const ids = ['kf','pa','sz'];
+  const REGION_LABELS = [
+    {name:'미국(LA)',      pct:'40%'},
+    {name:'유럽(FRA)',     pct:'30%'},
+    {name:'오세아니아(SYD)', pct:'10%'},
+    {name:'일본(TYO)',     pct:'10%'},
+    {name:'중국(SHA)',     pct:'10%'},
+  ];
 
-  // 핸들링비용 행: 지역 구분 없이 업체당 단일 입력
-  const handlingCells = COMPANIES.map(c => {
-    const key = `ship_handling_${c}`;
-    const val = state.ship[key] || '';
-    return `<td colspan="5" style="text-align:center;background:#FFF8F0">
-      <input type="number" class="score-input" value="${val}"
-        placeholder="예: 2000" min="0" step="500"
-        oninput="this.value=clampPos(this.value);onShipChange('${key}',this.value)"
-        style="width:130px;margin:0 auto;background:#FFF3E0">
-    </td>`;
-  }).join('');
-  const handlingRow = `<tr>
-    <td class="label text-center" style="background:#FFF0DC!important;font-weight:700">핸들링비용</td>
-    <td class="text-center" style="background:#FFF0DC!important;color:var(--muted);font-size:12px">건당</td>
-    <td class="text-center" style="background:#FFF0DC!important;font-weight:700;color:#92400E">30%</td>
-    ${handlingCells}
-  </tr>`;
+  container.innerHTML = COMPANIES.map((comp, ci) => {
+    const id = ids[ci];
 
-  const shippingRows = SHIP_ITEMS.map((item,i) => {
-    const cells = COMPANIES.flatMap(c =>
-      [0,1,2,3,4].map(r => {
-        const key = `ship_${i}_${c}_${r}`;
+    // 핸들링비용
+    const hKey = `ship_handling_${comp}`;
+    const hVal = state.ship[hKey] || '';
+    const handlingRow = `<tr>
+      <td class="label text-center" style="background:#FFF0DC!important;font-weight:700">핸들링비용</td>
+      <td class="text-center" style="background:#FFF0DC!important;color:var(--muted);font-size:12px">건당</td>
+      <td class="text-center" style="background:#FFF0DC!important;font-weight:700;color:#92400E">30%</td>
+      <td colspan="5" style="background:#FFF8F0;text-align:center">
+        <input type="number" class="score-input" value="${hVal}"
+          placeholder="예: 2000" min="0" step="500"
+          oninput="this.value=clampPos(this.value);onShipChange('${hKey}',this.value)"
+          style="width:160px;background:#FFF3E0;margin:0 auto">
+      </td>
+    </tr>`;
+
+    // 배송비 행
+    const shipRows = SHIP_ITEMS.map((item, i) => {
+      const cells = [0,1,2,3,4].map(r => {
+        const key = `ship_${i}_${comp}_${r}`;
         const val = state.ship[key] || '';
         return `<td><input type="number" class="score-input" value="${val}"
           placeholder="0" min="0"
-          oninput="this.value=clampPos(this.value);onShipChange('${key}',this.value)" style="width:100%;font-size:11px;padding:5px 4px"></td>`;
-      })
-    ).join('');
-    return `<tr>
-      <td class="label text-center">${item.label}</td>
-      <td class="text-center" style="background:var(--gray)">${item.weight}</td>
-      <td class="text-center" style="background:var(--gray)">${Math.round(item.ratio*100)}%</td>
-      ${cells}
-    </tr>`;
-  }).join('');
+          oninput="this.value=clampPos(this.value);onShipChange('${key}',this.value)"
+          style="width:100%"></td>`;
+      }).join('');
+      return `<tr>
+        <td class="label text-center">${item.label}</td>
+        <td class="text-center" style="background:var(--gray)">${item.weight}</td>
+        <td class="text-center" style="background:var(--gray)">${Math.round(item.ratio*100)}%</td>
+        ${cells}
+      </tr>`;
+    }).join('');
 
-  tbody.innerHTML = handlingRow + shippingRows;
+    const regionHeaders = REGION_LABELS.map(r =>
+      `<th class="teal" style="font-size:12px;font-weight:600">${r.name}<br><span style="font-weight:400;opacity:.8">${r.pct}</span></th>`
+    ).join('');
+
+    return `<div style="margin-bottom:20px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">
+      <div style="background:linear-gradient(90deg,var(--navy),var(--teal));color:white;padding:10px 16px;font-weight:700;font-size:14px">▶ ${comp}</div>
+      <div style="overflow-x:auto">
+        <table class="eval-table" style="width:100%;min-width:640px">
+          <thead>
+            <tr>
+              <th style="width:90px">품목</th>
+              <th style="width:70px">중량</th>
+              <th style="width:50px">비중</th>
+              ${regionHeaders}
+            </tr>
+          </thead>
+          <tbody>
+            ${handlingRow}
+            ${shipRows}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3" class="label text-center" style="font-size:12px">정규화 점수</td>
+              <td colspan="5" class="ship-basket text-center" id="basket-${id}">─</td>
+            </tr>
+            <tr>
+              <td colspan="3" class="label text-center fw700" style="background:var(--teal)!important;color:white;font-size:13px">① 배송 요율 점수 (30점)</td>
+              <td colspan="5" class="ship-score" id="score-ship-${id}">─</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>`;
+  }).join('');
 }
 
 function onShipChange(key, val) {
