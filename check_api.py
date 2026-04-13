@@ -14,6 +14,10 @@ Bunjang API 자동 감지 & 업데이트 스크립트
 import requests, json, os, re, subprocess, sys
 from datetime import datetime
 
+# Windows 터미널 이모지 출력 지원
+if sys.stdout.encoding and sys.stdout.encoding.lower() not in ('utf-8', 'utf8'):
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+
 # ── 설정: 환경변수(GitHub Actions) 우선, 없으면 api_config.json 사용 ──
 _cfg_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "api_config.json")
 _cfg = json.load(open(_cfg_path, encoding="utf-8")) if os.path.exists(_cfg_path) else {}
@@ -72,7 +76,12 @@ def extract_links():
 def fetch_spec(url):
     r = requests.get(url, headers=HEADERS, timeout=15)
     r.raise_for_status()
-    spec = parse_spec(r.text)
+    text = r.text
+    # 마크다운 코드블록(```yaml ... ```)으로 감싸진 경우 내용만 추출
+    code_block = re.search(r'```(?:yaml)?\s*\n([\s\S]+?)```', text)
+    if code_block:
+        text = code_block.group(1)
+    spec = parse_spec(text)
 
     result = {"url": url, "raw_hash": _md5(r.text)}
 
