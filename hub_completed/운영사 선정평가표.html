@@ -450,47 +450,55 @@ select.score-input { cursor: pointer; }
       <span class="badge">30점</span>
     </div>
     <div class="section-note">
-      ※ 산식 : (후보사 중 최저 바구니 합계 ÷ 해당 업체 합계) × 30 &nbsp;│&nbsp;
-      산식 : 항목별 독립 정규화 → (후보사 최저값 ÷ 해당 업체값) × 비중 합산 × 30점 &nbsp;│&nbsp; 금액 스케일 무관, 비중 그대로 반영
-      <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 비중 : 핸들링비용 30% (건당) · 포토카드 30% (1.0kg) · 응원봉 20% (2.0kg) · 의류 20% (5.0kg)
-      &nbsp;│&nbsp; 배송비는 미국(LA) · 독일(FRA) · 일본(TYO) 3개 지역 합산
+      ※ 산식 : 항목별 독립 정규화 → (후보사 최저값 ÷ 해당 업체값) × 항목 비중 합산 × 30점 &nbsp;│&nbsp; 금액 스케일 무관, 비중 그대로 반영
+      <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 항목 비중 : 핸들링비용 30% (건당) · 포토카드 30% (1.0kg) · 응원봉 20% (2.0kg) · 의류 20% (5.0kg)
+      <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 지역 비중 : 미국 40% · 유럽 30% · 오세아니아 10% · 일본 10% · 중국 10%
+      <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 평가 주소 : 미국 200 N Spring St, Los Angeles, CA 90012 &nbsp;│&nbsp; 유럽 Römerberg 23, 60311 Frankfurt am Main, Germany
+      <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 오세아니아 483 George St, Sydney NSW 2000, Australia &nbsp;│&nbsp; 일본 2-8-1 Nishi-Shinjuku, Shinjuku-ku, Tokyo 163-8001
+      <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 중국 200 Renmin Dadao, Huangpu District, Shanghai 200003
     </div>
     <div class="card-body" style="overflow-x:auto">
-      <table class="eval-table" id="ship-table" style="min-width:800px">
+      <table class="eval-table" id="ship-table" style="min-width:1200px">
         <thead>
           <tr>
-            <th rowspan="2" style="width:90px">품목</th>
-            <th rowspan="2" style="width:70px">중량</th>
-            <th rowspan="2" style="width:55px">비중</th>
-            <th colspan="3" class="teal">KFriday</th>
-            <th colspan="3" class="teal">Paysable</th>
-            <th colspan="3" class="teal">Sazo</th>
+            <th rowspan="2" style="width:80px">품목</th>
+            <th rowspan="2" style="width:60px">중량</th>
+            <th rowspan="2" style="width:50px">비중</th>
+            <th colspan="5" class="teal">KFriday</th>
+            <th colspan="5" class="teal">Paysable</th>
+            <th colspan="5" class="teal">Sazo</th>
           </tr>
           <tr>
-            <th class="teal" style="font-weight:500;font-size:11px">미국(LA)</th>
-            <th class="teal" style="font-weight:500;font-size:11px">독일(FRA)</th>
-            <th class="teal" style="font-weight:500;font-size:11px">일본(TYO)</th>
-            <th class="teal" style="font-weight:500;font-size:11px">미국(LA)</th>
-            <th class="teal" style="font-weight:500;font-size:11px">독일(FRA)</th>
-            <th class="teal" style="font-weight:500;font-size:11px">일본(TYO)</th>
-            <th class="teal" style="font-weight:500;font-size:11px">미국(LA)</th>
-            <th class="teal" style="font-weight:500;font-size:11px">독일(FRA)</th>
-            <th class="teal" style="font-weight:500;font-size:11px">일본(TYO)</th>
+            <th class="teal" style="font-weight:500;font-size:10px">미국<br><span style="opacity:.7">40%</span></th>
+            <th class="teal" style="font-weight:500;font-size:10px">유럽<br><span style="opacity:.7">30%</span></th>
+            <th class="teal" style="font-weight:500;font-size:10px">오세아니아<br><span style="opacity:.7">10%</span></th>
+            <th class="teal" style="font-weight:500;font-size:10px">일본<br><span style="opacity:.7">10%</span></th>
+            <th class="teal" style="font-weight:500;font-size:10px">중국<br><span style="opacity:.7">10%</span></th>
+            <th class="teal" style="font-weight:500;font-size:10px">미국<br><span style="opacity:.7">40%</span></th>
+            <th class="teal" style="font-weight:500;font-size:10px">유럽<br><span style="opacity:.7">30%</span></th>
+            <th class="teal" style="font-weight:500;font-size:10px">오세아니아<br><span style="opacity:.7">10%</span></th>
+            <th class="teal" style="font-weight:500;font-size:10px">일본<br><span style="opacity:.7">10%</span></th>
+            <th class="teal" style="font-weight:500;font-size:10px">중국<br><span style="opacity:.7">10%</span></th>
+            <th class="teal" style="font-weight:500;font-size:10px">미국<br><span style="opacity:.7">40%</span></th>
+            <th class="teal" style="font-weight:500;font-size:10px">유럽<br><span style="opacity:.7">30%</span></th>
+            <th class="teal" style="font-weight:500;font-size:10px">오세아니아<br><span style="opacity:.7">10%</span></th>
+            <th class="teal" style="font-weight:500;font-size:10px">일본<br><span style="opacity:.7">10%</span></th>
+            <th class="teal" style="font-weight:500;font-size:10px">중국<br><span style="opacity:.7">10%</span></th>
           </tr>
         </thead>
         <tbody id="ship-body"></tbody>
         <tfoot>
           <tr>
-            <td colspan="3" class="label text-center" style="font-size:12px">가상 바구니 합계 (3개 지역)</td>
-            <td colspan="3" class="ship-basket text-center" id="basket-kf">─</td>
-            <td colspan="3" class="ship-basket text-center" id="basket-pa">─</td>
-            <td colspan="3" class="ship-basket text-center" id="basket-sz">─</td>
+            <td colspan="3" class="label text-center" style="font-size:12px">정규화 점수 (5개 지역 가중합)</td>
+            <td colspan="5" class="ship-basket text-center" id="basket-kf">─</td>
+            <td colspan="5" class="ship-basket text-center" id="basket-pa">─</td>
+            <td colspan="5" class="ship-basket text-center" id="basket-sz">─</td>
           </tr>
           <tr>
             <td colspan="3" class="label text-center fw700" style="background:var(--teal)!important;color:white">① 배송 요율 점수 (30점)</td>
-            <td colspan="3" class="ship-score" id="score-ship-kf">─</td>
-            <td colspan="3" class="ship-score" id="score-ship-pa">─</td>
-            <td colspan="3" class="ship-score" id="score-ship-sz">─</td>
+            <td colspan="5" class="ship-score" id="score-ship-kf">─</td>
+            <td colspan="5" class="ship-score" id="score-ship-pa">─</td>
+            <td colspan="5" class="ship-score" id="score-ship-sz">─</td>
           </tr>
         </tfoot>
       </table>
@@ -681,7 +689,8 @@ const SHIP_ITEMS = [
   {label:'응원봉',   weight:'2.0 kg', ratio:0.2},
   {label:'의류',     weight:'5.0 kg', ratio:0.2},
 ];
-const REGIONS = ['미국(LA)','독일(FRA)','일본(TYO)'];
+const REGIONS = ['미국(LA)','유럽(FRA)','오세아니아(SYD)','일본(TYO)','중국(SHA)'];
+const REGION_WEIGHTS = [0.4, 0.3, 0.1, 0.1, 0.1]; // B안: 미국40% · 유럽30% · 오세아니아10% · 일본10% · 중국10%
 
 const SCORING_ITEMS = [
   {
@@ -788,7 +797,7 @@ function renderShipping() {
   const handlingCells = COMPANIES.map(c => {
     const key = `ship_handling_${c}`;
     const val = state.ship[key] || '';
-    return `<td colspan="3" style="text-align:center;background:#FFF8F0">
+    return `<td colspan="5" style="text-align:center;background:#FFF8F0">
       <input type="number" class="score-input" value="${val}"
         placeholder="예: 2000" min="0" step="500"
         oninput="this.value=clampPos(this.value);onShipChange('${key}',this.value)"
@@ -804,12 +813,12 @@ function renderShipping() {
 
   const shippingRows = SHIP_ITEMS.map((item,i) => {
     const cells = COMPANIES.flatMap(c =>
-      [0,1,2].map(r => {
+      [0,1,2,3,4].map(r => {
         const key = `ship_${i}_${c}_${r}`;
         const val = state.ship[key] || '';
         return `<td><input type="number" class="score-input" value="${val}"
           placeholder="0" min="0"
-          oninput="this.value=clampPos(this.value);onShipChange('${key}',this.value)" style="width:100%"></td>`;
+          oninput="this.value=clampPos(this.value);onShipChange('${key}',this.value)" style="width:100%;font-size:11px;padding:5px 4px"></td>`;
       })
     ).join('');
     return `<tr>
@@ -833,9 +842,9 @@ function onShipChange(key, val) {
 function getBasket(comp) {
   const handling = parseFloat(state.ship[`ship_handling_${comp}`]) || 0;
   const shippingCost = SHIP_ITEMS.reduce((total, item, i) =>
-    total + [0,1,2].reduce((rTotal, r) => {
+    total + [0,1,2,3,4].reduce((rTotal, r) => {
       const val = parseFloat(state.ship[`ship_${i}_${comp}_${r}`]) || 0;
-      return rTotal + val * item.ratio;
+      return rTotal + val * REGION_WEIGHTS[r] * item.ratio;
     }, 0)
   , 0);
   return handling * 0.3 + shippingCost;
@@ -844,11 +853,11 @@ function getBasket(comp) {
 function calcShipping() {
   const ids = ['kf','pa','sz'];
 
-  // 항목별 · 업체별 원시값 수집
+  // 항목별 · 업체별 원시값 수집 (지역 비중 가중합)
   const handlingVals = COMPANIES.map(c => parseFloat(state.ship[`ship_handling_${c}`]) || 0);
   const shipVals = SHIP_ITEMS.map((_, i) =>
-    COMPANIES.map(c => [0,1,2].reduce((s, r) =>
-      s + (parseFloat(state.ship[`ship_${i}_${c}_${r}`]) || 0), 0))
+    COMPANIES.map(c => [0,1,2,3,4].reduce((s, r) =>
+      s + (parseFloat(state.ship[`ship_${i}_${c}_${r}`]) || 0) * REGION_WEIGHTS[r], 0))
   );
 
   const anyData = handlingVals.some(v => v > 0) || shipVals.some(iv => iv.some(v => v > 0));
@@ -1255,13 +1264,13 @@ function clampPos(v) { const n = parseFloat(v); return (isNaN(n) || n < 0) ? 0 :
 */
 
 // 배송 운임 범위: [품목idx][지역idx] = [min, max]
-// 품목: 0=포토카드(0.5kg)  1=응원봉(1.5kg)  2=의류(3.0kg)
-// 지역: 0=미국(LA)  1=독일(FRA)  2=일본(TYO)
-// 규칙: 무거울수록 비쌈 / 독일 > 미국 > 일본
+// 품목: 0=포토카드(1.0kg)  1=응원봉(2.0kg)  2=의류(5.0kg)
+// 지역: 0=미국(LA)  1=유럽(FRA)  2=오세아니아(SYD)  3=일본(TYO)  4=중국(SHA)
+// 규칙: 무거울수록 비쌈 / 유럽 > 미국 > 오세아니아 > 일본 > 중국
 const SHIP_RANGES = [
-  [[13000,22000],[17000,28000],[10000,18000]], // 포토카드
-  [[22000,40000],[30000,52000],[17000,30000]], // 응원봉
-  [[38000,65000],[50000,90000],[28000,52000]], // 의류
+  [[13000,22000],[17000,28000],[15000,25000],[8000,14000],[5000,10000]], // 포토카드
+  [[22000,40000],[30000,52000],[26000,45000],[14000,26000],[8000,15000]], // 응원봉
+  [[38000,65000],[50000,90000],[44000,78000],[25000,48000],[15000,28000]], // 의류
 ];
 
 function fillRandom() {
@@ -1279,7 +1288,7 @@ function fillRandom() {
   // ── 배송 요율 ──
   COMPANIES.forEach(c => {
     SHIP_ITEMS.forEach((_, i) => {
-      [0,1,2].forEach(r => {
+      [0,1,2,3,4].forEach(r => {
         const [lo, hi] = SHIP_RANGES[i][r];
         // 업체별 소폭 편차 ±5% (경쟁사 간 차이 반영)
         const jitter = 0.95 + Math.random() * 0.10;
@@ -1405,7 +1414,7 @@ async function saveToSheets(type) {
           pf5: state.pf[`pf5_${comp}`] || 'O',
         },
         ship: SHIP_ITEMS.map((_, i) =>
-          [0,1,2].map(r => parseFloat(state.ship[`ship_${i}_${comp}_${r}`]) || 0)
+          [0,1,2,3,4].map(r => parseFloat(state.ship[`ship_${i}_${comp}_${r}`]) || 0)
         ),
         basketTotal: getBasket(comp),
         shipScore:   state[`_ship_score_${comp}`] ?? '',
