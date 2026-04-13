@@ -451,9 +451,9 @@ select.score-input { cursor: pointer; }
     </div>
     <div class="section-note">
       ※ 산식 : (후보사 중 최저 바구니 합계 ÷ 해당 업체 합계) × 30 &nbsp;│&nbsp;
-      산식 : 항목별 독립 정규화 → (후보사 최저값 ÷ 해당 업체값) × 비중 합산 × 30점
-      &nbsp;│&nbsp; 비중 : 핸들링비용 30% · 포토카드 30% · 응원봉 20% · 의류 20%
-      &nbsp;│&nbsp; 배송비는 미국(LA) · 독일(FRA) · 일본(TYO) 3개 지역 합산 &nbsp;│&nbsp; 금액 스케일 무관, 비중 그대로 반영
+      산식 : 항목별 독립 정규화 → (후보사 최저값 ÷ 해당 업체값) × 비중 합산 × 30점 &nbsp;│&nbsp; 금액 스케일 무관, 비중 그대로 반영
+      <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 비중 : 핸들링비용 30% (건당) · 포토카드 30% (1.0kg) · 응원봉 20% (2.0kg) · 의류 20% (5.0kg)
+      &nbsp;│&nbsp; 배송비는 미국(LA) · 독일(FRA) · 일본(TYO) 3개 지역 합산
     </div>
     <div class="card-body" style="overflow-x:auto">
       <table class="eval-table" id="ship-table" style="min-width:800px">
@@ -677,9 +677,9 @@ const PF_ITEMS = [
 ];
 
 const SHIP_ITEMS = [
-  {label:'포토카드', weight:'0.5 kg', ratio:0.3},
-  {label:'응원봉',   weight:'1.5 kg', ratio:0.2},
-  {label:'의류',     weight:'3.0 kg', ratio:0.2},
+  {label:'포토카드', weight:'1.0 kg', ratio:0.3},
+  {label:'응원봉',   weight:'2.0 kg', ratio:0.2},
+  {label:'의류',     weight:'5.0 kg', ratio:0.2},
 ];
 const REGIONS = ['미국(LA)','독일(FRA)','일본(TYO)'];
 
@@ -703,7 +703,7 @@ const SCORING_ITEMS = [
     calc: v => v>=5?10: v>=3?7: v>=2?4: 2
   },
   {
-    id:'sys',  num:'⑤', label:'사업 확장 기여도 (Strategic Fit)', criteria:'A / B / C 등급 (심사관 판단)', maxpt:10,
+    id:'sys',  num:'⑤', label:'사업 확장 기여도', criteria:'A / B / C 등급 (심사관 판단)', maxpt:10,
     tiers:'A — 전략 파트너: 신규 채널·시장 개척 역량 + 수익 모델 제안 + 적극적 내부 투자 의지 (10점) │ B — 협력 파트너: 일부 확장 기여 가능, 주도적 제안 미흡 (6점) │ C — 단순 벤더: 운영 수행 중심, 전략적 기여 미흡 (2점)',
     type:'select', options:[['','선택'],['A','A — 전략 파트너 (10점)'],['B','B — 협력 파트너 (6점)'],['C','C — 단순 벤더 (2점)']],
     calc: v => v==='A'?10: v==='B'?6: v==='C'?2: null
