@@ -451,8 +451,9 @@ select.score-input { cursor: pointer; }
     </div>
     <div class="section-note">
       ※ 산식 : (후보사 중 최저 바구니 합계 ÷ 해당 업체 합계) × 30 &nbsp;│&nbsp;
-      바구니 : 핸들링비용 (30%) + 포토카드 0.5kg (30%) + 응원봉 1.5kg (20%) + 의류 3.0kg (20%) &nbsp;│&nbsp;
-      배송비는 미국 (LA) · 독일 (FRA) · 일본 (TYO) 3개 지역 합산 &nbsp;│&nbsp; 핸들링비용은 건당 단일 입력
+      산식 : 항목별 독립 정규화 → (후보사 최저값 ÷ 해당 업체값) × 비중 합산 × 30점
+      &nbsp;│&nbsp; 비중 : 핸들링비용 30% · 포토카드 30% · 응원봉 20% · 의류 20%
+      &nbsp;│&nbsp; 배송비는 미국(LA) · 독일(FRA) · 일본(TYO) 3개 지역 합산 &nbsp;│&nbsp; 금액 스케일 무관, 비중 그대로 반영
     </div>
     <div class="card-body" style="overflow-x:auto">
       <table class="eval-table" id="ship-table" style="min-width:800px">
@@ -828,6 +829,7 @@ function onShipChange(key, val) {
   updateSummary();
 }
 
+// saveToSheets 페이로드용 (참고값)
 function getBasket(comp) {
   const handling = parseFloat(state.ship[`ship_handling_${comp}`]) || 0;
   const shippingCost = SHIP_ITEMS.reduce((total, item, i) =>
@@ -840,24 +842,56 @@ function getBasket(comp) {
 }
 
 function calcShipping() {
-  const baskets = COMPANIES.map(c => getBasket(c));
-  const min = Math.min(...baskets.filter(b => b > 0));
   const ids = ['kf','pa','sz'];
 
-  COMPANIES.forEach((c, i) => {
-    const b = baskets[i];
-    const bEl = document.getElementById(`basket-${ids[i]}`);
-    const sEl = document.getElementById(`score-ship-${ids[i]}`);
-    if (b > 0) {
-      bEl.textContent = b.toLocaleString('ko-KR') + '원';
-      const score = min > 0 ? Math.round((min/b)*30*10)/10 : 0;
-      sEl.textContent = score;
-      state[`_ship_score_${c}`] = score;
-    } else {
-      bEl.textContent = '─';
-      sEl.textContent = '─';
+  // 항목별 · 업체별 원시값 수집
+  const handlingVals = COMPANIES.map(c => parseFloat(state.ship[`ship_handling_${c}`]) || 0);
+  const shipVals = SHIP_ITEMS.map((_, i) =>
+    COMPANIES.map(c => [0,1,2].reduce((s, r) =>
+      s + (parseFloat(state.ship[`ship_${i}_${c}_${r}`]) || 0), 0))
+  );
+
+  const anyData = handlingVals.some(v => v > 0) || shipVals.some(iv => iv.some(v => v > 0));
+  if (!anyData) {
+    COMPANIES.forEach((c, i) => {
+      document.getElementById(`basket-${ids[i]}`).textContent = '─';
+      document.getElementById(`score-ship-${ids[i]}`).textContent = '─';
       state[`_ship_score_${c}`] = null;
+    });
+    return;
+  }
+
+  // 항목별 최솟값 (후보사 중 가장 저렴 = 기준 1.0)
+  const minH = Math.min(...handlingVals.filter(v => v > 0)) || 0;
+  const minS = SHIP_ITEMS.map((_, i) => Math.min(...shipVals[i].filter(v => v > 0)) || 0);
+
+  COMPANIES.forEach((c, ci) => {
+    const hVal = handlingVals[ci];
+    const sVal = SHIP_ITEMS.map((_, i) => shipVals[i][ci]);
+    const hasAny = hVal > 0 || sVal.some(v => v > 0);
+
+    if (!hasAny) {
+      document.getElementById(`basket-${ids[ci]}`).textContent = '─';
+      document.getElementById(`score-ship-${ids[ci]}`).textContent = '─';
+      state[`_ship_score_${c}`] = null;
+      return;
     }
+
+    // 항목별 정규화: 최저가 ÷ 해당 업체값 → 0~1 (낮을수록 유리)
+    const hNorm = (minH > 0 && hVal > 0) ? minH / hVal : 0;
+    const sNorm = SHIP_ITEMS.map((_, i) =>
+      (minS[i] > 0 && sVal[i] > 0) ? minS[i] / sVal[i] : 0
+    );
+
+    // 가중 합산 후 30점 환산 (비중: 핸들링 30% · 포토카드 30% · 응원봉 20% · 의류 20%)
+    const weighted = hNorm * 0.3 + sNorm[0] * 0.3 + sNorm[1] * 0.2 + sNorm[2] * 0.2;
+    const score = Math.round(weighted * 30 * 10) / 10;
+
+    // 바구니 표시: 정규화 비율(%) 참고용
+    const pct = Math.round(weighted * 100);
+    document.getElementById(`basket-${ids[ci]}`).textContent = `${pct}% (정규화)`;
+    document.getElementById(`score-ship-${ids[ci]}`).textContent = score;
+    state[`_ship_score_${c}`] = score;
   });
 }
 
