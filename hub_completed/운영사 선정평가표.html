@@ -669,7 +669,6 @@ const COMPANIES = ['KFriday','Paysable','Sazo'];
 const MONTHS    = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
 
 const PF_ITEMS = [
-  {id:'pf1', label:'CS 언어 지원',          criteria:'영어 필수, 추가 언어 우대'},
   {id:'pf2', label:'창고·물류 인프라',        criteria:'국내 수령 가능 거점 보유'},
   {id:'pf3', label:'해외 배송 처리 능력',     criteria:'미국·EU·일본 배송 가능'},
   {id:'pf4', label:'사업자 등록 및 법적 요건',criteria:'구매대행업 운영 가능한 법인'},
@@ -1366,7 +1365,6 @@ async function saveToSheets(type) {
       companies: COMPANIES.map(comp => ({
         name: comp,
         pf: {
-          pf1: state.pf[`pf1_${comp}`] || 'O',
           pf2: state.pf[`pf2_${comp}`] || 'O',
           pf3: state.pf[`pf3_${comp}`] || 'O',
           pf4: state.pf[`pf4_${comp}`] || 'O',
