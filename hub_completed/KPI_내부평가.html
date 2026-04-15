@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[내부용] KPI 월간 평가 입력</title>
+<!--
+=== GOOGLE APPS SCRIPT 설정 ===
+1. script.google.com → 새 프로젝트
+2. Code.gs에 아래 코드 붙여넣기:
+
+function doPost(e) {
+  try {
+    const data = JSON.parse(e.postData.contents);
+    const ss = SpreadsheetApp.openById('여기에_시트_ID_입력');
+    let sheet = ss.getSheetByName('KPI 평가');
+    if (!sheet) sheet = ss.insertSheet('KPI 평가');
+    if (sheet.getLastRow() === 0) {
+      sheet.appendRow(['기록일시','평가자','연월','업체명',
+        'CS응답_실측(%)','CS응답_점수',
+        '구매확정_실측(일)','구매확정_점수',
+        '취소오배송_실측(%)','취소오배송_점수',
+        '수수료납부_결과','수수료납부_점수',
+        '클레임_건수','클레임_차감',
+        '차지백_건수','차지백_차감',
+        '총점(차감후)']);
+    }
+    sheet.appendRow(data.row);
+    return ContentService.createTextOutput(JSON.stringify({status:'ok'}))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch(err) {
+    return ContentService.createTextOutput(JSON.stringify({status:'error',message:err.message}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+3. 배포 → 웹 앱 → 액세스: 모든 사용자 → 배포
+4. 배포 URL을 아래 APPS_SCRIPT_URL에 붙여넣기
+-->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#1C3557;--teal:#1D6F8C;--ltblue:#DBEAFE;
+  --input:#FEFCE8;--gray:#F1F5F9;--border:#CBD5E1;--text:#1E293B;--muted:#64748B;
+  --green:#DCFCE7;--green2:#15803D;--red:#FEE2E2;--red2:#B91C1C;
+  --orange:#FFF8F0;--orange2:#92400E;--white:#fff;--radius:10px;
+  --shadow:0 2px 8px rgba(0,0,0,.08);
+}
+body{font-family:'Noto Sans KR',-apple-system,sans-serif;font-size:14px;color:var(--text);background:#F0F4F8;line-height:1.6}
+.wrap{max-width:1100px;margin:0 auto;padding:24px 16px 80px}
+.header{background:linear-gradient(135deg,#0F2337 0%,var(--navy) 100%);border-radius:var(--radius);padding:24px 32px;color:white;margin-bottom:20px;box-shadow:0 4px 16px rgba(0,0,0,.2);display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.header h1{font-size:18px;font-weight:900}
+.header .sub{font-size:12px;color:#93C5FD;margin-top:3px}
+.internal-badge{background:#EF4444;color:white;border-radius:6px;padding:5px 14px;font-size:12px;font-weight:700;white-space:nowrap}
+.meta-bar{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:20px;background:white;border:1px solid var(--border);border-radius:var(--radius);padding:14px 20px;box-shadow:var(--shadow)}
+.meta-field{display:flex;align-items:center;gap:8px;font-size:13px}
+.meta-field label{font-weight:600;color:var(--muted);white-space:nowrap}
+.meta-field input,.meta-field select{padding:7px 11px;border:1.5px solid var(--border);border-radius:6px;background:var(--input);font-family:inherit;font-size:13px;color:var(--text)}
+.meta-field input:focus,.meta-field select:focus{outline:none;border-color:var(--teal)}
+.companies-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;margin-bottom:20px}
+.comp-card{background:white;border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;box-shadow:var(--shadow)}
+.comp-head{background:linear-gradient(90deg,var(--navy),var(--teal));color:white;padding:12px 18px;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:space-between}
+.comp-score{background:rgba(255,255,255,.2);border-radius:6px;padding:4px 12px;font-size:16px;font-weight:900}
+.kpi-rows{padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.kpi-row{background:var(--gray);border-radius:8px;padding:10px 14px}
+.kpi-row.ded{background:var(--orange)}
+.kpi-row.ded2{background:var(--red)}
+.kpi-row-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;gap:8px;flex-wrap:wrap}
+.kpi-label{font-weight:700;font-size:13px}
+.kpi-score-badge{background:var(--ltblue);color:var(--navy);border-radius:6px;padding:3px 12px;font-size:13px;font-weight:700;white-space:nowrap}
+.kpi-score-badge.ded{background:#FEF3C7;color:var(--orange2)}
+.kpi-score-badge.ded2{background:var(--red);color:var(--red2)}
+.kpi-inp-row{display:flex;align-items:center;gap:8px}
+.kpi-inp-row label{font-size:12px;color:var(--muted);white-space:nowrap;min-width:55px}
+.inp{padding:7px 10px;border:1.5px solid var(--border);border-radius:6px;background:var(--input);font-family:inherit;font-size:13px;color:var(--text);width:100%;transition:border-color .15s}
+.inp:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(29,111,140,.1)}
+select.inp{cursor:pointer}
+.score-hint{font-size:11.5px;color:var(--muted);margin-top:4px;line-height:1.6}
+.action-bar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
+.btn{padding:10px 22px;border-radius:7px;border:none;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s}
+.btn-save{background:var(--teal);color:white}
+.btn-save:hover{background:var(--navy)}
+.btn-save:disabled{background:var(--muted);cursor:not-allowed}
+.btn-reset{background:white;color:var(--navy);border:1.5px solid var(--navy)}
+.btn-reset:hover{background:var(--gray)}
+.btn-print{background:white;color:var(--muted);border:1.5px solid var(--border)}
+.btn-print:hover{background:var(--gray)}
+.callout{border-radius:8px;padding:11px 15px;font-size:12.5px;line-height:1.7}
+.callout.blue{background:#EFF6FF;border-left:4px solid #3B82F6;color:#1E40AF}
+.callout.green{background:var(--green);border-left:4px solid #22C55E;color:#14532D}
+.callout.red{background:var(--red);border-left:4px solid #EF4444;color:var(--red2)}
+.save-log{background:white;border:1px solid var(--border);border-radius:var(--radius);padding:14px 20px;margin-top:16px;box-shadow:var(--shadow)}
+.save-log h4{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:10px}
+.log-row{font-size:12.5px;padding:5px 0;border-bottom:1px solid var(--gray);display:flex;gap:8px}
+.log-row:last-child{border-bottom:none}
+.log-ts{color:var(--muted);min-width:120px}
+.log-company{font-weight:700;min-width:80px}
+.log-score{color:var(--teal);font-weight:700}
+#err-msg{display:none}
+@media print{
+  body{background:white}
+  .meta-bar,.action-bar,.btn{display:none!important}
+  .comp-card{break-inside:avoid}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="header">
+  <div>
+    <h1>KPI 월간 운영 평가 — 내부 입력 시트</h1>
+    <div class="sub">번개장터 글로벌(해구대) · 내부 전용 · 구글 시트 연동</div>
+  </div>
+  <div class="internal-badge">🔒 내부 전용</div>
+</div>
+
+<div class="meta-bar">
+  <div class="meta-field">
+    <label>평가자</label>
+    <input type="text" id="meta-eval" placeholder="이름" style="width:110px">
+  </div>
+  <div class="meta-field">
+    <label>평가 연월</label>
+    <select id="meta-year" style="width:85px">
+      <script>
+        const y=new Date().getFullYear();
+        for(let i=y-1;i<=y+1;i++) document.write(`<option value="${i}" ${i===y?'selected':''}>${i}년</option>`);
+      </script>
+    </select>
+    <select id="meta-month" style="width:70px">
+      <script>
+        const cm=new Date().getMonth()+1;
+        for(let m=1;m<=12;m++) document.write(`<option value="${m}" ${m===cm?'selected':''}>${m}월</option>`);
+      </script>
+    </select>
+  </div>
+  <div style="flex:1"></div>
+  <span style="font-size:12px;color:var(--muted)">입력 후 업체별 [시트 저장] 버튼 클릭</span>
+</div>
+
+<div id="err-msg" class="callout red" style="margin-bottom:14px"></div>
+
+<div class="action-bar">
+  <button class="btn btn-save" onclick="saveAll()">📊 전체 저장 (모든 업체)</button>
+  <button class="btn btn-reset" onclick="resetAll()">↺ 초기화</button>
+  <button class="btn btn-print" onclick="window.print()">🖨 인쇄</button>
+</div>
+
+<div class="companies-grid" id="companies-grid"></div>
+
+<div class="save-log">
+  <h4>저장 내역</h4>
+  <div id="log-list"><p style="font-size:12.5px;color:var(--muted)">아직 저장된 내역이 없습니다.</p></div>
+</div>
+
+</div>
+
+<script>
+'use strict';
+// ← Apps Script 배포 URL 붙여넣기
+const APPS_SCRIPT_URL = '';
+
+const COMPANIES = ['KFriday', 'Paysable', 'Sazo'];
+
+const KPI_DEFS = [
+  {
+    id:'cs', label:'① CS 응답 시간', unit:'%', placeholder:'예: 98.5',
+    hint:'24시간 이내 응답 완료 비중 (%)',
+    tiers:'100%→25점 / 95%↑→20점 / 90%↑→15점 / 미만→5점',
+    isDed:false,
+    calc:v=>v>=100?25:v>=95?20:v>=90?15:5
+  },
+  {
+    id:'spd', label:'② 구매확정 처리 속도', unit:'영업일', placeholder:'예: 2.5',
+    hint:'배송완료→구매확정 평균 영업일수',
+    tiers:'≤3일→25점 / ≤4일→15점 / ≤5일→10점 / 초과→0점',
+    isDed:false,
+    calc:v=>v<=3?25:v<=4?15:v<=5?10:0
+  },
+  {
+    id:'cancel', label:'③ 취소·오배송 발생률', unit:'%', placeholder:'예: 0.8',
+    hint:'전체 주문 대비 비중 (%)',
+    tiers:'<1%→30점 / ≤2%→20점 / ≤4%→10점 / 초과→0점',
+    isDed:false,
+    calc:v=>v<1?30:v<=2?20:v<=4?10:0
+  },
+  {
+    id:'pay', label:'④ 수수료 납부 기한', unit:'select', placeholder:'',
+    hint:'익월 말일 기준',
+    tiers:'완납→20점 / 7일이내→5점 / 7일초과→0점',
+    isDed:false,
+    type:'select',
+    options:[['','선택'],['완납','기한 내 완납(20점)'],['7일이내','7일 이내 지연(5점)'],['7일초과','7일 초과 지연(0점)']],
+    calc:v=>v==='완납'?20:v==='7일이내'?5:v==='7일초과'?0:null
+  },
+  {
+    id:'claim', label:'⑤ 클레임 미해결 건수', unit:'건', placeholder:'예: 2',
+    hint:'7영업일 초과 미해결 클레임 건수 (건당 -1점)',
+    isDed:true, dedRate:1, dedClass:'ded'
+  },
+  {
+    id:'cback', label:'⑥ 차지백 자료 미제출', unit:'건', placeholder:'예: 1',
+    hint:'3영업일 내 미제출 차지백 건수 (건당 -2점)',
+    isDed:true, dedRate:2, dedClass:'ded2'
+  }
+];
+
+const state = {};
+COMPANIES.forEach(c => { state[c] = {}; });
+
+function getVal(comp, id) { return state[comp][id] || ''; }
+function setVal(comp, id, v) {
+  state[comp][id] = v;
+  updateScore(comp);
+}
+
+function calcScore(comp) {
+  const mains = KPI_DEFS.filter(x => !x.isDed);
+  let anyVal = false;
+  let base = 0;
+  mains.forEach(def => {
+    const raw = getVal(comp, def.id);
+    if (raw === '' || raw == null) return;
+    const n = def.type === 'select' ? raw : parseFloat(raw);
+    if (def.type !== 'select' && isNaN(n)) return;
+    const s = def.calc(n);
+    if (s !== null) { base += s; anyVal = true; }
+  });
+  if (!anyVal) return null;
+  const ded = KPI_DEFS.filter(x => x.isDed).reduce((t, def) => {
+    const v = parseFloat(getVal(comp, def.id)) || 0;
+    return t + v * def.dedRate;
+  }, 0);
+  return Math.max(0, base - ded);
+}
+
+function itemScore(comp, def) {
+  const raw = getVal(comp, def.id);
+  if (raw === '' || raw == null) return null;
+  if (def.isDed) {
+    const v = parseFloat(raw);
+    if (isNaN(v)) return null;
+    return `-${v * def.dedRate}점`;
+  }
+  const n = def.type === 'select' ? raw : parseFloat(raw);
+  if (def.type !== 'select' && isNaN(n)) return null;
+  return def.calc(n);
+}
+
+function updateScore(comp) {
+  const total = calcScore(comp);
+  const el = document.getElementById(`score-${comp}`);
+  if (el) el.textContent = total !== null ? `${total}점` : '—';
+
+  KPI_DEFS.forEach(def => {
+    const badge = document.getElementById(`badge-${comp}-${def.id}`);
+    if (!badge) return;
+    const s = itemScore(comp, def);
+    if (def.isDed) {
+      badge.textContent = s !== null ? s : '—';
+    } else {
+      badge.textContent = s !== null ? `${s}점` : '—';
+    }
+  });
+}
+
+function renderCompanies() {
+  document.getElementById('companies-grid').innerHTML = COMPANIES.map(comp => {
+    const rows = KPI_DEFS.map(def => {
+      const val = getVal(comp, def.id);
+      const badgeCls = def.isDed ? (def.dedClass || 'ded') : '';
+      let inputEl;
+      if (def.type === 'select') {
+        const opts = def.options.map(([ov, ol]) =>
+          `<option value="${ov}" ${val === ov ? 'selected' : ''}>${ol}</option>`
+        ).join('');
+        inputEl = `<select class="inp" onchange="setVal('${comp}','${def.id}',this.value)">${opts}</select>`;
+      } else {
+        inputEl = `<input type="number" class="inp" value="${val}" placeholder="${def.placeholder}" min="0"
+          oninput="setVal('${comp}','${def.id}',this.value)">`;
+      }
+      return `
+        <div class="kpi-row ${def.isDed ? (def.dedClass || 'ded') : ''}">
+          <div class="kpi-row-head">
+            <span class="kpi-label">${def.label}</span>
+            <span class="kpi-score-badge ${badgeCls}" id="badge-${comp}-${def.id}">—</span>
+          </div>
+          <div class="kpi-inp-row">
+            <label>${def.unit === 'select' ? '결과' : def.unit}</label>
+            ${inputEl}
+          </div>
+          <div class="score-hint">${def.hint}</div>
+          <div class="score-hint" style="color:var(--teal)">${def.tiers || ''}</div>
+        </div>`;
+    }).join('');
+
+    return `
+      <div class="comp-card">
+        <div class="comp-head">
+          <span>${comp}</span>
+          <span class="comp-score" id="score-${comp}">—</span>
+        </div>
+        <div class="kpi-rows">
+          ${rows}
+          <button class="btn btn-save" style="margin-top:4px" onclick="saveOne('${comp}')">
+            📥 ${comp} 저장
+          </button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function getYM() {
+  return `${document.getElementById('meta-year').value}-${String(document.getElementById('meta-month').value).padStart(2,'0')}`;
+}
+
+function buildRow(comp) {
+  const ts = new Date().toLocaleString('ko-KR');
+  const eval_ = document.getElementById('meta-eval').value.trim() || '미입력';
+  const ym = getYM();
+  const g = (id, def) => {
+    const v = getVal(comp, id);
+    if (v === '' || v == null) return '';
+    if (def.type === 'select') return v;
+    const n = parseFloat(v);
+    return isNaN(n) ? '' : n;
+  };
+  const sc = (id, def) => {
+    const s = itemScore(comp, def);
+    return s !== null ? s : '';
+  };
+
+  const defs = {};
+  KPI_DEFS.forEach(d => { defs[d.id] = d; });
+
+  return [
+    ts, eval_, ym, comp,
+    g('cs', defs['cs']),   sc('cs', defs['cs']),
+    g('spd', defs['spd']), sc('spd', defs['spd']),
+    g('cancel', defs['cancel']), sc('cancel', defs['cancel']),
+    g('pay', defs['pay']), sc('pay', defs['pay']),
+    g('claim', defs['claim']), -(parseFloat(getVal(comp,'claim'))||0) * 1,
+    g('cback', defs['cback']), -(parseFloat(getVal(comp,'cback'))||0) * 2,
+    calcScore(comp) ?? ''
+  ];
+}
+
+function addLog(comp, score) {
+  const el = document.getElementById('log-list');
+  const p = el.querySelector('p');
+  if (p) p.remove();
+  const ts = new Date().toLocaleString('ko-KR');
+  const ym = getYM();
+  const div = document.createElement('div');
+  div.className = 'log-row';
+  div.innerHTML = `<span class="log-ts">${ts}</span><span class="log-company">${comp}</span><span>${ym}</span><span class="log-score">${score !== null ? score + '점' : '—'}</span><span style="color:var(--green2);font-size:12px">✅ 저장됨</span>`;
+  el.prepend(div);
+}
+
+async function saveOne(comp) {
+  const row = buildRow(comp);
+  const score = calcScore(comp);
+  await postToSheets(row);
+  addLog(comp, score);
+}
+
+async function saveAll() {
+  for (const comp of COMPANIES) {
+    await saveOne(comp);
+  }
+  document.getElementById('err-msg').style.display = 'none';
+}
+
+async function postToSheets(row) {
+  const url = APPS_SCRIPT_URL.trim();
+  if (!url) {
+    // fallback: download JSON
+    const blob = new Blob([JSON.stringify({row}, null, 2)], {type: 'application/json'});
+    const a = Object.assign(document.createElement('a'), {
+      href: URL.createObjectURL(blob),
+      download: `KPI_${row[3]}_${row[2]}_${Date.now()}.json`
+    });
+    a.click();
+    return;
+  }
+  try {
+    await fetch(url, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {'Content-Type': 'text/plain'},
+      body: JSON.stringify({row})
+    });
+  } catch(e) {
+    const el = document.getElementById('err-msg');
+    el.textContent = '⚠️ 저장 오류: ' + e.message + ' — 담당자에게 문의하거나 JSON을 다운로드해 주세요.';
+    el.style.display = 'block';
+  }
+}
+
+function resetAll() {
+  if (!confirm('모든 입력값을 초기화하시겠습니까?')) return;
+  COMPANIES.forEach(c => { state[c] = {}; });
+  renderCompanies();
+}
+
+renderCompanies();
+</script>
+</body>
+</html>

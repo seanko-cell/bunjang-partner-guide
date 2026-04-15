@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>번개장터 글로벌 운영사 비딩 제출</title>
+<!--
+=== GOOGLE APPS SCRIPT 설정 ===
+1. script.google.com → 새 프로젝트
+2. Code.gs에 아래 코드 붙여넣기:
+
+function doPost(e) {
+  try {
+    const data = JSON.parse(e.postData.contents);
+    const ss = SpreadsheetApp.openById('여기에_시트_ID_입력');
+    let sheet = ss.getSheetByName('비딩 제출');
+    if (!sheet) sheet = ss.insertSheet('비딩 제출');
+    if (sheet.getLastRow() === 0) {
+      sheet.appendRow(['제출일시','업체명','담당자','이메일','창고인프라','사업자등록','기술역량',
+        '핸들링비용','포카_미국','포카_유럽','포카_오세아니아','포카_일본','포카_중국',
+        '응원봉_미국','응원봉_유럽','응원봉_오세아니아','응원봉_일본','응원봉_중국',
+        '의류_미국','의류_유럽','의류_오세아니아','의류_일본','의류_중국',
+        '수수료율','월처리물량','CS인력','확장기여도','비고']);
+    }
+    sheet.appendRow(data.row);
+    return ContentService.createTextOutput(JSON.stringify({status:'ok'}))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch(err) {
+    return ContentService.createTextOutput(JSON.stringify({status:'error',message:err.message}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+3. 배포 → 웹 앱 → 액세스: 모든 사용자 → 배포
+4. 배포 URL을 아래 APPS_SCRIPT_URL에 붙여넣기
+-->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#1C3557;--teal:#1D6F8C;--ltblue:#DBEAFE;
+  --input:#FEFCE8;--gray:#F1F5F9;--border:#CBD5E1;--text:#1E293B;--muted:#64748B;
+  --green:#DCFCE7;--green2:#15803D;--red:#FEE2E2;--red2:#B91C1C;
+  --orange:#FFF3E0;--orange2:#92400E;--white:#fff;--radius:10px;
+  --shadow:0 2px 8px rgba(0,0,0,.08);
+}
+body{font-family:'Noto Sans KR',-apple-system,sans-serif;font-size:14px;color:var(--text);background:#F0F4F8;line-height:1.6}
+.wrap{max-width:920px;margin:0 auto;padding:28px 16px 80px}
+.hero{background:linear-gradient(135deg,var(--navy) 0%,#2B5080 60%,var(--teal) 100%);border-radius:var(--radius);padding:36px 40px 28px;color:white;margin-bottom:24px;box-shadow:0 6px 24px rgba(28,53,87,.28)}
+.hero h1{font-size:22px;font-weight:900;margin-bottom:6px}
+.hero .sub{font-size:12.5px;color:#93C5FD;margin-bottom:16px}
+.hero-notice{background:rgba(255,255,255,.1);border-left:3px solid #60A5FA;border-radius:0 6px 6px 0;padding:12px 16px;font-size:12.5px;color:#BFDBFE;line-height:1.8}
+.sec{background:white;border-radius:var(--radius);border:1px solid var(--border);margin-bottom:18px;overflow:hidden;box-shadow:var(--shadow)}
+.sec-head{padding:13px 22px;font-size:13.5px;font-weight:700;display:flex;align-items:center;gap:10px;color:white}
+.sec-head.teal{background:var(--teal)}
+.sec-head.navy{background:var(--navy)}
+.sec-head .badge{background:rgba(255,255,255,.2);border-radius:4px;padding:2px 9px;font-size:11px;font-weight:500;white-space:nowrap}
+.sec-body{padding:20px 24px}
+.guide-list{list-style:none;padding:0;margin:0}
+.guide-list li{padding:8px 14px 8px 38px;position:relative;margin-bottom:4px;background:var(--gray);border-radius:6px;font-size:13px;line-height:1.7}
+.guide-list li::before{content:attr(data-n);position:absolute;left:12px;top:9px;width:18px;height:18px;background:var(--teal);color:white;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-size:12.5px;font-weight:600;color:var(--muted)}
+.field label .req{color:var(--red2)}
+.inp{padding:9px 12px;border:1.5px solid var(--border);border-radius:7px;background:var(--input);font-family:inherit;font-size:13.5px;color:var(--text);width:100%;transition:border-color .15s}
+.inp:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(29,111,140,.1)}
+.inp.err{border-color:var(--red2)}
+select.inp{cursor:pointer}
+.gtable{width:100%;border-collapse:collapse;font-size:13px}
+.gtable th{background:var(--navy);color:white;padding:9px 12px;text-align:center;font-size:12px;font-weight:600;border:1px solid rgba(255,255,255,.1)}
+.gtable th.left{text-align:left}
+.gtable td{padding:9px 12px;border:1px solid var(--border);vertical-align:middle}
+.gtable tr:nth-child(even) td{background:#FAFBFC}
+.gtable td.label{font-weight:600;background:var(--gray)!important;font-size:13px}
+.gtable td.hand{background:#FFF8F0!important}
+.gtable td.hand.label{background:#FEF3C7!important;color:var(--orange2)}
+.tag-bind{background:var(--green);color:var(--green2);border-radius:4px;padding:2px 7px;font-size:10px;font-weight:700;margin-left:6px}
+.tag-ref{background:var(--gray);color:var(--muted);border-radius:4px;padding:2px 7px;font-size:10px;margin-left:6px}
+.callout{border-radius:8px;padding:12px 16px;font-size:13px;line-height:1.7;margin:12px 0}
+.callout.blue{background:#EFF6FF;border-left:4px solid #3B82F6;color:#1E40AF}
+.callout.yellow{background:#FEF9C3;border-left:4px solid #EAB308;color:#713F12}
+.callout.green{background:var(--green);border-left:4px solid #22C55E;color:#14532D}
+.callout.red{background:var(--red);border-left:4px solid #EF4444;color:var(--red2)}
+.pf-pass{background:var(--green)!important;color:var(--green2);font-weight:700}
+.pf-fail{background:var(--red)!important;color:var(--red2);font-weight:700}
+.tier-box{background:var(--gray);border-radius:6px;padding:10px 14px;font-size:12px;color:var(--muted);margin-top:10px;line-height:1.8}
+.tier-box b{color:var(--navy)}
+.btn-submit{width:100%;padding:16px;border-radius:8px;border:none;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;background:var(--teal);color:white;transition:all .2s;margin-top:8px}
+.btn-submit:hover{background:var(--navy);transform:translateY(-1px);box-shadow:0 4px 14px rgba(28,53,87,.3)}
+.btn-submit:disabled{background:var(--muted);cursor:not-allowed;transform:none;box-shadow:none}
+.success-banner{display:none;background:var(--green);border:1.5px solid #86EFAC;border-radius:var(--radius);padding:24px 28px;text-align:center;margin-bottom:18px}
+.success-banner h3{color:var(--green2);font-size:18px;margin-bottom:6px}
+.success-banner p{color:#166534;font-size:13px}
+.err-banner{display:none;background:var(--red);border:1.5px solid #FCA5A5;border-radius:var(--radius);padding:16px 20px;margin-bottom:12px;color:var(--red2);font-size:13px}
+.hint{font-size:11.5px;color:var(--muted);margin-top:3px}
+@media(max-width:640px){.row2,.row3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hero">
+  <h1>번개장터 글로벌(해구대) 운영사 비딩 제출</h1>
+  <div class="sub">파트너사 제출용 · Partner Bidding Submission Form</div>
+  <div class="hero-notice">
+    본 양식은 번개장터 글로벌 운영사 선정을 위한 비딩 제출 양식입니다.
+    <strong style="color:white">계약 바인딩</strong> 항목(수수료율, 핸들링비용)은 계약 체결 시 제출값 그대로 반영됩니다.
+    모든 항목을 성실히 작성 후 제출해 주세요.
+  </div>
+</div>
+
+<div id="success-banner" class="success-banner">
+  <h3>✅ 제출 완료</h3>
+  <p>비딩 자료가 정상적으로 제출되었습니다. 담당 매니저가 검토 후 연락드립니다.</p>
+</div>
+<div id="err-banner" class="err-banner"></div>
+
+<!-- 1. 업체 정보 -->
+<div class="sec">
+  <div class="sec-head navy">① 업체 기본 정보</div>
+  <div class="sec-body">
+    <div class="row3" style="margin-bottom:14px">
+      <div class="field">
+        <label>업체명 <span class="req">*</span></label>
+        <input class="inp" id="f-company" type="text" placeholder="예: (주)KFRIDAY">
+      </div>
+      <div class="field">
+        <label>담당자 성명 <span class="req">*</span></label>
+        <input class="inp" id="f-contact" type="text" placeholder="홍길동">
+      </div>
+      <div class="field">
+        <label>이메일 <span class="req">*</span></label>
+        <input class="inp" id="f-email" type="email" placeholder="example@company.com">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 2. 안내 -->
+<div class="sec">
+  <div class="sec-head teal">② 작성 안내</div>
+  <div class="sec-body">
+    <ul class="guide-list">
+      <li data-n="1">섹션 3의 <strong>필수 요건 3가지</strong>를 모두 충족해야 평가 대상이 됩니다.</li>
+      <li data-n="2"><strong style="color:#B91C1C">수수료율과 핸들링비용은 계약 바인딩 항목</strong>으로, 제출값이 계약서에 그대로 반영됩니다.</li>
+      <li data-n="3">배송 요율은 참고 지표이며, 국가·상품 유형별 실제 배송비(원화 기준)를 입력해 주세요.</li>
+      <li data-n="4">월 처리 가능 물량·CS 인력은 참고 지표이나, 실운영이 현저히 미달할 경우 계약 재협의 근거로 활용될 수 있습니다.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 3. 필수 요건 -->
+<div class="sec">
+  <div class="sec-head teal">③ 필수 요건 <span class="badge">3개 모두 충족 필수</span></div>
+  <div class="sec-body">
+    <div class="callout yellow" style="margin-bottom:14px">필수 요건 항목 중 하나라도 미충족(Fail)이면 평가 대상에서 제외됩니다.</div>
+    <table class="gtable">
+      <thead>
+        <tr>
+          <th class="left" style="width:200px">항목</th>
+          <th class="left">기준</th>
+          <th style="width:130px">충족 여부 <span style="color:#FCA5A5">*</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="label">① 창고·물류 인프라</td>
+          <td>국내 수령 가능 거점 보유</td>
+          <td style="text-align:center">
+            <select class="inp" id="pf1" onchange="updatePF(this)" style="width:110px">
+              <option value="">선택</option>
+              <option value="Pass">✅ Pass</option>
+              <option value="Fail">❌ Fail</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td class="label">② 사업자 등록 및 법적 요건</td>
+          <td>구매대행업 운영 가능한 법인</td>
+          <td style="text-align:center">
+            <select class="inp" id="pf2" onchange="updatePF(this)" style="width:110px">
+              <option value="">선택</option>
+              <option value="Pass">✅ Pass</option>
+              <option value="Fail">❌ Fail</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td class="label">③ 기술 역량</td>
+          <td>번개장터 전담 개발자 2인 이상 + API 연동</td>
+          <td style="text-align:center">
+            <select class="inp" id="pf3" onchange="updatePF(this)" style="width:110px">
+              <option value="">선택</option>
+              <option value="Pass">✅ Pass</option>
+              <option value="Fail">❌ Fail</option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div id="pf-warn" class="callout red" style="display:none;margin-top:12px">
+      ⚠️ 필수 요건 미충족 항목이 있습니다. 미충족 시 평가 대상에서 제외될 수 있습니다.
+    </div>
+  </div>
+</div>
+
+<!-- 4. 배송 요율 -->
+<div class="sec">
+  <div class="sec-head teal">④ 배송 요율 <span class="badge">핸들링비용은 계약 바인딩</span></div>
+  <div class="sec-body">
+    <div class="callout blue" style="margin-bottom:14px">
+      각 지역별 실제 배송비(원화 기준)를 입력해 주세요.
+      <strong>핸들링비용(건당)</strong>은 계약 바인딩 항목입니다. 배송비는 참고 지표로 활용됩니다.
+    </div>
+    <div style="overflow-x:auto">
+      <table class="gtable" style="min-width:680px">
+        <thead>
+          <tr>
+            <th class="left" style="width:110px">항목</th>
+            <th style="width:65px">중량</th>
+            <th>미국(LA)</th>
+            <th>유럽(FRA)</th>
+            <th>오세아니아<br>(SYD)</th>
+            <th>일본(TYO)</th>
+            <th>중국(SHA)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="label hand">핸들링비용<br><span class="tag-bind">바인딩</span></td>
+            <td class="hand" style="text-align:center;color:var(--muted)">건당</td>
+            <td colspan="5" class="hand" style="text-align:center">
+              <input type="number" class="inp" id="ship-h" placeholder="예: 2000" min="0" step="100"
+                style="max-width:200px;margin:0 auto;display:block">
+              <div class="hint" style="text-align:center">건당 핸들링비용 (원, 전 지역 동일 적용)</div>
+            </td>
+          </tr>
+          <tr>
+            <td class="label">포토카드</td>
+            <td style="text-align:center;color:var(--muted)">1.0 kg</td>
+            <td><input type="number" class="inp ship-inp" id="s0r0" placeholder="0" min="0"></td>
+            <td><input type="number" class="inp ship-inp" id="s0r1" placeholder="0" min="0"></td>
+            <td><input type="number" class="inp ship-inp" id="s0r2" placeholder="0" min="0"></td>
+            <td><input type="number" class="inp ship-inp" id="s0r3" placeholder="0" min="0"></td>
+            <td><input type="number" class="inp ship-inp" id="s0r4" placeholder="0" min="0"></td>
+          </tr>
+          <tr>
+            <td class="label">응원봉</td>
+            <td style="text-align:center;color:var(--muted)">2.0 kg</td>
+            <td><input type="number" class="inp ship-inp" id="s1r0" placeholder="0" min="0"></td>
+            <td><input type="number" class="inp ship-inp" id="s1r1" placeholder="0" min="0"></td>
+            <td><input type="number" class="inp ship-inp" id="s1r2" placeholder="0" min="0"></td>
+            <td><input type="number" class="inp ship-inp" id="s1r3" placeholder="0" min="0"></td>
+            <td><input type="number" class="inp ship-inp" id="s1r4" placeholder="0" min="0"></td>
+          </tr>
+          <tr>
+            <td class="label">의류</td>
+            <td style="text-align:center;color:var(--muted)">5.0 kg</td>
+            <td><input type="number" class="inp ship-inp" id="s2r0" placeholder="0" min="0"></td>
+            <td><input type="number" class="inp ship-inp" id="s2r1" placeholder="0" min="0"></td>
+            <td><input type="number" class="inp ship-inp" id="s2r2" placeholder="0" min="0"></td>
+            <td><input type="number" class="inp ship-inp" id="s2r3" placeholder="0" min="0"></td>
+            <td><input type="number" class="inp ship-inp" id="s2r4" placeholder="0" min="0"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- 5. 수수료율 -->
+<div class="sec">
+  <div class="sec-head teal">⑤ 번개장터 납부 수수료율 <span class="badge">계약 바인딩</span></div>
+  <div class="sec-body">
+    <div class="callout blue" style="margin-bottom:14px">
+      건당 번개장터에 납부하는 수수료를 원화(₩)로 제안해 주세요.
+      이 값은 계약에 그대로 반영됩니다.
+    </div>
+    <div class="field" style="max-width:300px">
+      <label>수수료율 (원/건) <span class="req">*</span></label>
+      <input class="inp" id="f-comm" type="number" min="0" step="100" placeholder="예: 1000">
+    </div>
+    <div class="tier-box">
+      <b>참고 — 수수료율 구간</b><br>
+      1,000원 이상&nbsp;·&nbsp;800~999원&nbsp;·&nbsp;600~799원&nbsp;·&nbsp;400~599원&nbsp;·&nbsp;400원 미만<br>
+      <span style="color:var(--teal)">※ 높은 수수료율 제안이 경쟁 평가에서 유리합니다.</span>
+    </div>
+  </div>
+</div>
+
+<!-- 6. 기타 지표 -->
+<div class="sec">
+  <div class="sec-head teal">⑥ 기타 운영 역량 <span class="badge">참고 지표</span></div>
+  <div class="sec-body">
+    <div class="callout yellow" style="margin-bottom:14px">
+      아래 항목은 선정 참고 지표입니다. 실운영이 제출값 대비 현저히 미달할 경우 계약 재협의 근거로 활용될 수 있습니다.
+    </div>
+    <div class="row3">
+      <div class="field">
+        <label>월 처리 가능 물량 (건)</label>
+        <input class="inp" id="f-vol" type="number" min="0" step="500" placeholder="예: 8000">
+        <div class="hint">미국·EU·일본 합산 월 최대 처리 건수</div>
+      </div>
+      <div class="field">
+        <label>CS 전담 인원 (명)</label>
+        <input class="inp" id="f-cs" type="number" min="0" step="1" placeholder="예: 3">
+        <div class="hint">번개장터 글로벌 전담 CS 인원 수</div>
+      </div>
+      <div class="field">
+        <label>사업 확장 기여도 등급</label>
+        <select class="inp" id="f-exp">
+          <option value="">선택</option>
+          <option value="A">A — 전략 파트너 (신규 시장·기술 협력)</option>
+          <option value="B">B — 협력 파트너 (기존 시장 안정 운영)</option>
+          <option value="C">C — 단순 벤더 (표준 수준 운영)</option>
+        </select>
+        <div class="hint">자사의 번개장터 기여도 수준을 자체 평가</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 7. 비고 -->
+<div class="sec">
+  <div class="sec-head teal">⑦ 비고 / 추가 제안</div>
+  <div class="sec-body">
+    <textarea class="inp" id="f-note" rows="4" placeholder="기타 강점, 추가 제안 사항, 특이사항 등을 자유롭게 기재해 주세요." style="resize:vertical"></textarea>
+  </div>
+</div>
+
+<!-- Submit -->
+<button class="btn-submit" id="btn-submit" onclick="submitForm()">
+  제출하기
+</button>
+
+</div><!-- /wrap -->
+
+<script>
+'use strict';
+// ← 여기에 Apps Script 배포 URL 붙여넣기
+const APPS_SCRIPT_URL = '';
+
+function updatePF(sel){
+  sel.className='inp';
+  if(sel.value==='Pass') sel.classList.add('pf-pass');
+  else if(sel.value==='Fail') sel.classList.add('pf-fail');
+  const hasFail=['pf1','pf2','pf3'].some(id=>{const el=document.getElementById(id);return el&&el.value==='Fail';});
+  document.getElementById('pf-warn').style.display=hasFail?'block':'none';
+}
+
+function v(id){return(document.getElementById(id)||{}).value||'';}
+function sv(id){const el=document.getElementById(id);if(!el) return '';const s=el.value.trim();return s;}
+
+function validate(){
+  let ok=true;
+  const required=[
+    {id:'f-company',msg:'업체명'},
+    {id:'f-contact',msg:'담당자 성명'},
+    {id:'f-email',msg:'이메일'},
+    {id:'pf1',msg:'창고·물류 인프라 충족 여부'},
+    {id:'pf2',msg:'사업자 등록 충족 여부'},
+    {id:'pf3',msg:'기술 역량 충족 여부'},
+    {id:'f-comm',msg:'수수료율'},
+    {id:'ship-h',msg:'핸들링비용'},
+  ];
+  const missing=[];
+  required.forEach(({id,msg})=>{
+    const el=document.getElementById(id);
+    if(!el||!el.value.trim()){el&&el.classList.add('err');missing.push(msg);}
+    else el&&el.classList.remove('err');
+  });
+  if(missing.length){
+    showErr(`다음 필수 항목을 입력해 주세요: ${missing.join(', ')}`);
+    ok=false;
+  }
+  return ok;
+}
+
+function collectRow(){
+  const ts=new Date().toLocaleString('ko-KR');
+  const g=id=>parseFloat(v(id))||'';
+  return [
+    ts,
+    sv('f-company'), sv('f-contact'), sv('f-email'),
+    v('pf1'), v('pf2'), v('pf3'),
+    g('ship-h'),
+    g('s0r0'),g('s0r1'),g('s0r2'),g('s0r3'),g('s0r4'),
+    g('s1r0'),g('s1r1'),g('s1r2'),g('s1r3'),g('s1r4'),
+    g('s2r0'),g('s2r1'),g('s2r2'),g('s2r3'),g('s2r4'),
+    g('f-comm'), g('f-vol'), g('f-cs'), v('f-exp'),
+    sv('f-note')
+  ];
+}
+
+async function submitForm(){
+  if(!validate()) return;
+  const btn=document.getElementById('btn-submit');
+  btn.disabled=true; btn.textContent='제출 중...';
+  hideErr();
+
+  const row=collectRow();
+
+  if(!APPS_SCRIPT_URL){
+    // URL 미설정 시 JSON 다운로드 fallback
+    const blob=new Blob([JSON.stringify({row},null,2)],{type:'application/json'});
+    const a=Object.assign(document.createElement('a'),{href:URL.createObjectURL(blob),download:`비딩_${sv('f-company')}_${Date.now()}.json`});
+    a.click();
+    showSuccess();
+    btn.disabled=false; btn.textContent='제출하기';
+    return;
+  }
+
+  try{
+    await fetch(APPS_SCRIPT_URL,{
+      method:'POST',
+      mode:'no-cors',
+      headers:{'Content-Type':'text/plain'},
+      body:JSON.stringify({row})
+    });
+    showSuccess();
+    btn.textContent='제출 완료';
+  }catch(e){
+    showErr('제출 중 오류가 발생했습니다. 담당 매니저에게 직접 연락해 주세요. ('+e.message+')');
+    btn.disabled=false; btn.textContent='다시 시도';
+  }
+}
+
+function showSuccess(){
+  document.getElementById('success-banner').style.display='block';
+  document.getElementById('success-banner').scrollIntoView({behavior:'smooth',block:'center'});
+}
+function showErr(msg){const el=document.getElementById('err-banner');el.textContent='⚠️ '+msg;el.style.display='block';el.scrollIntoView({behavior:'smooth',block:'center'});}
+function hideErr(){document.getElementById('err-banner').style.display='none';}
+
+// auto-set today
+document.getElementById('f-email').addEventListener('input',hideErr);
+</script>
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>번개장터 글로벌 KPI 평가 기준 안내</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#1C3557;--teal:#1D6F8C;--ltblue:#DBEAFE;
+  --gray:#F1F5F9;--border:#CBD5E1;--text:#1E293B;--muted:#64748B;
+  --green:#DCFCE7;--green2:#15803D;--red:#FEE2E2;--red2:#B91C1C;
+  --orange:#FFF8F0;--orange2:#92400E;--white:#fff;--radius:10px;
+  --shadow:0 2px 8px rgba(0,0,0,.08);
+}
+body{font-family:'Noto Sans KR',-apple-system,sans-serif;font-size:14px;color:var(--text);background:#F0F4F8;line-height:1.6}
+.wrap{max-width:860px;margin:0 auto;padding:28px 16px 80px}
+.hero{background:linear-gradient(135deg,var(--navy) 0%,#2B5080 60%,var(--teal) 100%);border-radius:var(--radius);padding:36px 40px 28px;color:white;margin-bottom:24px;box-shadow:0 6px 24px rgba(28,53,87,.28)}
+.hero h1{font-size:22px;font-weight:900;margin-bottom:6px}
+.hero .sub{font-size:12.5px;color:#93C5FD;margin-bottom:16px}
+.hero-notice{background:rgba(255,255,255,.1);border-left:3px solid #60A5FA;border-radius:0 6px 6px 0;padding:12px 16px;font-size:12.5px;color:#BFDBFE;line-height:1.8}
+.sec{background:white;border-radius:var(--radius);border:1px solid var(--border);margin-bottom:18px;overflow:hidden;box-shadow:var(--shadow)}
+.sec-head{padding:13px 22px;font-size:13.5px;font-weight:700;display:flex;align-items:center;justify-content:space-between;gap:10px;color:white;flex-wrap:wrap}
+.sec-head.teal{background:var(--teal)}
+.sec-head.navy{background:var(--navy)}
+.sec-head .badge{background:rgba(255,255,255,.2);border-radius:4px;padding:2px 9px;font-size:11px;font-weight:500;white-space:nowrap}
+.sec-body{padding:20px 24px}
+.gtable{width:100%;border-collapse:collapse;font-size:13px}
+.gtable th{background:var(--navy);color:white;padding:10px 14px;text-align:center;font-size:12px;font-weight:600;border:1px solid rgba(255,255,255,.1)}
+.gtable th.left{text-align:left}
+.gtable td{padding:10px 14px;border:1px solid var(--border);vertical-align:middle}
+.gtable tr:nth-child(even) td{background:#FAFBFC}
+.gtable td.label{font-weight:600;background:var(--gray)!important}
+.gtable td.center{text-align:center}
+.gtable td.pt{text-align:center;font-weight:700;color:var(--navy)}
+.gtable td.tier{color:var(--muted);font-size:12px;line-height:1.9}
+.gtable tr.ded-row td{background:var(--orange)!important}
+.gtable tr.ded-row td.label{background:#FEF3C7!important;color:var(--orange2)}
+.gtable tr.ded2-row td{background:var(--red)!important}
+.gtable tr.ded2-row td.label{background:#FEE2E2!important;color:var(--red2)}
+.tag-bind{background:var(--green);color:var(--green2);border-radius:4px;padding:2px 7px;font-size:10px;font-weight:700;margin-left:6px}
+.tag-ded{background:#FEF3C7;color:var(--orange2);border-radius:4px;padding:2px 7px;font-size:10px;font-weight:700;margin-left:6px}
+.tag-ded2{background:var(--red);color:var(--red2);border-radius:4px;padding:2px 7px;font-size:10px;font-weight:700;margin-left:6px}
+.tier-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
+.chip{background:white;border:1px solid var(--border);border-radius:20px;padding:3px 10px;font-size:11.5px}
+.chip.best{background:var(--green);border-color:#86EFAC;color:var(--green2);font-weight:700}
+.callout{border-radius:8px;padding:12px 16px;font-size:13px;line-height:1.7;margin:12px 0}
+.callout.blue{background:#EFF6FF;border-left:4px solid #3B82F6;color:#1E40AF}
+.callout.yellow{background:#FEF9C3;border-left:4px solid #EAB308;color:#713F12}
+.callout.red{background:var(--red);border-left:4px solid #EF4444;color:var(--red2)}
+.rank-formula{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;padding:16px;background:var(--gray);border-radius:8px;margin:12px 0}
+.rank-block{background:white;border:1.5px solid var(--border);border-radius:8px;padding:10px 16px;text-align:center;min-width:110px}
+.rank-block .rv{font-size:16px;font-weight:900;color:var(--navy);line-height:1.3}
+.rank-block .rl{font-size:11px;color:var(--muted);margin-top:2px}
+.rank-plus{font-size:20px;font-weight:900;color:var(--muted)}
+.penalty-warn td{background:#FFF3E0!important}
+.penalty-down td{background:var(--ltblue)!important}
+.penalty-exit td{background:var(--red)!important}
+.formula-box{background:var(--gray);border-radius:8px;padding:14px 18px;font-size:13px;line-height:2;margin:12px 0}
+.formula-box strong{color:var(--navy)}
+.tl{text-align:left}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hero">
+  <h1>번개장터 글로벌(해구대)<br>운영사 KPI 평가 기준 안내</h1>
+  <div class="sub">파트너사 안내용 · KPI Evaluation Criteria Guide</div>
+  <div class="hero-notice">
+    번개장터 글로벌 운영사로 선정된 이후, 매월 아래 KPI 기준으로 운영 성과를 평가합니다.
+    평가 결과는 플랫폼 내 <strong style="color:white">노출 순위 산정</strong>에 직접 반영됩니다.
+  </div>
+</div>
+
+<!-- KPI 항목 기준 -->
+<div class="sec">
+  <div class="sec-head navy">▶ KPI 항목별 평가 기준 <span class="badge">총 100점 기본 + 차감</span></div>
+  <div class="sec-body">
+    <div class="callout blue" style="margin-bottom:14px">
+      매월 실측값을 기준으로 점수를 산정합니다.
+      <strong>클레임·차지백 차감 항목</strong>은 건당 감점이 적용되므로 0건 유지가 중요합니다.
+    </div>
+    <div style="overflow-x:auto">
+      <table class="gtable">
+        <thead>
+          <tr>
+            <th class="left" style="width:175px">항목</th>
+            <th style="width:55px">만점</th>
+            <th class="left" style="width:200px">측정 방식</th>
+            <th style="width:90px">목표</th>
+            <th class="left">배점 구간</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="label">① CS 응답 시간</td>
+            <td class="pt">25점</td>
+            <td>24시간 이내 응답 완료 비중 (%)</td>
+            <td class="center">100%</td>
+            <td class="tier">
+              <div class="tier-chips">
+                <span class="chip best">100% → 25점</span>
+                <span class="chip">95%↑ → 20점</span>
+                <span class="chip">90%↑ → 15점</span>
+                <span class="chip">90% 미만 → 5점</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="label">② 구매확정 처리 속도</td>
+            <td class="pt">25점</td>
+            <td>배송완료 → 구매확정 평균 영업일수</td>
+            <td class="center">3일 이내</td>
+            <td class="tier">
+              <div class="tier-chips">
+                <span class="chip best">≤3일 → 25점</span>
+                <span class="chip">≤4일 → 15점</span>
+                <span class="chip">≤5일 → 10점</span>
+                <span class="chip">5일 초과 → 0점</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="label">③ 취소·오배송 발생률</td>
+            <td class="pt">30점</td>
+            <td>전체 주문 대비 비중 (%)</td>
+            <td class="center">1% 미만</td>
+            <td class="tier">
+              <div class="tier-chips">
+                <span class="chip best">&lt;1% → 30점</span>
+                <span class="chip">≤2% → 20점</span>
+                <span class="chip">≤4% → 10점</span>
+                <span class="chip">4% 초과 → 0점</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="label">④ 수수료 납부 기한<span class="tag-bind">바인딩</span></td>
+            <td class="pt">20점</td>
+            <td>익월 말일까지 완납 여부</td>
+            <td class="center">기한 내 완납</td>
+            <td class="tier">
+              <div class="tier-chips">
+                <span class="chip best">기한 내 완납 → 20점</span>
+                <span class="chip">7일 이내 지연 → 5점</span>
+                <span class="chip">7일 초과 지연 → 0점</span>
+              </div>
+              <p style="margin-top:6px;color:var(--red2);font-size:12px">⚠️ 7일 초과 시 서비스 일시 중단 조치 가능</p>
+            </td>
+          </tr>
+          <tr class="ded-row">
+            <td class="label">⑤ 클레임 미해결<span class="tag-ded">차감</span></td>
+            <td class="pt" style="color:var(--orange2)">차감</td>
+            <td>7영업일 초과 미해결 건수</td>
+            <td class="center" style="color:var(--orange2);font-weight:700">0건</td>
+            <td class="tier" style="color:var(--orange2)">
+              건당 <strong>-1점</strong> 차감<br>
+              <span style="font-size:12px">클레임 접수 후 7영업일 이내 처리 완료 필요</span>
+            </td>
+          </tr>
+          <tr class="ded2-row">
+            <td class="label">⑥ 차지백 자료 미제출<span class="tag-ded2">차감</span></td>
+            <td class="pt" style="color:var(--red2)">차감</td>
+            <td>차지백 발생 후 3영업일 내 미제출 건수</td>
+            <td class="center" style="color:var(--red2);font-weight:700">0건</td>
+            <td class="tier" style="color:var(--red2)">
+              건당 <strong>-2점</strong> 차감<br>
+              <span style="font-size:12px">차지백 발생 시 3영업일 이내 자료 제출 필요</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="formula-box" style="margin-top:16px">
+      <strong>월 KPI 점수 = </strong>기본 점수 합산 (최대 100점) &minus; 클레임 미해결 건수 × 1점 &minus; 차지백 미제출 건수 × 2점<br>
+      <span style="color:var(--muted);font-size:12px">※ 최저 점수는 0점 (음수 미적용)</span>
+    </div>
+  </div>
+</div>
+
+<!-- 노출 순위 -->
+<div class="sec">
+  <div class="sec-head navy">▶ 플랫폼 노출 순위 산정 방식</div>
+  <div class="sec-body">
+    <p style="font-size:13px;color:var(--muted);margin-bottom:14px">KPI 점수·수수료율·배송 요율을 가중 합산하여 매월 초 노출 순위를 갱신합니다.</p>
+    <div class="rank-formula">
+      <div class="rank-block">
+        <div class="rv" style="color:var(--teal)">KPI 점수<br>× 40%</div>
+        <div class="rl">월간 KPI 실측</div>
+      </div>
+      <div class="rank-plus">+</div>
+      <div class="rank-block">
+        <div class="rv" style="color:var(--green2)">수수료율<br>× 30%</div>
+        <div class="rl">비딩 확정값</div>
+      </div>
+      <div class="rank-plus">+</div>
+      <div class="rank-block">
+        <div class="rv" style="color:#7C3AED">배송 요율<br>× 30%</div>
+        <div class="rl">비딩 기준 점수</div>
+      </div>
+      <div class="rank-plus">=</div>
+      <div class="rank-block" style="border-color:var(--navy);background:#EFF6FF">
+        <div class="rv">가중 합산</div>
+        <div class="rl">노출 순위 결정</div>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--muted)">※ KPI 점수는 가장 최근 측정 월 기준. 수수료율·배송 점수는 비딩 시 제출값 기준으로 고정됩니다.</p>
+  </div>
+</div>
+
+<!-- 패널티 -->
+<div class="sec">
+  <div class="sec-head teal">▶ 패널티 및 계약 해지 기준</div>
+  <div class="sec-body">
+    <table class="gtable">
+      <thead>
+        <tr>
+          <th style="width:120px">단계</th>
+          <th class="tl">발동 조건</th>
+          <th class="tl">조치 내용</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="penalty-warn"><td style="font-weight:700">⚠️ 경고</td><td>KPI 2개 항목 연속 2개월 미달</td><td>서면 경고 + 30일 이내 개선 계획서 제출</td></tr>
+        <tr class="penalty-down"><td style="font-weight:700">📉 순위 하락</td><td>경고 후 1개월 내 미개선</td><td>노출 순위 강제 하향 조정</td></tr>
+        <tr class="penalty-exit"><td style="font-weight:700">🚫 계약 해지</td><td>중대 운영 사고 또는 3개월 연속 KPI 미달</td><td>계약 조기 해지 (서면 통보 후 30일)</td></tr>
+      </tbody>
+    </table>
+    <div class="callout red" style="margin-top:14px">
+      <strong>수수료 납부 7일 초과 지연</strong>은 자금 건전성 문제로 판단하여 서비스 일시 중단 조치가 적용될 수 있습니다.
+    </div>
+  </div>
+</div>
+
+<!-- 측정 주기 안내 -->
+<div class="sec">
+  <div class="sec-head teal">▶ 측정 주기 및 데이터 제공</div>
+  <div class="sec-body">
+    <table class="gtable">
+      <thead><tr><th class="left">KPI 항목</th><th class="left">측정 주기</th><th class="left">데이터 출처</th></tr></thead>
+      <tbody>
+        <tr><td class="label">CS 응답 시간</td><td>매월 말 기준</td><td>번개장터 CS 관리 시스템</td></tr>
+        <tr><td class="label">구매확정 처리 속도</td><td>매월 말 기준</td><td>번개장터 주문 시스템 (배송완료 → 구매확정 이벤트)</td></tr>
+        <tr><td class="label">취소·오배송 발생률</td><td>매월 말 기준</td><td>번개장터 주문/클레임 시스템</td></tr>
+        <tr><td class="label">수수료 납부 기한</td><td>익월 말일 기준</td><td>정산 시스템 완납 여부 확인</td></tr>
+        <tr><td class="label">클레임 미해결</td><td>매월 말 누적</td><td>7영업일 초과 미처리 클레임 건수</td></tr>
+        <tr><td class="label">차지백 자료 미제출</td><td>매월 말 누적</td><td>3영업일 내 미제출 차지백 건수</td></tr>
+      </tbody>
+    </table>
+    <div class="callout blue" style="margin-top:14px">
+      KPI 결과는 매월 초 운영사에 개별 통보됩니다. 이의 제기는 통보일로부터 5영업일 이내에 담당 매니저에게 서면으로 제출해 주세요.
+    </div>
+  </div>
+</div>
+
+<p style="text-align:center;color:var(--muted);font-size:12px;margin-top:32px">
+  <strong style="color:var(--navy)">번개장터 글로벌(해구대)</strong> · KPI 평가 기준 안내 · v2.0<br>
+  문의: 담당 매니저에게 연락해 주세요.
+</p>
+
+</div>
+</body>
+</html>
