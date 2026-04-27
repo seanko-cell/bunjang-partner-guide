@@ -102,6 +102,15 @@
       "orderId"
     ]
   },
+  "api-9989579": {
+    "name": "Get Point Balance",
+    "url": "https://api.bgzt.guide/api-9989579",
+    "raw_hash": "08044e0ccfa6ca4dfeccaf52d5fab4f1",
+    "path": "/api/v1/points/balance",
+    "method": "GET",
+    "summary": "Get Point Balance",
+    "params": []
+  },
   "api-25997141": {
     "name": "Create Point Charge",
     "url": "https://api.bgzt.guide/api-25997141",
