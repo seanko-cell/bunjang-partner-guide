@@ -69,7 +69,7 @@
   "api-13842708": {
     "name": "Get Order",
     "url": "https://api.bgzt.guide/api-13842708",
-    "raw_hash": "9cf145922e07921588a3e998b39ea58f",
+    "raw_hash": "e11f80e9aa63bfa9bad14265e936fb27",
     "path": "/api/v1/orders/{orderId}",
     "method": "GET",
     "summary": "Get Order",
